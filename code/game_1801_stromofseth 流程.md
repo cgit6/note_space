@@ -846,6 +846,7 @@ func (g *game1801) getFreeResult(betMode int, betMult int, gh *GameHandler) *res
     1. 維護一個 `[]int` 長度為 501 的位置索引值，[-1,-1,0,1,2,...,16]
 
     ```go=
+
  // 初始化乘數索引清單
  for idx := range f.multipilersIndex {
   f.multipilersIndex[idx] = -1
