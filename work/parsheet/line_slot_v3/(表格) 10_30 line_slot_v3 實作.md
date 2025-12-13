@@ -1,18 +1,18 @@
 ## 1. 概述
+
 以下分為計算 Base Game 和 Free Game 的計算過程
 
-## 2. Base Game 
+## 2. Base Game
 
 ### 2.1. 定義輪帶，進行 slice 分割
 
-**實作:** 
-利用 ... 定義輪帶表(Reel Bank) 以及權重表(==這有什麼用?==) 
+**實作:**
+利用 ... 定義輪帶表(Reel Bank) 以及權重表(==這有什麼用?==)
 
 <div style="text-align:center">
   <img src="https://hackmd.io/_uploads/rJql2xMkZe.png" style="width:50%;">
     <p>輪帶表和權重表</p>
 </div>
-
 
 這個 Slice table 又有什麼用?
 <div style="text-align:center">
@@ -21,6 +21,7 @@
 </div>
 
 建立 slice 公式，
+
 ``` excel
 =IF($Q5>INDEX($D$3:$H$3,1,R$3),
    0,
@@ -29,6 +30,7 @@
          R$3)
 )
 ```
+
 上面這個公式作用是，把第 `R3` 條輪帶，從第 `Q5` 個開始，往後數第 `R4−1` 個的位置，拿到那個符號；如果 `Q5` 已經超過這條輪帶的長度，就回傳 `0`。
 
 拆成三步看，首先，找這條輪帶的長度 `INDEX($D$2:$H$2,1,R$2)` 會到 `D2:H2` 去拿第 `R2` 欄的數字，這就是該輪帶的長度（len）。
@@ -42,16 +44,17 @@
     <p>Slice 分割</p>
 </div>
 
-**‼️驗證:** 如何驗證? 
-
+**‼️驗證:** 如何驗證?
 
 ### 2.2. 計算一次盤面中 C1 出現 n 顆的機率
 
 #### **實作:**
+
 計算 `C1` 觸發 Free Game 的次數，根據遊戲規則:
 >Base Game 中 {3, 4, 5} 顆 C1 觸發 {7, 10, 15} 局 Free Game（FG）
 
 ##### 統計 C1 出現在盤面上的次數
+
 符號 C1 可以出現在盤面的任意位置，先統計 C1 出現在盤面上的次數
 
 <div style="text-align:center">
@@ -59,12 +62,10 @@
     <p>C1 出現的次數</p>
 </div>
 
-
-
 ##### 統計 {3,4,5} C1 組合數
 
  盤面出現 {3, 4, 5} 顆 C1 的所有組合，利用公式去建立組合
- 
+
  ``` excel
  =ARRAYFORMULA(
   QUERY(
@@ -103,28 +104,26 @@
   FILTER({combo, cnt}, cnt>=3)                          
 )
 ```
- 
+
 ##### 計算 {3,4,5} C1 組合機率
- 
- 
+
 #### **‼️驗證:**
+
 利用驗算求
 組合出來的所有可能是否有遺漏?怎麼檢查?
 計算出來的組合數是否有錯誤?怎麼檢查?
 
-### 2.3. 定義 Super Stack 的轉換機率 
+### 2.3. 定義 Super Stack 的轉換機率
 
 ![image](https://hackmd.io/_uploads/HJY6QRrybg.png)
 
 定義前 r 輪一樣的機率
 ![image](https://hackmd.io/_uploads/Hy7CX0BJ-l.png)
 
-
-
-
 ### 2.4. 統計數量
 
 原始符號出現的數量直接統計就好
+
 ``` excel
 =COUNTIF(R$4:R$103,$BI5)
 ```
@@ -168,13 +167,11 @@ current_symbol_count、target_symbol_count、super_stack_count 應該要變成�
 
 ### 2.5. 計算計算組合數與期望值
 
-
 #### 情況1: 5 軸的 SS 轉換機率皆獨立
 
 因為 Wild 有無首輪的兼容性問題，因此在設計計算組合數的部分需要拆分成 純 Symbol、混和 Wild、純 Wild。
 
 純 Symbol 需要先枚舉出所有符號的組合(H1~H4,L1~L4)，然後排出 5 軸中 5 連線、4 連線、3 連線的所有組合，然後 4 連線跟 3 連線皆要在下一軸設置斷軸，然後後面接 Any (任意 symbol) 這樣的組合。
-
 
 **解釋:** mini_len 最短長度；filter_sym 所有需要過濾的特殊符號(e.g. C1、SS、S2...)；sym_check 進行檢查；sym_count 計算這個符號的數量；wild_count 計算 Wild 數量；sym_pay 符號賠率；wild_pay wild 賠率。
 
@@ -208,10 +205,6 @@ win_rtp,win_prob*win_pay,
 #### 情況4: 所有 5 軸綁定
 
 這東西就相當於 `Mystery Symbol`，計算方法就是先建立轉換機率矩陣(SS->H1、SS->H2、...、SS->L4)後分別計算當 SS 變成 {H1,H2,...,L4} 的期望值，最後加總。所以在實作上會需要定義一個機率矩陣，然後在計算 SS 轉換成某個符號後的符號數量(e.g. SS 全部變成 H1 後 H1 就等於原本的 H1 數量 + SS 數量) 最後利用這個符號數量去計算組合數、機率，期望值。
-
-
-
-
 
 <!-- 
 ``` excel

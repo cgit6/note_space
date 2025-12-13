@@ -1,5 +1,4 @@
 
-
 ```yaml=
 
 # [文件網址] None
@@ -279,16 +278,17 @@ Fixed:
 ```
 
 遊戲邏輯
+
 ```go=
 package game
 
 import (
-	"log"
-	"problab/internal/core"
-	"problab/internal/result"
-	"problab/internal/sampler"
-	"problab/internal/settings"
-	"problab/pkg/spec/enum"
+ "log"
+ "problab/internal/core"
+ "problab/internal/result"
+ "problab/internal/sampler"
+ "problab/internal/settings"
+ "problab/pkg/spec/enum"
 )
 
 // ============================================================
@@ -296,10 +296,10 @@ import (
 // ============================================================
 
 func init() {
-	gameRegister[*extend1801](
-		enum.StormOfSeth,
-		buildGame1801,
-	)
+ gameRegister[*extend1801](
+  enum.StormOfSeth,
+  buildGame1801,
+ )
 }
 
 // ============================================================
@@ -307,73 +307,73 @@ func init() {
 // ============================================================
 
 type game1801 struct {
-	fixed       *fixed1801
-	accWin      int
-	maxWinLimit int
-	extendId    int
-	exts        []*extend1801
+ fixed       *fixed1801
+ accWin      int
+ maxWinLimit int
+ extendId    int
+ exts        []*extend1801
 }
 
 func buildGame1801(gh *GameHandler) gameLogic {
 
-	gs := gh.gameSetting //
-	f := &fixed1801{
-		fillScreenIdx:        make([]int, gs.GameModeSettingList[0].ScreenSetting.Columns),
-		nowfillReelStripsIdx: make([]int, gs.GameModeSettingList[0].ScreenSetting.Columns),
-		betmodes:             make([]betModes1801, len(gh.BetUnit)),
-		screen:               make([]int16, gh.gameSetting.GameModeSettingList[0].ScreenSetting.ScreenSize),
-		symbolTypes:          gh.gameSetting.GameModeSettingList[0].SymbolSetting.SymbolTypes,
-	}
+ gs := gh.gameSetting //
+ f := &fixed1801{
+  fillScreenIdx:        make([]int, gs.GameModeSettingList[0].ScreenSetting.Columns),
+  nowfillReelStripsIdx: make([]int, gs.GameModeSettingList[0].ScreenSetting.Columns),
+  betmodes:             make([]betModes1801, len(gh.BetUnit)),
+  screen:               make([]int16, gh.gameSetting.GameModeSettingList[0].ScreenSetting.ScreenSize),
+  symbolTypes:          gh.gameSetting.GameModeSettingList[0].SymbolSetting.SymbolTypes,
+ }
 
-	// 讀設定檔
-	if err := settings.DecodeFixed(gs, f); err != nil {
-		log.Fatalf("game %s decode fixed failed : %s", gs.GameNameStr, err.Error())
-	}
+ // 讀設定檔
+ if err := settings.DecodeFixed(gs, f); err != nil {
+  log.Fatalf("game %s decode fixed failed : %s", gs.GameNameStr, err.Error())
+ }
 
-	for d := 0; d < len(gh.BetUnit); d++ {
-		f.betmodes[d] = betModes1801{
-			betMode:          d,
-			baseReelLut:      sampler.BuildLookUpTable(f.BetModes[d].BaseReelChooseWeight), // 將權重轉換為 Lut
-			freeReelLut:      sampler.BuildLookUpTable(f.BetModes[d].FreeReelChooseWeight), // 同上
-			baseMultiProbLut: sampler.BuildLookUpTable(f.BetModes[d].BaseMultiProb),
-			baseMultiLvUp:    f.BetModes[d].BaseMultiLvUp,
-			freeMultiProbLut: sampler.BuildLookUpTable(f.BetModes[d].FreeMultiProb),
-			freeMultiLvUp:    f.BetModes[d].FreeMultiLvUp,
-		}
-	}
+ for d := 0; d < len(gh.BetUnit); d++ {
+  f.betmodes[d] = betModes1801{
+   betMode:          d,
+   baseReelLut:      sampler.BuildLookUpTable(f.BetModes[d].BaseReelChooseWeight), // 將權重轉換為 Lut
+   freeReelLut:      sampler.BuildLookUpTable(f.BetModes[d].FreeReelChooseWeight), // 同上
+   baseMultiProbLut: sampler.BuildLookUpTable(f.BetModes[d].BaseMultiProb),
+   baseMultiLvUp:    f.BetModes[d].BaseMultiLvUp,
+   freeMultiProbLut: sampler.BuildLookUpTable(f.BetModes[d].FreeMultiProb),
+   freeMultiLvUp:    f.BetModes[d].FreeMultiLvUp,
+  }
+ }
 
-	// 組裝
-	g := &game1801{
-		fixed:       f,
-		accWin:      0,
-		maxWinLimit: 0,
-		extendId:    0,
-		exts:        make([]*extend1801, 200),
-	}
+ // 組裝
+ g := &game1801{
+  fixed:       f,
+  accWin:      0,
+  maxWinLimit: 0,
+  extendId:    0,
+  exts:        make([]*extend1801, 200),
+ }
 
-	size := gh.gameSetting.GameModeSettingList[0].ScreenSetting.ScreenSize
-	for i := 0; i < 200; i++ {
-		g.exts[i] = buildExtend1801(size)
-	}
+ size := gh.gameSetting.GameModeSettingList[0].ScreenSetting.ScreenSize
+ for i := 0; i < 200; i++ {
+  g.exts[i] = buildExtend1801(size)
+ }
 
-	return g
+ return g
 }
 
 func (g *game1801) newspin() {
-	g.accWin = 0 // 重置累積贏分
-	for i := 0; i < g.extendId; i++ {
-		g.exts[i].reset()
-	}
-	g.extendId = 0
+ g.accWin = 0 // 重置累積贏分
+ for i := 0; i < g.extendId; i++ {
+  g.exts[i].reset()
+ }
+ g.extendId = 0
 }
 
 func (g *game1801) next() *extend1801 {
-	g.extendId++
-	// 當局連鎖過長時動態擴充 extend pool，避免索引溢位
-	if g.extendId >= len(g.exts) {
-		g.exts = append(g.exts, buildExtend1801(len(g.fixed.screen)))
-	}
-	return g.exts[g.extendId]
+ g.extendId++
+ // 當局連鎖過長時動態擴充 extend pool，避免索引溢位
+ if g.extendId >= len(g.exts) {
+  g.exts = append(g.exts, buildExtend1801(len(g.fixed.screen)))
+ }
+ return g.exts[g.extendId]
 }
 
 // ============================================================
@@ -381,78 +381,78 @@ func (g *game1801) next() *extend1801 {
 // ============================================================
 
 type fixed1801 struct {
-	fillScreenIdx        []int // 每一軸要補盤的位置
-	nowfillReelStripsIdx []int // 補盤軸當下idx
-	betmodes             []betModes1801
-	screen               []int16 // 包含乘倍圖標資訊的盤面
+ fillScreenIdx        []int // 每一軸要補盤的位置
+ nowfillReelStripsIdx []int // 補盤軸當下idx
+ betmodes             []betModes1801
+ screen               []int16 // 包含乘倍圖標資訊的盤面
 
-	// 圖標類型快取
-	symbolTypes []enum.SymbolType
+ // 圖標類型快取
+ symbolTypes []enum.SymbolType
 
-	// 以下讀表
-	FreeGameRounds  int           `yaml:"FreeGameRounds"`
-	RetriggerRounds int           `yaml:"RetriggerRounds"`
-	FreeMaxRounds   int           `yaml:"FreeMaxRounds"`
-	Multipilers     []int         `yaml:"Multipilers"`
-	BetModes        []BetMode1801 `yaml:"BetModes"`
-	MultipilerLimit int           `yaml:"MultipilerLimit"`
+ // 以下讀表
+ FreeGameRounds  int           `yaml:"FreeGameRounds"`
+ RetriggerRounds int           `yaml:"RetriggerRounds"`
+ FreeMaxRounds   int           `yaml:"FreeMaxRounds"`
+ Multipilers     []int         `yaml:"Multipilers"`
+ BetModes        []BetMode1801 `yaml:"BetModes"`
+ MultipilerLimit int           `yaml:"MultipilerLimit"`
 }
 
 // 讀設定檔，目前狀態是 Weight 不是 LUT
 type BetMode1801 struct {
-	BetMode              int   `yaml:"BetMode"`
-	BaseReelChooseWeight []int `yaml:"BaseReelChooseWeight"`
-	FreeReelChooseWeight []int `yaml:"FreeReelChooseWeight"`
-	BaseMultiProb        []int `yaml:"BaseMultiProb"`
-	BaseMultiLvUp        []int `yaml:"BaseMultiLvUp"`
-	FreeMultiProb        []int `yaml:"FreeMultiProb"`
-	FreeMultiLvUp        []int `yaml:"FreeMultiLvUp"`
+ BetMode              int   `yaml:"BetMode"`
+ BaseReelChooseWeight []int `yaml:"BaseReelChooseWeight"`
+ FreeReelChooseWeight []int `yaml:"FreeReelChooseWeight"`
+ BaseMultiProb        []int `yaml:"BaseMultiProb"`
+ BaseMultiLvUp        []int `yaml:"BaseMultiLvUp"`
+ FreeMultiProb        []int `yaml:"FreeMultiProb"`
+ FreeMultiLvUp        []int `yaml:"FreeMultiLvUp"`
 }
 
 type betModes1801 struct {
-	betMode          int         // 押注模式
-	baseReelLut      sampler.LUT // 主遊戲起始輪id LUT表
-	freeReelLut      sampler.LUT
-	baseMultiProbLut sampler.LUT
-	baseMultiLvUp    []int
-	freeMultiProbLut sampler.LUT
-	freeMultiLvUp    []int
+ betMode          int         // 押注模式
+ baseReelLut      sampler.LUT // 主遊戲起始輪id LUT表
+ freeReelLut      sampler.LUT
+ baseMultiProbLut sampler.LUT
+ baseMultiLvUp    []int
+ freeMultiProbLut sampler.LUT
+ freeMultiLvUp    []int
 }
 
 // 隨機選擇 slice 中的某一元素
 
 func (b *betModes1801) getBaseReelIdx(core *core.Core) int {
-	return b.baseReelLut[core.IntN(len(b.baseReelLut))]
+ return b.baseReelLut[core.IntN(len(b.baseReelLut))]
 }
 
 func (b *betModes1801) getFreeReelIdx(core *core.Core) int {
-	return b.freeReelLut[core.IntN(len(b.freeReelLut))]
+ return b.freeReelLut[core.IntN(len(b.freeReelLut))]
 }
 
 func (b *betModes1801) getBaseMult(core *core.Core) int {
-	return b.baseMultiProbLut[core.IntN(len(b.baseMultiProbLut))]
+ return b.baseMultiProbLut[core.IntN(len(b.baseMultiProbLut))]
 }
 
 func (b *betModes1801) baseMultLvUp(core *core.Core, nowIdx int) (bool, int) {
-	prob := b.baseMultiLvUp[nowIdx]
-	if core.IntN(1000) < prob {
-		next := nowIdx + 1
-		return true, next
-	}
-	return false, nowIdx
+ prob := b.baseMultiLvUp[nowIdx]
+ if core.IntN(1000) < prob {
+  next := nowIdx + 1
+  return true, next
+ }
+ return false, nowIdx
 }
 
 func (b *betModes1801) getFreeMult(core *core.Core) int {
-	return b.baseMultiProbLut[core.IntN(len(b.baseMultiProbLut))]
+ return b.baseMultiProbLut[core.IntN(len(b.baseMultiProbLut))]
 }
 
 func (b *betModes1801) freeMultLvUp(core *core.Core, nowIdx int) (bool, int) {
-	prob := b.freeMultiLvUp[nowIdx]
-	if core.IntN(1000) < prob {
-		next := nowIdx + 1
-		return true, next
-	}
-	return false, nowIdx
+ prob := b.freeMultiLvUp[nowIdx]
+ if core.IntN(1000) < prob {
+  next := nowIdx + 1
+  return true, next
+ }
+ return false, nowIdx
 }
 
 // ============================================================
@@ -460,23 +460,23 @@ func (b *betModes1801) freeMultLvUp(core *core.Core, nowIdx int) (bool, int) {
 // ============================================================
 
 type extend1801 struct {
-	NowMulti      int   `json:"nowmulti"`      // 當前乘數
-	MultiSymPos   []int `json:"multisympos"`   // 乘數符號位置
-	MultiSymMults []int `json:"multisymmults"` // 乘數符號
+ NowMulti      int   `json:"nowmulti"`      // 當前乘數
+ MultiSymPos   []int `json:"multisympos"`   // 乘數符號位置
+ MultiSymMults []int `json:"multisymmults"` // 乘數符號
 }
 
 func buildExtend1801(size int) *extend1801 {
-	return &extend1801{
-		NowMulti:      0,
-		MultiSymPos:   make([]int, 0, size),
-		MultiSymMults: make([]int, 0, size),
-	}
+ return &extend1801{
+  NowMulti:      0,
+  MultiSymPos:   make([]int, 0, size),
+  MultiSymMults: make([]int, 0, size),
+ }
 }
 
 func (ext *extend1801) reset() {
-	ext.NowMulti = 0
-	ext.MultiSymPos = ext.MultiSymPos[:0]
-	ext.MultiSymMults = ext.MultiSymMults[:0]
+ ext.NowMulti = 0
+ ext.MultiSymPos = ext.MultiSymPos[:0]
+ ext.MultiSymMults = ext.MultiSymMults[:0]
 }
 
 // ============================================================
@@ -485,20 +485,20 @@ func (ext *extend1801) reset() {
 
 // getResult 主要介面函數 回傳遊戲結果 *res.SpinResult
 func (g *game1801) getResult(betMode int, betMult int, gh *GameHandler) *result.SpinResult {
-	g.maxWinLimit = gh.gameSetting.MaxWinLimit * betMult // 最高累計贏分值
+ g.maxWinLimit = gh.gameSetting.MaxWinLimit * betMult // 最高累計贏分值
 
-	sr := gh.StartNewSpin(betMode, betMult)
-	g.newspin()
+ sr := gh.StartNewSpin(betMode, betMult)
+ g.newspin()
 
-	base := g.getBaseResult(betMode, betMult, gh)
-	sr.AppendModeResult(base)
+ base := g.getBaseResult(betMode, betMult, gh)
+ sr.AppendModeResult(base)
 
-	if base.Trigger != 0 && g.accWin < g.maxWinLimit {
-		free := g.getFreeResult(betMode, betMult, gh)
-		sr.AppendModeResult(free)
-	}
-	sr.End()
-	return sr
+ if base.Trigger != 0 && g.accWin < g.maxWinLimit {
+  free := g.getFreeResult(betMode, betMult, gh)
+  sr.AppendModeResult(free)
+ }
+ sr.End()
+ return sr
 }
 
 // ============================================================
@@ -506,203 +506,203 @@ func (g *game1801) getResult(betMode int, betMult int, gh *GameHandler) *result.
 // ============================================================
 
 func (g *game1801) getBaseResult(betMode int, betMult int, gh *GameHandler) *result.GameModeResult {
-	mode := gh.GameModeHandlerList[0] //
-	fixed := g.fixed                  // 遊戲特色設定
-	sg := mode.ScreenGenerator
-	sc := mode.ScreenCalculator
-	gmr := mode.GameModeResult
-	ext := g.exts[g.extendId]
+ mode := gh.GameModeHandlerList[0] //
+ fixed := g.fixed                  // 遊戲特色設定
+ sg := mode.ScreenGenerator
+ sc := mode.ScreenCalculator
+ gmr := mode.GameModeResult
+ ext := g.exts[g.extendId]
 
-	g.resetIdx()
+ g.resetIdx()
 
-	// 選取本次輪帶
-	betmodeSets := fixed.betmodes[betMode]                              // 依照 betMode 獲取 betmodes 結構
-	ReelsPicker := betmodeSets.baseReelLut.Pick(gh.core)                // betmodes 結構中獲取 baseReelLut 隨機選擇一組輪帶表的索引值
-	fillReelStrips := mode.ScreenGenerator.ReelStripsGroup[ReelsPicker] // 補盤用的輪帶表
+ // 選取本次輪帶
+ betmodeSets := fixed.betmodes[betMode]                              // 依照 betMode 獲取 betmodes 結構
+ ReelsPicker := betmodeSets.baseReelLut.Pick(gh.core)                // betmodes 結構中獲取 baseReelLut 隨機選擇一組輪帶表的索引值
+ fillReelStrips := mode.ScreenGenerator.ReelStripsGroup[ReelsPicker] // 補盤用的輪帶表
 
-	// 1. 生成該round開局盤面
-	screen := sg.GenScreenByAssignedReelStrip(ReelsPicker)
-	copy(fixed.screen, screen)
+ // 1. 生成該round開局盤面
+ screen := sg.GenScreenByAssignedReelStrip(ReelsPicker)
+ copy(fixed.screen, screen)
 
-	// 取得本次補珠輪帶起始位置
-	for i := 0; i < len(fixed.fillScreenIdx); i++ {
-		fixed.fillScreenIdx[i] = gh.core.IntN(len(fillReelStrips.ReelStripsReels[i].ReelSymbols))
-	}
+ // 取得本次補珠輪帶起始位置
+ for i := 0; i < len(fixed.fillScreenIdx); i++ {
+  fixed.fillScreenIdx[i] = gh.core.IntN(len(fillReelStrips.ReelStripsReels[i].ReelSymbols))
+ }
 
-	for range 100 {
-		// 2. 算分
-		_ = sc.CalcScreen(betMult, screen, gmr)
-		hm := gmr.HitMapTmp()
+ for range 100 {
+  // 2. 算分
+  _ = sc.CalcScreen(betMult, screen, gmr)
+  hm := gmr.HitMapTmp()
 
-		// 3. 取原始 win
-		win := gmr.GetTmpWin() // 先記當下贏分避免提交後要重找
+  // 3. 取原始 win
+  win := gmr.GetTmpWin() // 先記當下贏分避免提交後要重找
 
-		// 4. 如果沒贏分退出(step結束)
-		if win == 0 {
-			gmr.FinishAct("GenAndCalcScreen", screen, nil)
-			gmr.FinishStep()
-			break
-		}
+  // 4. 如果沒贏分退出(step結束)
+  if win == 0 {
+   gmr.FinishAct("GenAndCalcScreen", screen, nil)
+   gmr.FinishStep()
+   break
+  }
 
-		// 5. 有贏分: 算乘倍
-		mult := g.getBaseMulti(fixed.screen, betMode, gh.core, ext)
-		if mult > 0 {
-			win *= mult
-		}
+  // 5. 有贏分: 算乘倍
+  mult := g.getBaseMulti(fixed.screen, betMode, gh.core, ext)
+  if mult > 0 {
+   win *= mult
+  }
 
-		// 判斷 "累積贏分" 是否大於 "最高贏分上限值"
-		// **注意等號，如果沒有等號，剛好達到滿倍時會再走一輪0分**
-		if (g.accWin + win) >= g.maxWinLimit {
-			gmr.UpdateTmpWin(g.maxWinLimit - g.accWin) // 更新分數
-			gmr.FinishAct("MaxWin", screen, ext)       // 落地
-			gmr.FinishStep()                           // 落地
-			break
-		}
+  // 判斷 "累積贏分" 是否大於 "最高贏分上限值"
+  // **注意等號，如果沒有等號，剛好達到滿倍時會再走一輪0分**
+  if (g.accWin + win) >= g.maxWinLimit {
+   gmr.UpdateTmpWin(g.maxWinLimit - g.accWin) // 更新分數
+   gmr.FinishAct("MaxWin", screen, ext)       // 落地
+   gmr.FinishStep()                           // 落地
+   break
+  }
 
-		g.accWin += win // 更新累積贏分
-		gmr.UpdateTmpWin(win)
+  g.accWin += win // 更新累積贏分
+  gmr.UpdateTmpWin(win)
 
-		// 6. 提交得分的 Act 結果
-		gmr.FinishAct("GenAndCalcScreen", screen, ext)
+  // 6. 提交得分的 Act 結果
+  gmr.FinishAct("GenAndCalcScreen", screen, ext)
 
-		// 7. 判斷是否要提升乘倍等級
-		for idx, pos := range ext.MultiSymPos {
-			mu := ext.MultiSymMults[idx] // 目前乘倍
-			for i := 0; i < len(fixed.Multipilers); i++ {
-				if (i < (len(fixed.Multipilers) - 1)) && mu == fixed.Multipilers[i] {
-					up, nextIdx := fixed.betmodes[betMode].baseMultLvUp(gh.core, i)
-					if up {
-						fixed.screen[pos] = int16(100 + fixed.Multipilers[nextIdx]) // 把乘倍標記放到盤面上
-					}
-					break
-				}
-			}
-		}
+  // 7. 判斷是否要提升乘倍等級
+  for idx, pos := range ext.MultiSymPos {
+   mu := ext.MultiSymMults[idx] // 目前乘倍
+   for i := 0; i < len(fixed.Multipilers); i++ {
+    if (i < (len(fixed.Multipilers) - 1)) && mu == fixed.Multipilers[i] {
+     up, nextIdx := fixed.betmodes[betMode].baseMultLvUp(gh.core, i)
+     if up {
+      fixed.screen[pos] = int16(100 + fixed.Multipilers[nextIdx]) // 把乘倍標記放到盤面上
+     }
+     break
+    }
+   }
+  }
 
-		// 8. 消除掉落
-		fixed.screen = g.gravity(fixed.screen, hm, sg.Cols, sg.Rows, g.fixed.fillScreenIdx)
-		screen = g.gravity(screen, hm, sg.Cols, sg.Rows, g.fixed.fillScreenIdx)
-		gmr.FinishAct("Gravity", screen, nil) // 消除掉落盤面
+  // 8. 消除掉落
+  fixed.screen = g.gravity(fixed.screen, hm, sg.Cols, sg.Rows, g.fixed.fillScreenIdx)
+  screen = g.gravity(screen, hm, sg.Cols, sg.Rows, g.fixed.fillScreenIdx)
+  gmr.FinishAct("Gravity", screen, nil) // 消除掉落盤面
 
-		// 9. 提交step結果(step結束)
-		gmr.FinishStep()
-		ext = g.next()
+  // 9. 提交step結果(step結束)
+  gmr.FinishStep()
+  ext = g.next()
 
-		// 10. 補滿盤面
-		screen = g.fillScreen(screen, &fillReelStrips, g.fixed.fillScreenIdx, g.fixed.nowfillReelStripsIdx, sg.Cols)
-		for pos, sym := range fixed.screen {
-			if sym == 0 {
-				fixed.screen[pos] = screen[pos]
-			}
-		}
-	}
-	gmr.Trigger = g.trigger(screen)
-	gmr.FinishRound()
+  // 10. 補滿盤面
+  screen = g.fillScreen(screen, &fillReelStrips, g.fixed.fillScreenIdx, g.fixed.nowfillReelStripsIdx, sg.Cols)
+  for pos, sym := range fixed.screen {
+   if sym == 0 {
+    fixed.screen[pos] = screen[pos]
+   }
+  }
+ }
+ gmr.Trigger = g.trigger(screen)
+ gmr.FinishRound()
 
-	return mode.YieldResult()
+ return mode.YieldResult()
 }
 
 func (g *game1801) getFreeResult(betMode int, betMult int, gh *GameHandler) *result.GameModeResult {
-	mode := gh.GameModeHandlerList[1]
-	sg := mode.ScreenGenerator
-	sc := mode.ScreenCalculator
-	gmr := mode.GameModeResult
-	nowLimitRounds := g.fixed.FreeGameRounds
-	fixed := g.fixed
-	nowTotalMult := 0
-	ext := g.next()
-	for i := 0; i < nowLimitRounds; i++ {
-		g.resetIdx()
+ mode := gh.GameModeHandlerList[1]
+ sg := mode.ScreenGenerator
+ sc := mode.ScreenCalculator
+ gmr := mode.GameModeResult
+ nowLimitRounds := g.fixed.FreeGameRounds
+ fixed := g.fixed
+ nowTotalMult := 0
+ ext := g.next()
+ for i := 0; i < nowLimitRounds; i++ {
+  g.resetIdx()
 
-		// 選取本次輪帶
-		betmodeSets := fixed.betmodes[betMode]
-		ReelsPicker := betmodeSets.freeReelLut.Pick(gh.core)
-		fillReelStrips := mode.ScreenGenerator.ReelStripsGroup[ReelsPicker]
+  // 選取本次輪帶
+  betmodeSets := fixed.betmodes[betMode]
+  ReelsPicker := betmodeSets.freeReelLut.Pick(gh.core)
+  fillReelStrips := mode.ScreenGenerator.ReelStripsGroup[ReelsPicker]
 
-		// fillReelStrips := &mode.GameModeSetting.GenScreenSetting.ReelStripsGroup[fixed.betmodes[betMode].getFreeFillReelIdx(gh.core)] // 指定補盤軸
-		// 1. 生成該round開局盤面
-		screen := sg.GenScreenByAssignedReelStrip(ReelsPicker)
-		copy(fixed.screen, screen)
+  // fillReelStrips := &mode.GameModeSetting.GenScreenSetting.ReelStripsGroup[fixed.betmodes[betMode].getFreeFillReelIdx(gh.core)] // 指定補盤軸
+  // 1. 生成該round開局盤面
+  screen := sg.GenScreenByAssignedReelStrip(ReelsPicker)
+  copy(fixed.screen, screen)
 
-		for range 100 {
-			// 2. 算分
-			_ = sc.CalcScreen(betMult, screen, gmr)
-			hm := gmr.HitMapTmp()
+  for range 100 {
+   // 2. 算分
+   _ = sc.CalcScreen(betMult, screen, gmr)
+   hm := gmr.HitMapTmp()
 
-			// 3. 取原始 win
-			win := gmr.GetTmpWin() // 先記當下贏分避免提交後要重找
+   // 3. 取原始 win
+   win := gmr.GetTmpWin() // 先記當下贏分避免提交後要重找
 
-			// 4. 如果沒贏分退出(step結束)
-			if win == 0 {
-				gmr.FinishStep()
-				gmr.FinishAct("GenAndCalcScreen", screen, nil)
-				break
-			}
+   // 4. 如果沒贏分退出(step結束)
+   if win == 0 {
+    gmr.FinishStep()
+    gmr.FinishAct("GenAndCalcScreen", screen, nil)
+    break
+   }
 
-			// 5. 計算乘倍
-			mult := g.getFreeMulti(fixed.screen, betMode, gh.core, ext)
+   // 5. 計算乘倍
+   mult := g.getFreeMulti(fixed.screen, betMode, gh.core, ext)
 
-			// 更新贏分相關參數
-			if mult > 0 {
-				nowTotalMult += mult // 更新累積乘數
+   // 更新贏分相關參數
+   if mult > 0 {
+    nowTotalMult += mult // 更新累積乘數
 
-				// 判斷 nowTotalMult 是否大於 "累加總倍數上限值"
-				if nowTotalMult >= g.fixed.MultipilerLimit {
-					nowTotalMult = g.fixed.MultipilerLimit
-				}
+    // 判斷 nowTotalMult 是否大於 "累加總倍數上限值"
+    if nowTotalMult >= g.fixed.MultipilerLimit {
+     nowTotalMult = g.fixed.MultipilerLimit
+    }
 
-				win *= nowTotalMult // 更新贏分
+    win *= nowTotalMult // 更新贏分
 
-			}
+   }
 
-			// 判斷 "累積贏分" 是否大於 "最高贏分上限值"
-			// **注意等號，如果沒有等號，剛好達到滿倍時會再走一輪0分**
-			if (g.accWin + win) >= g.maxWinLimit {
-				gmr.UpdateTmpWin(g.maxWinLimit - g.accWin) // 最高
-				break
-			}
+   // 判斷 "累積贏分" 是否大於 "最高贏分上限值"
+   // **注意等號，如果沒有等號，剛好達到滿倍時會再走一輪0分**
+   if (g.accWin + win) >= g.maxWinLimit {
+    gmr.UpdateTmpWin(g.maxWinLimit - g.accWin) // 最高
+    break
+   }
 
-			g.accWin += win
-			gmr.UpdateTmpWin(win)
+   g.accWin += win
+   gmr.UpdateTmpWin(win)
 
-			// 6. 提交得分的 Act 結果
-			gmr.FinishAct("GenAndCalcScreen", screen, ext)
+   // 6. 提交得分的 Act 結果
+   gmr.FinishAct("GenAndCalcScreen", screen, ext)
 
-			// 7. 判斷是否要提升乘倍等級
-			for idx, pos := range ext.MultiSymPos {
-				mu := ext.MultiSymMults[idx] // 目前乘倍
-				for i := 0; i < len(fixed.Multipilers); i++ {
-					if (i < (len(fixed.Multipilers) - 1)) && mu == fixed.Multipilers[i] {
-						up, nextIdx := fixed.betmodes[betMode].freeMultLvUp(gh.core, i)
-						if up {
-							fixed.screen[pos] = int16(100 + fixed.Multipilers[nextIdx]) // 把乘倍標記放到盤面上
-						}
-						break
-					}
-				}
-			}
-			// 8. 消除掉落
-			fixed.screen = g.gravity(fixed.screen, hm, sg.Cols, sg.Rows, g.fixed.fillScreenIdx)
-			screen = g.gravity(screen, hm, sg.Cols, sg.Rows, g.fixed.fillScreenIdx)
-			gmr.FinishAct("Gravity", screen, nil) // 消除掉落盤面
+   // 7. 判斷是否要提升乘倍等級
+   for idx, pos := range ext.MultiSymPos {
+    mu := ext.MultiSymMults[idx] // 目前乘倍
+    for i := 0; i < len(fixed.Multipilers); i++ {
+     if (i < (len(fixed.Multipilers) - 1)) && mu == fixed.Multipilers[i] {
+      up, nextIdx := fixed.betmodes[betMode].freeMultLvUp(gh.core, i)
+      if up {
+       fixed.screen[pos] = int16(100 + fixed.Multipilers[nextIdx]) // 把乘倍標記放到盤面上
+      }
+      break
+     }
+    }
+   }
+   // 8. 消除掉落
+   fixed.screen = g.gravity(fixed.screen, hm, sg.Cols, sg.Rows, g.fixed.fillScreenIdx)
+   screen = g.gravity(screen, hm, sg.Cols, sg.Rows, g.fixed.fillScreenIdx)
+   gmr.FinishAct("Gravity", screen, nil) // 消除掉落盤面
 
-			// 9. 提交step結果(step結束)
-			gmr.FinishStep()
-			ext = g.next()
+   // 9. 提交step結果(step結束)
+   gmr.FinishStep()
+   ext = g.next()
 
-			// 10. 補滿盤面
-			screen = g.fillScreen(screen, &fillReelStrips, g.fixed.fillScreenIdx, g.fixed.nowfillReelStripsIdx, sg.Cols)
-			for pos, sym := range fixed.screen {
-				if sym == 0 {
-					fixed.screen[pos] = screen[pos]
-				}
-			}
-		}
+   // 10. 補滿盤面
+   screen = g.fillScreen(screen, &fillReelStrips, g.fixed.fillScreenIdx, g.fixed.nowfillReelStripsIdx, sg.Cols)
+   for pos, sym := range fixed.screen {
+    if sym == 0 {
+     fixed.screen[pos] = screen[pos]
+    }
+   }
+  }
 
-		gmr.FinishRound()
-	}
+  gmr.FinishRound()
+ }
 
-	return mode.YieldResult()
+ return mode.YieldResult()
 }
 
 // ============================================================
@@ -711,115 +711,115 @@ func (g *game1801) getFreeResult(betMode int, betMult int, gh *GameHandler) *res
 
 // 0 代表不觸發 > 0 各自觸發
 func (g *game1801) trigger(screen []int16) int {
-	st := g.fixed.symbolTypes
-	count := 0
-	for _, sym := range screen {
-		if st[sym] == enum.SymbolTypeScatter {
-			count++
-		}
-	}
-	if count < 4 {
-		return 0
-	}
-	return min(count, 6)
+ st := g.fixed.symbolTypes
+ count := 0
+ for _, sym := range screen {
+  if st[sym] == enum.SymbolTypeScatter {
+   count++
+  }
+ }
+ if count < 4 {
+  return 0
+ }
+ return min(count, 6)
 }
 
 // 重力掉落函數
 func (g *game1801) gravity(screen []int16, hitmap []int16, cols int, rows int, buf []int) []int16 {
-	// 先把要消除的地方改0
-	for _, v := range hitmap {
-		screen[v] = 0
-	}
-	// 逐欄由下而上做「就地壓縮」：
-	//    wp = write pointer（寫入位置，從底部往上移），
-	//    rp = read pointer（讀取位置，從底部往上掃）。
-	for c := 0; c < cols; c++ {
-		wp := (rows-1)*cols + c // 最底部該欄位索引
-		// 將非 0 元素往下疊，保持欄內相對順序（穩定）
-		for r := rows - 1; r >= 0; r-- {
-			rp := r*cols + c
-			if screen[rp] != 0 {
-				if rp != wp {
-					screen[wp] = screen[rp]
-				}
-				wp -= cols
-			}
-		}
-		buf[c] = wp // 記錄下第c軸要補的位置
-		// 上方殘餘位置補 0
-		for w := wp; w >= 0; w -= cols {
-			screen[w] = 0
-		}
-	}
-	return screen
+ // 先把要消除的地方改0
+ for _, v := range hitmap {
+  screen[v] = 0
+ }
+ // 逐欄由下而上做「就地壓縮」：
+ //    wp = write pointer（寫入位置，從底部往上移），
+ //    rp = read pointer（讀取位置，從底部往上掃）。
+ for c := 0; c < cols; c++ {
+  wp := (rows-1)*cols + c // 最底部該欄位索引
+  // 將非 0 元素往下疊，保持欄內相對順序（穩定）
+  for r := rows - 1; r >= 0; r-- {
+   rp := r*cols + c
+   if screen[rp] != 0 {
+    if rp != wp {
+     screen[wp] = screen[rp]
+    }
+    wp -= cols
+   }
+  }
+  buf[c] = wp // 記錄下第c軸要補的位置
+  // 上方殘餘位置補 0
+  for w := wp; w >= 0; w -= cols {
+   screen[w] = 0
+  }
+ }
+ return screen
 }
 
 // 補盤面
 func (g *game1801) fillScreen(screen []int16, reels *settings.ReelStrips, fillScreenIdx []int, nowfillReelStripsIdx []int, cols int) []int16 {
-	for c, r := range fillScreenIdx {
-		idx := nowfillReelStripsIdx[c]
-		reel := reels.ReelStripsReels[c]
-		for w := r; w >= 0; w -= cols {
-			if idx < 0 {
-				idx = reel.ReelLength - 1
-			}
-			screen[w] = int16(reel.ReelSymbols[idx])
-			idx--
-		}
-		nowfillReelStripsIdx[c] = idx
-	}
-	return screen
+ for c, r := range fillScreenIdx {
+  idx := nowfillReelStripsIdx[c]
+  reel := reels.ReelStripsReels[c]
+  for w := r; w >= 0; w -= cols {
+   if idx < 0 {
+    idx = reel.ReelLength - 1
+   }
+   screen[w] = int16(reel.ReelSymbols[idx])
+   idx--
+  }
+  nowfillReelStripsIdx[c] = idx
+ }
+ return screen
 }
 
 func (g *game1801) resetIdx() {
-	for i := 0; i < len(g.fixed.fillScreenIdx); i++ {
-		g.fixed.fillScreenIdx[i] = 0
-		g.fixed.nowfillReelStripsIdx[i] = 0
-	}
+ for i := 0; i < len(g.fixed.fillScreenIdx); i++ {
+  g.fixed.fillScreenIdx[i] = 0
+  g.fixed.nowfillReelStripsIdx[i] = 0
+ }
 }
 
 func (g *game1801) getBaseMulti(screen []int16, betMode int, core *core.Core, ext *extend1801) int {
-	multiGetter := g.fixed.betmodes[betMode]
-	for pos, sym := range screen {
-		g.fixed.screen[pos] = sym
-		if sym == 1 {
-			mult := multiGetter.getBaseMult(core)
-			g.fixed.screen[pos] = int16(100 + mult) // 把乘倍標記放到盤面上
+ multiGetter := g.fixed.betmodes[betMode]
+ for pos, sym := range screen {
+  g.fixed.screen[pos] = sym
+  if sym == 1 {
+   mult := multiGetter.getBaseMult(core)
+   g.fixed.screen[pos] = int16(100 + mult) // 把乘倍標記放到盤面上
 
-			ext.MultiSymPos = append(ext.MultiSymPos, pos)
-			ext.MultiSymMults = append(ext.MultiSymMults, mult)
-			ext.NowMulti += mult
-		}
-		if sym > 100 {
-			mult := int(sym) - 100
-			ext.MultiSymPos = append(ext.MultiSymPos, pos)
-			ext.MultiSymMults = append(ext.MultiSymMults, mult)
-			ext.NowMulti += mult
-		}
-	}
-	return ext.NowMulti
+   ext.MultiSymPos = append(ext.MultiSymPos, pos)
+   ext.MultiSymMults = append(ext.MultiSymMults, mult)
+   ext.NowMulti += mult
+  }
+  if sym > 100 {
+   mult := int(sym) - 100
+   ext.MultiSymPos = append(ext.MultiSymPos, pos)
+   ext.MultiSymMults = append(ext.MultiSymMults, mult)
+   ext.NowMulti += mult
+  }
+ }
+ return ext.NowMulti
 }
 
 func (g *game1801) getFreeMulti(screen []int16, betMode int, core *core.Core, ext *extend1801) int {
-	multiGetter := g.fixed.betmodes[betMode]
-	for pos, sym := range screen {
-		g.fixed.screen[pos] = sym
-		if sym == 1 {
-			mult := multiGetter.getFreeMult(core)
-			g.fixed.screen[pos] = int16(100 + mult) // 把乘倍標記放到盤面上
+ multiGetter := g.fixed.betmodes[betMode]
+ for pos, sym := range screen {
+  g.fixed.screen[pos] = sym
+  if sym == 1 {
+   mult := multiGetter.getFreeMult(core)
+   g.fixed.screen[pos] = int16(100 + mult) // 把乘倍標記放到盤面上
 
-			ext.MultiSymPos = append(ext.MultiSymPos, pos)
-			ext.MultiSymMults = append(ext.MultiSymMults, mult)
-			ext.NowMulti += mult
-		}
-		if sym > 100 {
-			mult := int(sym) - 100
-			ext.MultiSymPos = append(ext.MultiSymPos, pos)
-			ext.MultiSymMults = append(ext.MultiSymMults, mult)
-			ext.NowMulti += mult
-		}
-	}
-	return ext.NowMulti
+   ext.MultiSymPos = append(ext.MultiSymPos, pos)
+   ext.MultiSymMults = append(ext.MultiSymMults, mult)
+   ext.NowMulti += mult
+  }
+  if sym > 100 {
+   mult := int(sym) - 100
+   ext.MultiSymPos = append(ext.MultiSymPos, pos)
+   ext.MultiSymMults = append(ext.MultiSymMults, mult)
+   ext.NowMulti += mult
+  }
+ }
+ return ext.NowMulti
 }
 
 

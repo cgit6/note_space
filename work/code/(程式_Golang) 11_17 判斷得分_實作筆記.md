@@ -1,28 +1,27 @@
 1. 「建構器／工廠函式」 是什麼?
 Go 沒有真正的 class constructor，所以大家用 `NewXxx` 這種慣例命名來「建立並初始化一個可用的實例」。
 
-
 2. `make()` 是什麼?
 
-
 3. 簡寫
+
 ```go=
-	// 2. 執行初始化
-	err := cfg.Init()
-	if err != nil {
-		return nil, err
-	}
+ // 2. 執行初始化
+ err := cfg.Init()
+ if err != nil {
+  return nil, err
+ }
 
     // 等同於以下
-	if err := cfg.Init(); err != nil {
-		return nil, err
-	}
+ if err := cfg.Init(); err != nil {
+  return nil, err
+ }
 ```
 
-4. `return errors.New("reelStrips length (%d) must == Cols (%d)", len(c.ReelStrips), c.Cols)` 這樣寫不對嗎?
+1. `return errors.New("reelStrips length (%d) must == Cols (%d)", len(c.ReelStrips), c.Cols)` 這樣寫不對嗎?
 這樣寫不對。`errors.New` 只接受一個純字串參數，不支援 `%d` 這種格式化
 
-5. for loop 在跑「slice of slice」的典型用法。
+2. for loop 在跑「slice of slice」的典型用法。
 
 ```go=
 for i, line := range c.Lines {
@@ -53,28 +52,28 @@ for i := 0; i < len(c.Lines); i++ {
 
 ```
 
-6. 為什麼需要 New...() func 來創建 instance? 不是可以直接創建嗎?
+1. 為什麼需要 New...() func 來創建 instance? 不是可以直接創建嗎?
 
 ```go=
 // 建構函數: 創建 instance 時調用
 func NewConfig(reelStrips [][]int, symbols []string, lines [][]int, payTable [][]int, rows, cols int, mode GameMode) (*Config, error) {
-	// 1. 創建 Config instance & 賦值
-	cfg := &Config{
-		ReelStrips: reelStrips, // 輪帶表
-		Symbols:    symbols,    // 符號清單
-		Lines:      lines,      // 線路清單
-		Paytable:   payTable,   // 賠率表
-		Rows:       rows,       // 列數
-		Cols:       cols,       // 行數
-		Mode:       mode,       // 算分模式
-	}
+ // 1. 創建 Config instance & 賦值
+ cfg := &Config{
+  ReelStrips: reelStrips, // 輪帶表
+  Symbols:    symbols,    // 符號清單
+  Lines:      lines,      // 線路清單
+  Paytable:   payTable,   // 賠率表
+  Rows:       rows,       // 列數
+  Cols:       cols,       // 行數
+  Mode:       mode,       // 算分模式
+ }
 
-	// 2. 執行初始化
-	if err := cfg.Init(); err != nil {
-		return nil, err
-	}
-	// 3. 返回值, 錯誤訊息
-	return cfg, nil
+ // 2. 執行初始化
+ if err := cfg.Init(); err != nil {
+  return nil, err
+ }
+ // 3. 返回值, 錯誤訊息
+ return cfg, nil
 
 }
 ```
@@ -90,16 +89,21 @@ func NewConfig(reelStrips [][]int, symbols []string, lines [][]int, payTable [][
 小示例對比
 
 A. 沒有 constructor：
+
 ```go=
 cfg := &Config{ReelStrips: reels, Symbols: symbols, Rows: 3, Cols: 5, Mode: ModeWays}
 if err := cfg.Init(); err != nil { return err } // 每處都要記得呼叫
 ```
+
 B. 有 NewConfig（建議）：
+
 ```go=
 cfg, err := NewConfig(reels, symbols, lines, pay, 3, 5, ModeWays)
 if err != nil { return err } // 一行檢查，之後放心用
 ```
+
 C. 進階：選項模式
+
 ```go=
 cfg, err := NewConfig(reels, symbols, 3, 5, WithLines(lines), WithPayTable(pay), WithMode(ModeWays))
 ```
@@ -108,15 +112,14 @@ D. 防止呼叫端亂建：
 將必要欄位改成未匯出，或把型別做成未匯出、只暴露 NewConfig。這樣大家只能透過 constructor 走正確流程。
 > 在 Go 裡，「未匯出（unexported）」就是指名稱是小寫開頭的識別字。未匯出的東西只在同一個 package 內可見；跨 package 就看不到 / 不能用。相對地，大寫開頭的是「已匯出（exported）」，其他 package 可以用。適用範圍：型別、函式、方法、變數、常數、struct 欄位都一樣遵守這個規則。
 
-
 <!-- 7. 錯誤處理 -->
 
-7. 建構函數中，如果要引入其他的 struct 要怎麼做?
-
+1. 建構函數中，如果要引入其他的 struct 要怎麼做?
 
 ```go=
-	cfg, err := NewConfig(REELSTRIPS, SYMBOLS, LINES, PAYTABLE, ROWS, COLS, ModeLine)
+ cfg, err := NewConfig(REELSTRIPS, SYMBOLS, LINES, PAYTABLE, ROWS, COLS, ModeLine)
 ```
+
 這個 cfg 是 pointer?
 
 因為 go 中沒有物件導向所以就沒有繼承的概念
@@ -127,8 +130,7 @@ D. 防止呼叫端亂建：
 2. 在 B 建構函數創建 B instance 的時候將 A pointer 添加其中當然， B struct 在宣告的時候也需要宣告 *A (至少是匿名函數)
 ```
 
-
-8. 什麼是 receiver?
+1. 什麼是 receiver?
 
 這裡的 **receiver（接收者）** 指的是 Go 裡面「方法」前面那個特別參數，就是你看到的這段：
 
@@ -257,48 +259,8 @@ p.Move(3, 4)  // 編譯器幫你轉成 Move(&p, 3, 4)
 
 只是在 Go 語法裡它被放在 `( ... )` 和方法名中間，而不是像 C 一樣放在參數列表裡。
 
-
-
-9. spinCalculator 的算分策略選擇看不太懂
+1. spinCalculator 的算分策略選擇看不太懂
 現在看起來是
 
-
 10.如果像是 S2 這種特殊符號會影響到得分符號呢?
-之後會拆分成 slotGame struct 裡面先生成盤面 -> 計算得分結果 -> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+之後會拆分成 slotGame struct 裡面先生成盤面 -> 計算得分結果 ->

@@ -17,14 +17,14 @@ Stat struct              // 統計模擬結果 (RTP / Std / CV…)
 
 1. ScreenResult、LineResult 作為接收結果的資料結構
 2. 將 SlotGame、Simulator、Stat 獨立出來
+
 * Simulator：不需要關心是 Line 還是 Ways，永遠只呼叫 game.Spin()。
 * SlotGame：內部用 ScreenGenerator + SpinCalculator，對外提供 Spin()。
 
-3. ==如果 `SpinCalculator` 需要兼容計算 way game 在不改變函數調用的狀態下==
+1. ==如果 `SpinCalculator` 需要兼容計算 way game 在不改變函數調用的狀態下==
+
 * `Config` struct 定義模式。
 * `SpinCalculator` struct 依據模式不同算分方法不同。
-
-
 
 `Config` struct 負責處理遊戲不會變動的靜態設定。
 
@@ -106,7 +106,6 @@ func (i *Init) Valid() error {
 }
 ```
 
-
 `ScreenGenerator` struct 負責生成隨機盤面(spin)
 
 ``` go=
@@ -154,6 +153,7 @@ type LineResult struct {
 ```
 
 `ScreenResult` 一次盤面計算的結果。
+
 ``` go=
 type ScreenResult struct {
     Screen       []uint8      // 原始盤面 (一維 symbolID)
@@ -164,8 +164,7 @@ type ScreenResult struct {
 }
 ```
 
-
-`SpinCalculator` struct 在「給定一個盤面（screen）」的前提下，計算連線賠率 / C1，在這裡添加利用，回傳 `ScreenResult` struct ，另外這裡會受 `Config` struct 的影響採取不同的算賠率與算分方式 (前面注意事項第三點提到) 
+`SpinCalculator` struct 在「給定一個盤面（screen）」的前提下，計算連線賠率 / C1，在這裡添加利用，回傳 `ScreenResult` struct ，另外這裡會受 `Config` struct 的影響採取不同的算賠率與算分方式 (前面注意事項第三點提到)
 
 ``` go=
 // calcFn 型別：給定盤面與 Bet
@@ -293,7 +292,6 @@ func (g *SlotGame) Spin() ScreenResult {
 
 ```
 
-
 `Simulator` struct 執行模擬
 
 ```go=
@@ -343,7 +341,6 @@ func (s *Simulator) Run(stat *Stat) *Stat {
 
 ```
 
-
 `Stat` struct 統計物件（期望值、波動、標準差）
 
 ```go=
@@ -374,7 +371,8 @@ func (s *Stat) RTP() float64 {
 
 ## 計劃書 v1 反饋
 
-### Config、Init合併 
+### Config、Init合併
+
 ``` go
 type Config struct {
     // ... // table value
@@ -413,6 +411,7 @@ func (c *Config) valid() error {
 ```
 
 ### ScreenGenerator
+
 ``` go
 type ScreenGenerator struct {
     // Init      *Init      // 共用靜態資訊
@@ -450,7 +449,7 @@ func (g *ScreenGenerator) ViewBySymbol() [][]string {
 }
 ```
 
-### ScreenCalculator 
+### ScreenCalculator
 
 ``` go=
 // calcFn 型別：給定盤面與 Bet
@@ -514,9 +513,7 @@ func (c *SpinCalculator) CalcWaysGame(screen []uint8, Bet int) *ScreenResult {
 
 ![image](https://hackmd.io/_uploads/SyO14G_xbe.png)
 
-
 ## 計劃書 v2
-
 
 ### 結構
 
@@ -533,10 +530,9 @@ runner func                // 執行模擬
 
 1. ScreenResult、LineResult 作為接收結果的資料結構
 2. ==如果 `SpinCalculator` 需要兼容計算 way game 在不改變函數調用的狀態下==
+
 * `Config` struct 定義模式。
 * `SpinCalculator` struct 依據模式不同算分方法不同。
-
-
 
 `Config` struct 負責處理遊戲不會變動的靜態設定與資料驗證，`initFlag` 用於處理初始化狀態。
 
@@ -600,7 +596,6 @@ func (c *Config) valid() error {
 }
 ```
 
-
 <!--
 ``` go=
 // 原本的 Valid 改成 receiver 是 *Init
@@ -651,11 +646,9 @@ func (i *Init) Valid() error {
     return nil
 }
 
-
 ``` -->
 
 `ScreenGenerator` struct 負責生成隨機盤面(spin)，這裡 `rng` 由外部傳入，然後 view 跟 viewBySymbol 屬性用來儲存 `view` 和 `viewBySymbol` 方法處理後的值。(省配置、降 GC、零拷貝 reshape)`view` 和 `viewBySymbol` 方法需要 `return` 用於讓外部環境接收
-
 
 ``` go
 type ScreenGenerator struct {
@@ -706,6 +699,7 @@ type LineResult struct {
 ```
 
 `ScreenResult` 一次盤面計算的結果。==有些參數放哪裡可能要想一下==
+
 ``` go=
 type ScreenResult struct {
     Screen       []uint8      // 原始盤面 (一維 symbolID)
@@ -717,14 +711,14 @@ type ScreenResult struct {
 }
 ```
 
-
-`SpinCalculator` struct 在「給定一個盤面（screen）」的前提下，計算連線賠率 / C1，在這裡添加利用，回傳 `ScreenResult` struct ，另外這裡會受 `Config` struct 的影響採取不同的算賠率與算分方式 (前面注意事項第三點提到) 
+`SpinCalculator` struct 在「給定一個盤面（screen）」的前提下，計算連線賠率 / C1，在這裡添加利用，回傳 `ScreenResult` struct ，另外這裡會受 `Config` struct 的影響採取不同的算賠率與算分方式 (前面注意事項第三點提到)
 
 * CalcFunc 的返回指向 `ScreenResult` struct 對同一個 struct 做改值操作。
 * 維護一個map註冊表，用來控制算分策略
 * 如果有一天同時要使用兩種算分策略要怎麼搞? 那就把 `SpinCalculator` struct 利用 pointer 傳遞進 `CalcScreen` 函數中然後呼叫 `SpinCalculator` struct 的 `CalcLineGame` 函數跟 `CalcWaysGame` 函數。
 
 ==有些參數放哪裡可能要想一下==
+
 ``` go=
 // calcFn 型別：給定盤面與 Bet(一次 spin 下注金額)
 type CalcFunc func(screen []uint8, Bet int) *ScreenResult // <- 回傳指標
@@ -836,6 +830,7 @@ func runner() {
 ## 實作 v1
 
 上次討論完後簡化結構:
+
 ```go=
 Config struct
 ScreenGenerator struct
@@ -844,6 +839,7 @@ LineResult struct
 ScreenResult struct
 runner func
 ```
+
 目前都在 `main` package，相關功能放在同一個檔案中。
 
 #### config.go
@@ -859,18 +855,18 @@ import "errors"
 type GameMode int
 
 const (
-	ModeUnknown GameMode = iota // 0 -> unknown
-	ModeLines                   // 1 -> Line
-	ModeWays                    // 2 -> Ways
+ ModeUnknown GameMode = iota // 0 -> unknown
+ ModeLines                   // 1 -> Line
+ ModeWays                    // 2 -> Ways
 )
 
 // 輪帶表
 var REELSTRIPS = [][]uint8{
-	{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 1 軸
-	{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 2 軸
-	{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 3 軸
-	{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 4 軸
-	{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 5 軸
+ {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 1 軸
+ {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 2 軸
+ {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 3 軸
+ {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 4 軸
+ {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 5 軸
 }
 
 // 11 個有效符號
@@ -878,192 +874,191 @@ var SYMBOLS = []string{"None", "C1", "W1", "H1", "H2", "H3", "H4", "L1", "L2", "
 
 // 20 線路表
 var LINES = [][]int{
-	{1, 1, 1, 1, 1}, // 線路 1
-	{0, 0, 0, 0, 0}, // 線路 2
-	{2, 2, 2, 2, 2}, // ...
-	{0, 1, 2, 1, 0},
-	{2, 1, 0, 1, 2},
-	{1, 0, 0, 0, 1},
-	{1, 2, 2, 2, 1},
-	{0, 0, 1, 2, 2},
-	{2, 2, 1, 0, 0},
-	{1, 0, 1, 2, 1},
-	{1, 2, 1, 0, 1},
-	{0, 1, 1, 1, 0},
-	{2, 1, 1, 1, 2},
-	{0, 1, 0, 1, 0},
-	{2, 1, 2, 1, 2},
-	{1, 1, 0, 1, 1},
-	{1, 1, 2, 1, 1},
-	{0, 0, 2, 0, 0},
-	{2, 2, 0, 2, 2},
-	{0, 2, 2, 2, 0}, // 線路 20
+ {1, 1, 1, 1, 1}, // 線路 1
+ {0, 0, 0, 0, 0}, // 線路 2
+ {2, 2, 2, 2, 2}, // ...
+ {0, 1, 2, 1, 0},
+ {2, 1, 0, 1, 2},
+ {1, 0, 0, 0, 1},
+ {1, 2, 2, 2, 1},
+ {0, 0, 1, 2, 2},
+ {2, 2, 1, 0, 0},
+ {1, 0, 1, 2, 1},
+ {1, 2, 1, 0, 1},
+ {0, 1, 1, 1, 0},
+ {2, 1, 1, 1, 2},
+ {0, 1, 0, 1, 0},
+ {2, 1, 2, 1, 2},
+ {1, 1, 0, 1, 1},
+ {1, 1, 2, 1, 1},
+ {0, 0, 2, 0, 0},
+ {2, 2, 0, 2, 2},
+ {0, 2, 2, 2, 0}, // 線路 20
 }
 
 // 賠率表
 var PAYTABLE = [][]int{
-	{0, 0, 0, 0, 0},       // Z1
-	{0, 0, 0, 0, 0},       // C1 (Scatter)
-	{0, 0, 100, 200, 300}, // W1 (Wild)
-	{0, 0, 10, 50, 200},   // H1
-	{0, 0, 10, 50, 200},   // H2
-	{0, 0, 10, 50, 200},   // H3
-	{0, 0, 10, 50, 200},   // H4
-	{0, 0, 5, 20, 100},    // L1
-	{0, 0, 5, 20, 100},    // L2
-	{0, 0, 5, 20, 100},    // L3
-	{0, 0, 5, 20, 100},    // L4
-	{0, 0, 5, 20, 100},    // L5
+ {0, 0, 0, 0, 0},       // Z1
+ {0, 0, 0, 0, 0},       // C1 (Scatter)
+ {0, 0, 100, 200, 300}, // W1 (Wild)
+ {0, 0, 10, 50, 200},   // H1
+ {0, 0, 10, 50, 200},   // H2
+ {0, 0, 10, 50, 200},   // H3
+ {0, 0, 10, 50, 200},   // H4
+ {0, 0, 5, 20, 100},    // L1
+ {0, 0, 5, 20, 100},    // L2
+ {0, 0, 5, 20, 100},    // L3
+ {0, 0, 5, 20, 100},    // L4
+ {0, 0, 5, 20, 100},    // L5
 }
 
 var ROWS, COLS int = 3, 5 // 列數, 行數
 
 type Config struct {
-	// 設定檔的數值
-	ReelStrips [][]uint8 // 輪帶表
-	Symbols    []string  // 符號清單
-	Lines      [][]int   // 線獎組合
-	Paytable   [][]int   // 賠率表
-	Rows       int       // 列數
-	Cols       int       // 軸數
-	Mode       GameMode  // 算分模式(enum)
+ // 設定檔的數值
+ ReelStrips [][]uint8 // 輪帶表
+ Symbols    []string  // 符號清單
+ Lines      [][]int   // 線獎組合
+ Paytable   [][]int   // 賠率表
+ Rows       int       // 列數
+ Cols       int       // 軸數
+ Mode       GameMode  // 算分模式(enum)
 
-	// 輔助的數值
-	ScreenSize int   // 盤面大小
-	ReelLens   []int // 每一軸輪帶長度
-	C1Id       uint8 // scatter 索引值
-	W1Id       uint8 // wild 索引值
-	minLen     int   // 最小連線長度
+ // 輔助的數值
+ ScreenSize int   // 盤面大小
+ ReelLens   []int // 每一軸輪帶長度
+ C1Id       uint8 // scatter 索引值
+ W1Id       uint8 // wild 索引值
+ minLen     int   // 最小連線長度
 
-	// 初始化狀態
-	initFlag bool // 初始化旗標
+ // 初始化狀態
+ initFlag bool // 初始化旗標
 
 }
 
 // 建構函數: 創建 instance 時調用
 func NewConfig(reelStrips [][]uint8, symbols []string, lines [][]int, payTable [][]int, rows int, cols int, mode GameMode) (*Config, error) {
-	// 1. 創建 Config instance & 賦值
-	cfg := &Config{
-		ReelStrips: reelStrips, // 輪帶表
-		Symbols:    symbols,    // 符號清單
-		Lines:      lines,      // 線路清單
-		Paytable:   payTable,   // 賠率表
-		Rows:       rows,       // 列數
-		Cols:       cols,       // 行數
-		minLen:     3,          // 最小連線長度
-		Mode:       mode,       // 算分模式
-	}
+ // 1. 創建 Config instance & 賦值
+ cfg := &Config{
+  ReelStrips: reelStrips, // 輪帶表
+  Symbols:    symbols,    // 符號清單
+  Lines:      lines,      // 線路清單
+  Paytable:   payTable,   // 賠率表
+  Rows:       rows,       // 列數
+  Cols:       cols,       // 行數
+  minLen:     3,          // 最小連線長度
+  Mode:       mode,       // 算分模式
+ }
 
-	// 2. 執行初始化
-	if err := cfg.Init(); err != nil {
-		return nil, err
-	}
-	// 3. 返回值, 錯誤訊息
-	return cfg, nil
+ // 2. 執行初始化
+ if err := cfg.Init(); err != nil {
+  return nil, err
+ }
+ // 3. 返回值, 錯誤訊息
+ return cfg, nil
 
 }
 
 // 初始化方法
 func (c *Config) Init() error {
-	// 1. 先檢查 initFlag
-	if c.initFlag {
-		return nil
-	}
+ // 1. 先檢查 initFlag
+ if c.initFlag {
+  return nil
+ }
 
-	// 2. 執行設定檔驗證
-	if err := c.validate(); err != nil {
-		return err
-	}
+ // 2. 執行設定檔驗證
+ if err := c.validate(); err != nil {
+  return err
+ }
 
-	// 3. 計算盤面大小、輪帶長度清單
-	c.ScreenSize = c.Rows * c.Cols   // 盤面大小
-	c.ReelLens = make([]int, c.Cols) // 輪帶長度清單
-	for col := 0; col < c.Cols; col++ {
-		c.ReelLens[col] = len(c.ReelStrips[col])
-	}
+ // 3. 計算盤面大小、輪帶長度清單
+ c.ScreenSize = c.Rows * c.Cols   // 盤面大小
+ c.ReelLens = make([]int, c.Cols) // 輪帶長度清單
+ for col := 0; col < c.Cols; col++ {
+  c.ReelLens[col] = len(c.ReelStrips[col])
+ }
 
-	// 4. 找到特殊符號索引
-	var i uint8 = 0
-	for i < uint8(len(c.Symbols)) {
-		if c.Symbols[i] == "C1" {
-			c.C1Id = i
-		}
+ // 4. 找到特殊符號索引
+ var i uint8 = 0
+ for i < uint8(len(c.Symbols)) {
+  if c.Symbols[i] == "C1" {
+   c.C1Id = i
+  }
 
-		if c.Symbols[i] == "W1" {
-			c.W1Id = i
-		}
+  if c.Symbols[i] == "W1" {
+   c.W1Id = i
+  }
 
-		i++
-	}
+  i++
+ }
 
-	// 4. 更新初始化狀態
-	c.initFlag = true
-	return nil
+ // 4. 更新初始化狀態
+ c.initFlag = true
+ return nil
 }
 
 func (c *Config) Reset() error {
 
-	// 檢查 initFlag 狀態
-	if !c.initFlag {
-		return errors.New("not yet init")
-	}
+ // 檢查 initFlag 狀態
+ if !c.initFlag {
+  return errors.New("not yet init")
+ }
 
-	// 重新初始化
-	c.initFlag = false
-	c.Init()
+ // 重新初始化
+ c.initFlag = false
+ c.Init()
 
-	return nil
+ return nil
 }
 
 func (c *Config) validate() error {
 
-	// 1. Rows/Cols
-	if c.Rows <= 0 {
-		return errors.New("rows must > 0")
-	}
+ // 1. Rows/Cols
+ if c.Rows <= 0 {
+  return errors.New("rows must > 0")
+ }
 
-	if c.Cols <= 0 {
-		return errors.New("cols must > 0")
-	}
-	// 2. 輪帶
-	if len(c.ReelStrips) != c.Cols {
-		return errors.New("reelStrips length  must equal Cols")
-	}
+ if c.Cols <= 0 {
+  return errors.New("cols must > 0")
+ }
+ // 2. 輪帶
+ if len(c.ReelStrips) != c.Cols {
+  return errors.New("reelStrips length  must equal Cols")
+ }
 
-	// 3. 符號清單，這邊怪怪的感覺有很多例外
-	symLen := len(c.Symbols)
-	if symLen == 0 {
-		return errors.New("symbols must not be empty")
-	}
+ // 3. 符號清單，這邊怪怪的感覺有很多例外
+ symLen := len(c.Symbols)
+ if symLen == 0 {
+  return errors.New("symbols must not be empty")
+ }
 
-	// 4. Line Mode
-	if c.Mode == ModeLines {
-		if len(c.Lines) == 0 {
-			return errors.New("line must not be emypt")
-		}
-	}
+ // 4. Line Mode
+ if c.Mode == ModeLines {
+  if len(c.Lines) == 0 {
+   return errors.New("line must not be emypt")
+  }
+ }
 
-	if c.Mode == ModeWays {
-		return errors.New("未實作")
-	}
+ if c.Mode == ModeWays {
+  return errors.New("未實作")
+ }
 
-	// 5. PayTable： 每個符號 5 欄（1~5 連）
-	if len(c.Paytable) != symLen {
-		return errors.New("paytable size not correct")
-	}
+ // 5. PayTable： 每個符號 5 欄（1~5 連）
+ if len(c.Paytable) != symLen {
+  return errors.New("paytable size not correct")
+ }
 
-	// 6. 模式檢查
-	// 這邊應該改成不存在於 GameMode enum 清單中，或是 =0
-	if c.Mode != ModeLines && c.Mode != ModeWays {
-		return errors.New("invalid mode")
-	}
+ // 6. 模式檢查
+ // 這邊應該改成不存在於 GameMode enum 清單中，或是 =0
+ if c.Mode != ModeLines && c.Mode != ModeWays {
+  return errors.New("invalid mode")
+ }
 
-	return nil
+ return nil
 }
 ```
 
-
-#### screenGenerator.go 
+#### screenGenerator.go
 
 `screenGenerator` struct 生成一維陣列的盤面
 
@@ -1073,34 +1068,34 @@ package main
 import "math/rand"
 
 type ScreenGenerator struct {
-	*Config              // 匿名嵌入 Config
-	ScreenBuf []uint8    // 盤面緩存
-	rng       *rand.Rand // RNG
+ *Config              // 匿名嵌入 Config
+ ScreenBuf []uint8    // 盤面緩存
+ rng       *rand.Rand // RNG
 }
 
 // 建構函數: 創建 ScreenGenerator instance 時調用
 func NewScreenGenerator(cfg *Config, rng *rand.Rand) *ScreenGenerator {
 
-	// 創建 ScreenGenerator instance & 賦值
-	return &ScreenGenerator{
-		Config:    cfg,                           // 嵌入 Config
-		ScreenBuf: make([]uint8, cfg.ScreenSize), // 盤面緩存
-		rng:       rng,                           // RNG
-	}
+ // 創建 ScreenGenerator instance & 賦值
+ return &ScreenGenerator{
+  Config:    cfg,                           // 嵌入 Config
+  ScreenBuf: make([]uint8, cfg.ScreenSize), // 盤面緩存
+  rng:       rng,                           // RNG
+ }
 }
 
 // 盤面生成
 func (g *ScreenGenerator) GenScreen() []uint8 {
 
-	// 對每一軸操作
-	for i := 0; i < g.Cols; i++ {
-		idx := g.rng.Intn(g.ReelLens[i])
-		for j := 0; j < g.Rows; j++ {
-			g.ScreenBuf[i*g.Rows+j] = g.ReelStrips[i][(idx+j)%g.ReelLens[i]]
-		}
-	}
+ // 對每一軸操作
+ for i := 0; i < g.Cols; i++ {
+  idx := g.rng.Intn(g.ReelLens[i])
+  for j := 0; j < g.Rows; j++ {
+   g.ScreenBuf[i*g.Rows+j] = g.ReelStrips[i][(idx+j)%g.ReelLens[i]]
+  }
+ }
 
-	return g.ScreenBuf
+ return g.ScreenBuf
 }
 
 ```
@@ -1113,103 +1108,103 @@ func (g *ScreenGenerator) GenScreen() []uint8 {
 package main
 
 import (
-	"log"
+ "log"
 )
 
 type LineResult struct {
-	sym    uint8 // 符號 ID
-	cnt    int   // 連線數量
-	win    int   // 賠分
-	lineId int   // 線路 ID
+ sym    uint8 // 符號 ID
+ cnt    int   // 連線數量
+ win    int   // 賠分
+ lineId int   // 線路 ID
 }
 
 // 一次 spin 的結果
 type ScreenResult struct {
-	C1Win      int          // 盤面中 C1 (scatter) 出現次數
-	Win        int          // 累積賠分
-	LineResult []LineResult // 線路結果
+ C1Win      int          // 盤面中 C1 (scatter) 出現次數
+ Win        int          // 累積賠分
+ LineResult []LineResult // 線路結果
 }
 
 // input SpinCalculator、screen 與 1 次 spin 下注分數
 type CalcFunc func(*SpinCalculator, []uint8, int) *ScreenResult // 接收 *SpinCalculator
 
 type SpinCalculator struct {
-	*Config                // 匿名嵌入
-	*ScreenResult          // 結果緩存
+ *Config                // 匿名嵌入
+ *ScreenResult          // 結果緩存
     calcFn    CalcFunc // 算分函數
 
-	// 輔助參數
-	filterIds []uint8 // 特殊符號
+ // 輔助參數
+ filterIds []uint8 // 特殊符號
 }
 
 // 建構函數: 創建 NewSpinCalculator instance 時調用
 func NewSpinCalculator(cfg *Config) *SpinCalculator {
-	sc := &SpinCalculator{
-		Config:       cfg,
-		ScreenResult: &ScreenResult{},
-	}
-	sc.initCalcFn()
-	sc.filterIds = deriveFilterIDs(cfg.Paytable, cfg.W1Id) // ← 自動算不計分符號
-	return sc
+ sc := &SpinCalculator{
+  Config:       cfg,
+  ScreenResult: &ScreenResult{},
+ }
+ sc.initCalcFn()
+ sc.filterIds = deriveFilterIDs(cfg.Paytable, cfg.W1Id) // ← 自動算不計分符號
+ return sc
 }
 
 // 選擇算分方式
 func (s *SpinCalculator) initCalcFn() {
 
-	// 選擇算分策略
-	if fn, ok := calcFnMap[s.Mode]; ok {
-		s.calcFn = fn // 選擇算分方式存到 s.calcFn
+ // 選擇算分策略
+ if fn, ok := calcFnMap[s.Mode]; ok {
+  s.calcFn = fn // 選擇算分方式存到 s.calcFn
 
-		return // 必要，不然會往外跳執行 log.Fatal("未知 mode")
-	}
-	log.Fatal("未知 mode")
-	// panic 表示還有救，但這個沒救了(設定檔錯誤)，類似 try ... catch ...
+  return // 必要，不然會往外跳執行 log.Fatal("未知 mode")
+ }
+ log.Fatal("未知 mode")
+ // panic 表示還有救，但這個沒救了(設定檔錯誤)，類似 try ... catch ...
 
 }
 
 // 不計分符號清單
 func deriveFilterIDs(pay [][]int, wildID uint8) []uint8 {
-	out := make([]uint8, 0, len(pay))
-	for sid, row := range pay {
-		allZero := true
-		for _, p := range row {
-			if p != 0 {
-				allZero = false
-				break
-			}
-		}
-		if allZero && uint8(sid) != wildID {
-			out = append(out, uint8(sid))
-		}
-	}
-	return out
+ out := make([]uint8, 0, len(pay))
+ for sid, row := range pay {
+  allZero := true
+  for _, p := range row {
+   if p != 0 {
+    allZero = false
+    break
+   }
+  }
+  if allZero && uint8(sid) != wildID {
+   out = append(out, uint8(sid))
+  }
+ }
+ return out
 }
 
 // 計算盤面中特定符號出現次數
 func countSymbol(screen []uint8, id uint8) int {
-	n := 0
-	for _, v := range screen {
-		if v == id {
-			n++
-		}
-	}
-	return n
+ n := 0
+ for _, v := range screen {
+  if v == id {
+   n++
+  }
+ }
+ return n
 }
 
 // 判斷 slice 中是否包含某 uint8 元素
 func containsU8(arr []uint8, x uint8) bool {
-	for _, v := range arr {
-		if v == x {
-			return true
-		}
-	}
-	return false
+ for _, v := range arr {
+  if v == x {
+   return true
+  }
+ }
+ return false
 }
 
 // 維護一個map註冊表
 var calcFnMap = map[GameMode]CalcFunc{
-	ModeLines: CalcLinesGame, // lines 算法
-	ModeWays:  CalcWaysGame,  // ways 算法
+ ModeLines: CalcLinesGame, // lines 算法
+ ModeWays:  CalcWaysGame,  // ways 算法
 
 }
 
@@ -1218,194 +1213,195 @@ var calcFnMap = map[GameMode]CalcFunc{
 // lines 算分模式
 func CalcLinesGame(s *SpinCalculator, screen []uint8, bet int) *ScreenResult {
 
-	// 初始化結果
-	r := s.ScreenResult
+ // 初始化結果
+ r := s.ScreenResult
 
-	r.C1Win, r.Win = 0, 0
-	linesLen := len(s.Lines)                       // 線路數量
-	r.LineResult = make([]LineResult, 0, linesLen) // 清空線路結果
+ r.C1Win, r.Win = 0, 0
+ linesLen := len(s.Lines)                       // 線路數量
+ r.LineResult = make([]LineResult, 0, linesLen) // 清空線路結果
 
-	totalLinePay := 0 // 累積線路賠分
+ totalLinePay := 0 // 累積線路賠分
 
-	// 計算 C1 出現次數
-	r.C1Win = countSymbol(screen, s.C1Id)
+ // 計算 C1 出現次數
+ r.C1Win = countSymbol(screen, s.C1Id)
 
-	// 逐條線計分
-	for i := 0; i < linesLen; i++ {
-		// 單條線的狀態
-		wildCount := 0
-		wildContinue := true
+ // 逐條線計分
+ for i := 0; i < linesLen; i++ {
+  // 單條線的狀態
+  wildCount := 0
+  wildContinue := true
 
-		var symId uint8     // 得分符號ID
-		symStarted := false // 是否已確定得分符號
-		symCount := 0       // 符號連線數量
-		pendingWilds := 0   // 在算得分符號連線時先算前面累積的 W1 數量，如果後面遇到得分符號就加進去
+  var symId uint8     // 得分符號ID
+  symStarted := false // 是否已確定得分符號
+  symCount := 0       // 符號連線數量
+  pendingWilds := 0   // 在算得分符號連線時先算前面累積的 W1 數量，如果後面遇到得分符號就加進去
 
-		// 從左到右掃這條線
-		for j := 0; j < s.Cols; j++ {
+  // 從左到右掃這條線
+  for j := 0; j < s.Cols; j++ {
 
-			// 1. 獲取該位置符號
-			sid := screen[j*s.Rows+s.Lines[i][j]]
+   // 1. 獲取該位置符號
+   sid := screen[j*s.Rows+s.Lines[i][j]]
 
-			// 2. 開頭連續 Wild 數
-			if wildContinue && sid == s.W1Id {
-				wildCount++
-			} else {
-				wildContinue = false
-			}
+   // 2. 開頭連續 Wild 數
+   if wildContinue && sid == s.W1Id {
+    wildCount++
+   } else {
+    wildContinue = false
+   }
 
-			// 3. 計算得分符號連線
+   // 3. 計算得分符號連線
 
-			// 3.1. 尚未決定得分符號
-			if !symStarted {
-				if sid == s.W1Id {
-					pendingWilds++ // 預先累積 Wild ，後面可能會替代為得分符號
-					continue
-				}
-				// 第一個非 Wild：若是不計分符號（Z1/C1 等），此線只能靠純 Wild
-				if containsU8(s.filterIds, sid) {
-					break
-				}
-				// 合法得分符號確立
-				symId = sid
-				symStarted = true
-				symCount = pendingWilds + 1
-				continue
-			}
+   // 3.1. 尚未決定得分符號
+   if !symStarted {
+    if sid == s.W1Id {
+     pendingWilds++ // 預先累積 Wild ，後面可能會替代為得分符號
+     continue
+    }
+    // 第一個非 Wild：若是不計分符號（Z1/C1 等），此線只能靠純 Wild
+    if containsU8(s.filterIds, sid) {
+     break
+    }
+    // 合法得分符號確立
+    symId = sid
+    symStarted = true
+    symCount = pendingWilds + 1
+    continue
+   }
 
-			// 3.2. 已決定得分符號，延伸連線：同符號或 Wild 都可
-			if sid == symId || sid == s.W1Id {
-				symCount++
-			} else {
-				break // 如果開頭直接是 C1 直接結束
-			}
-		}
+   // 3.2. 已決定得分符號，延伸連線：同符號或 Wild 都可
+   if sid == symId || sid == s.W1Id {
+    symCount++
+   } else {
+    break // 如果開頭直接是 C1 直接結束
+   }
+  }
 
-		// 4. 未達最小連線長度 → 0 分 該條線沒中
-		if symCount < s.minLen && wildCount < s.minLen {
-			r.LineResult = append(r.LineResult, LineResult{
-				sym:    0, // 無得分
-				cnt:    0,
-				win:    0,
-				lineId: i,
-			}) // 更新結果
-			continue
-		}
+  // 4. 未達最小連線長度 → 0 分 該條線沒中
+  if symCount < s.minLen && wildCount < s.minLen {
+   r.LineResult = append(r.LineResult, LineResult{
+    sym:    0, // 無得分
+    cnt:    0,
+    win:    0,
+    lineId: i,
+   }) // 更新結果
+   continue
+  }
 
-		// 5. 計算兩種賠率
+  // 5. 計算兩種賠率
 
-		// 5.1. 得分符號賠率
-		symPay := 0
-		if symStarted && symCount >= s.minLen { // 只做「是否該算」的必要判斷
-			symPay = s.Paytable[int(symId)][symCount-1]
-		}
+  // 5.1. 得分符號賠率
+  symPay := 0
+  if symStarted && symCount >= s.minLen { // 只做「是否該算」的必要判斷
+   symPay = s.Paytable[int(symId)][symCount-1]
+  }
 
-		// 5.2.Wild 賠率
+  // 5.2.Wild 賠率
 
-		wildPay := 0 // W1 賠率
-		if wildCount >= s.minLen {
-			wildPay = s.Paytable[int(s.W1Id)][wildCount-1]
-		}
+  wildPay := 0 // W1 賠率
+  if wildCount >= s.minLen {
+   wildPay = s.Paytable[int(s.W1Id)][wildCount-1]
+  }
 
-		// 6. 取較大者
-		winSym := symId
-		winCnt := symCount
-		winPay := symPay
+  // 6. 取較大者
+  winSym := symId
+  winCnt := symCount
+  winPay := symPay
 
-		if wildPay > symPay {
-			winSym = s.W1Id
-			winCnt = wildCount
-			winPay = wildPay
-		}
+  if wildPay > symPay {
+   winSym = s.W1Id
+   winCnt = wildCount
+   winPay = wildPay
+  }
 
-		// 7. 更新結果
-		totalLinePay += winPay
-		r.LineResult = append(r.LineResult, LineResult{
-			sym:    winSym, // 得分符號
-			cnt:    winCnt, // 連線數量
-			win:    winPay, // 賠分
-			lineId: i,      // 線路 ID
-		}) // 更新結果
-	}
+  // 7. 更新結果
+  totalLinePay += winPay
+  r.LineResult = append(r.LineResult, LineResult{
+   sym:    winSym, // 得分符號
+   cnt:    winCnt, // 連線數量
+   win:    winPay, // 賠分
+   lineId: i,      // 線路 ID
+  }) // 更新結果
+ }
 
-	// 一次 spin 盤面得結果
-	r.Win = totalLinePay * bet / linesLen // 總賠分
-	return r
+ // 一次 spin 盤面得結果
+ r.Win = totalLinePay * bet / linesLen // 總賠分
+ return r
 }
 
 // ways 算分模式
 func CalcWaysGame(s *SpinCalculator, screen []uint8, bet int) *ScreenResult {
-	// 未實做
-	return s.ScreenResult
+ // 未實做
+ return s.ScreenResult
 }
 ```
 
 #### runner.go
 
 `runner` func 執行
+
 ```go=
 package main
 
 import (
-	"fmt"
-	"math/rand"
-	"time"
+ "fmt"
+ "math/rand"
+ "time"
 )
 
 func runner() error {
 
-	// 1. 創建 Config 實例
-	cfg, err := NewConfig(REELSTRIPS, SYMBOLS, LINES, PAYTABLE, ROWS, COLS, ModeLines)
-	// 錯誤檢查
-	if err != nil {
-		return err
-	}
+ // 1. 創建 Config 實例
+ cfg, err := NewConfig(REELSTRIPS, SYMBOLS, LINES, PAYTABLE, ROWS, COLS, ModeLines)
+ // 錯誤檢查
+ if err != nil {
+  return err
+ }
 
-	// 2. 建立亂數生成
-	randSeed := rand.NewSource(123456789) // 固定 randSeed
-	// randSeed := rand.NewSource(time.Now().UnixNano())
-	rng := rand.New(randSeed) // 返回 pointer
+ // 2. 建立亂數生成
+ randSeed := rand.NewSource(123456789) // 固定 randSeed
+ // randSeed := rand.NewSource(time.Now().UnixNano())
+ rng := rand.New(randSeed) // 返回 pointer
 
-	// 3. 建立 生成盤面、算分實例
-	sg := NewScreenGenerator(cfg, rng)
-	sc := NewSpinCalculator(cfg)
+ // 3. 建立 生成盤面、算分實例
+ sg := NewScreenGenerator(cfg, rng)
+ sc := NewSpinCalculator(cfg)
 
-	// 4. 初始化模擬參數
-	rounds := 1_000_000 // 模擬次數
-	bet := 1000         // Bet: 一次 spin 下注分數
-	totalBet := 0
-	totalWin := 0
-	start := time.Now() // 起始時間
+ // 4. 初始化模擬參數
+ rounds := 1_000_000 // 模擬次數
+ bet := 1000         // Bet: 一次 spin 下注分數
+ totalBet := 0
+ totalWin := 0
+ start := time.Now() // 起始時間
 
-	// 5. 執行模擬
-	for i := 0; i < rounds; i++ {
-		// 執行模擬
-		screen := sg.GenScreen()
-		result := sc.calcFn(sc, screen, bet)
-		// fmt.Println("Result:", result)
+ // 5. 執行模擬
+ for i := 0; i < rounds; i++ {
+  // 執行模擬
+  screen := sg.GenScreen()
+  result := sc.calcFn(sc, screen, bet)
+  // fmt.Println("Result:", result)
 
-		// 更新狀態
-		totalBet += bet        // 總下注
-		totalWin += result.Win // 總贏分
+  // 更新狀態
+  totalBet += bet        // 總下注
+  totalWin += result.Win // 總贏分
 
-		// 顯示進度
+  // 顯示進度
         if (i+1)%100000 == 0 {
-			fmt.Printf("Completed %d spins...\n", i+1)
-		}
-	}
+   fmt.Printf("Completed %d spins...\n", i+1)
+  }
+ }
 
-	if totalBet == 0 {
-		return nil
-	}
+ if totalBet == 0 {
+  return nil
+ }
 
-	elapsed := time.Since(start)
+ elapsed := time.Since(start)
 
-	fmt.Printf("Elapsed time: %.6f seconds\n", elapsed.Seconds())
+ fmt.Printf("Elapsed time: %.6f seconds\n", elapsed.Seconds())
 
-	// 6. 計算統計值
-	rtp := float64(totalWin) / float64(totalBet)
-	fmt.Printf("TotalBet=%d TotalWin=%d RTP=%.6f\n", totalBet, totalWin, rtp)
-	return nil
+ // 6. 計算統計值
+ rtp := float64(totalWin) / float64(totalBet)
+ fmt.Printf("TotalBet=%d TotalWin=%d RTP=%.6f\n", totalBet, totalWin, rtp)
+ return nil
 
 }
 ```
@@ -1425,39 +1421,39 @@ func CalcLinesGame(...) {
 }
 ```
 
-3. 走線表轉換slice of slice  2D -> 1D 　`screen[s.FlatLines[i*s.Cols+j]]`，並預先建立走線表空間
+1. 走線表轉換slice of slice  2D -> 1D 　`screen[s.FlatLines[i*s.Cols+j]]`，並預先建立走線表空間
 
 ```go=
 
 // ------- Config -------
 
 type Config struct {
-	// ... Other Data ...
-	Lines      [][]int   // 線獎組合
+ // ... Other Data ...
+ Lines      [][]int   // 線獎組合
 
-	// 輔助的數值
-	FlatLines  []int // 平坦化線路清單
+ // 輔助的數值
+ FlatLines  []int // 平坦化線路清單
 }
 
 func (c *Config) Init() {
     // ... Other Things ...
     // 平坦化線路清單
-	c.FlatLines = make([]int, len(c.Lines)*c.Cols)
-	for i, line := range c.Lines {
-		for j, pos := range line {
-			c.FlatLines[i*c.Cols+j] = j*c.Rows + pos
-		}
-	}
+ c.FlatLines = make([]int, len(c.Lines)*c.Cols)
+ for i, line := range c.Lines {
+  for j, pos := range line {
+   c.FlatLines[i*c.Cols+j] = j*c.Rows + pos
+  }
+ }
 }
 
 // ------- Calc -------
 
 func NewSpinCalculator(cfg *Config) *SpinCalculator {
-	sc := &SpinCalculator{
-		cfg:       cfg,
-		ScreenResult: &ScreenResult{},
-	}
-	sc.initCalcFn()
+ sc := &SpinCalculator{
+  cfg:       cfg,
+  ScreenResult: &ScreenResult{},
+ }
+ sc.initCalcFn()
     
     // 預先建立走線表空間
     sc.ScreenResult.LineResult = make([]LineResult, 0, len(cfg.Lines))
@@ -1480,60 +1476,60 @@ func CalcLinesGame(...) {
 
 ```
 
-4. 匿名嵌入會有變數遮蔽問題，盡量不用
+1. 匿名嵌入會有變數遮蔽問題，盡量不用
 
 ```go=
 type SpinCalculator struct {
-	cfg *Config                // 設定檔：不使用匿名嵌入
-	sr *ScreenResult          // 結果緩存：不使用匿名嵌入
-	calcFn        CalcFunc // 算分函數
+ cfg *Config                // 設定檔：不使用匿名嵌入
+ sr *ScreenResult          // 結果緩存：不使用匿名嵌入
+ calcFn        CalcFunc // 算分函數
 
-	// 輔助參數
-	filterIds []uint8 // 特殊符號
+ // 輔助參數
+ filterIds []uint8 // 特殊符號
 }
 
 ```
 
-5. 不計分符號使用bitmask : 影響較小 (從原來O(n) -> O(1) 判斷，影響較小是因為一條線只會檢查最多1次)(比較不直覺，可以之後再學著應用)
+1. 不計分符號使用bitmask : 影響較小 (從原來O(n) -> O(1) 判斷，影響較小是因為一條線只會檢查最多1次)(比較不直覺，可以之後再學著應用)
 
 ```go=
 type SpinCalculator struct {
-	cfg *Config                // 設定檔：不使用匿名嵌入
-	sr *ScreenResult          // 結果緩存：不使用匿名嵌入
-	calcFn        CalcFunc // 算分函數
+ cfg *Config                // 設定檔：不使用匿名嵌入
+ sr *ScreenResult          // 結果緩存：不使用匿名嵌入
+ calcFn        CalcFunc // 算分函數
 
-	// 輔助參數
-	filter uint64
+ // 輔助參數
+ filter uint64
 }
 
 // 不計分符號清單
 func deriveFilter(pay [][]int, wildID uint8) uint64 {
-	out := uint64(0) // 0x00000000000000
-	for sid, row := range pay {
-		allZero := true
-		for _, p := range row {
-			if p != 0 {
-				allZero = false
-				break
-			}
-		}
-		if allZero && uint8(sid) != wildID {
-			out |= 1 << uint64(sid)
-		}
-	}
-	return out
+ out := uint64(0) // 0x00000000000000
+ for sid, row := range pay {
+  allZero := true
+  for _, p := range row {
+   if p != 0 {
+    allZero = false
+    break
+   }
+  }
+  if allZero && uint8(sid) != wildID {
+   out |= 1 << uint64(sid)
+  }
+ }
+ return out
 }
 
 func NewSpinCalculator(cfg *Config) *SpinCalculator {
-	sc := &SpinCalculator{
-		cfg:       cfg,
-		sr: &ScreenResult{},
-	}
-	sc.initCalcFn()
+ sc := &SpinCalculator{
+  cfg:       cfg,
+  sr: &ScreenResult{},
+ }
+ sc.initCalcFn()
     
     // 預先建立走線表空間
     sc.ScreenResult.LineResult = make([]LineResult, 0, len(cfg.Lines))
-	
+ 
     // 使用bitmask判斷是否得分符號
     sc.filter = deriveFilter(cfg.Paytable, cfg.W1Id)
     return sc
@@ -1567,7 +1563,8 @@ func CalcLinesGame(...) {
 
 ```
 
-6. 建議：只傳必要的贏分結果
+1. 建議：只傳必要的贏分結果
+
 ```go=
 func CalcLinesGame(...) {
     // ...
@@ -1580,8 +1577,7 @@ func CalcLinesGame(...) {
 
 ```
 
-
-7. 若要將LineResult擴增為通用算分細項(只包含基本算分結果)
+1. 若要將LineResult擴增為通用算分細項(只包含基本算分結果)
 
 ```go=
 
@@ -1608,6 +1604,7 @@ type WinDetail {
 ## 實作 v2
 
 ### config.go
+
 ```go=
 package main
 
@@ -1617,18 +1614,18 @@ import "errors"
 type GameMode int
 
 const (
-	ModeUnknown GameMode = iota // 0 -> unknown
-	ModeLines                   // 1 -> Line
-	ModeWays                    // 2 -> Ways
+ ModeUnknown GameMode = iota // 0 -> unknown
+ ModeLines                   // 1 -> Line
+ ModeWays                    // 2 -> Ways
 )
 
 // 輪帶表
 var REELSTRIPS = [][]uint8{
-	{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 1 軸
-	{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 2 軸
-	{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 3 軸
-	{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 4 軸
-	{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 5 軸
+ {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 1 軸
+ {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 2 軸
+ {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 3 軸
+ {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 4 軸
+ {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 2, 3, 4, 5, 6, 7, 8, 9, 10}, // 第 5 軸
 }
 
 // 11 個有效符號
@@ -1636,196 +1633,196 @@ var SYMBOLS = []string{"None", "C1", "W1", "H1", "H2", "H3", "H4", "L1", "L2", "
 
 // 20 線路表
 var LINES = [][]int{
-	{1, 1, 1, 1, 1}, // 線路 1
-	{0, 0, 0, 0, 0}, // 線路 2
-	{2, 2, 2, 2, 2}, // ...
-	{0, 1, 2, 1, 0},
-	{2, 1, 0, 1, 2},
-	{1, 0, 0, 0, 1},
-	{1, 2, 2, 2, 1},
-	{0, 0, 1, 2, 2},
-	{2, 2, 1, 0, 0},
-	{1, 0, 1, 2, 1},
-	{1, 2, 1, 0, 1},
-	{0, 1, 1, 1, 0},
-	{2, 1, 1, 1, 2},
-	{0, 1, 0, 1, 0},
-	{2, 1, 2, 1, 2},
-	{1, 1, 0, 1, 1},
-	{1, 1, 2, 1, 1},
-	{0, 0, 2, 0, 0},
-	{2, 2, 0, 2, 2},
-	{0, 2, 2, 2, 0}, // 線路 20
+ {1, 1, 1, 1, 1}, // 線路 1
+ {0, 0, 0, 0, 0}, // 線路 2
+ {2, 2, 2, 2, 2}, // ...
+ {0, 1, 2, 1, 0},
+ {2, 1, 0, 1, 2},
+ {1, 0, 0, 0, 1},
+ {1, 2, 2, 2, 1},
+ {0, 0, 1, 2, 2},
+ {2, 2, 1, 0, 0},
+ {1, 0, 1, 2, 1},
+ {1, 2, 1, 0, 1},
+ {0, 1, 1, 1, 0},
+ {2, 1, 1, 1, 2},
+ {0, 1, 0, 1, 0},
+ {2, 1, 2, 1, 2},
+ {1, 1, 0, 1, 1},
+ {1, 1, 2, 1, 1},
+ {0, 0, 2, 0, 0},
+ {2, 2, 0, 2, 2},
+ {0, 2, 2, 2, 0}, // 線路 20
 }
 
 // 賠率表
 var PAYTABLE = [][]int{
-	{0, 0, 0, 0, 0},       // Z1
-	{0, 0, 0, 0, 0},       // C1 (Scatter)
-	{0, 0, 100, 200, 300}, // W1 (Wild)
-	{0, 0, 10, 50, 200},   // H1
-	{0, 0, 10, 50, 200},   // H2
-	{0, 0, 10, 50, 200},   // H3
-	{0, 0, 10, 50, 200},   // H4
-	{0, 0, 5, 20, 100},    // L1
-	{0, 0, 5, 20, 100},    // L2
-	{0, 0, 5, 20, 100},    // L3
-	{0, 0, 5, 20, 100},    // L4
-	{0, 0, 5, 20, 100},    // L5
+ {0, 0, 0, 0, 0},       // Z1
+ {0, 0, 0, 0, 0},       // C1 (Scatter)
+ {0, 0, 100, 200, 300}, // W1 (Wild)
+ {0, 0, 10, 50, 200},   // H1
+ {0, 0, 10, 50, 200},   // H2
+ {0, 0, 10, 50, 200},   // H3
+ {0, 0, 10, 50, 200},   // H4
+ {0, 0, 5, 20, 100},    // L1
+ {0, 0, 5, 20, 100},    // L2
+ {0, 0, 5, 20, 100},    // L3
+ {0, 0, 5, 20, 100},    // L4
+ {0, 0, 5, 20, 100},    // L5
 }
 
 var ROWS, COLS int = 3, 5 // 列數, 行數
 
 type Config struct {
-	// 設定檔的數值
-	ReelStrips [][]uint8 // 輪帶表
-	Symbols    []string  // 符號清單
-	Lines      [][]int   // 線獎組合
-	Paytable   [][]int   // 賠率表
-	Rows       int       // 列數
-	Cols       int       // 軸數
-	Mode       GameMode  // 算分模式(enum)
+ // 設定檔的數值
+ ReelStrips [][]uint8 // 輪帶表
+ Symbols    []string  // 符號清單
+ Lines      [][]int   // 線獎組合
+ Paytable   [][]int   // 賠率表
+ Rows       int       // 列數
+ Cols       int       // 軸數
+ Mode       GameMode  // 算分模式(enum)
 
-	// 輔助的數值
-	ScreenSize int   // 盤面大小
-	ReelLens   []int // 每一軸輪帶長度
-	C1Id       uint8 // scatter 索引值
-	W1Id       uint8 // wild 索引值
-	minLen     int   // 最小連線長度
-	FlatLines  []int // 平坦化線路清單
+ // 輔助的數值
+ ScreenSize int   // 盤面大小
+ ReelLens   []int // 每一軸輪帶長度
+ C1Id       uint8 // scatter 索引值
+ W1Id       uint8 // wild 索引值
+ minLen     int   // 最小連線長度
+ FlatLines  []int // 平坦化線路清單
 
-	// 初始化狀態
-	initFlag bool // 初始化旗標
+ // 初始化狀態
+ initFlag bool // 初始化旗標
 
 }
 
 // 建構函數: 創建 instance 時調用
 func NewConfig(reelStrips [][]uint8, symbols []string, lines [][]int, payTable [][]int, rows int, cols int, mode GameMode) (*Config, error) {
-	// 1. 創建 Config instance & 賦值
-	cfg := &Config{
-		ReelStrips: reelStrips, // 輪帶表
-		Symbols:    symbols,    // 符號清單
-		Lines:      lines,      // 線路清單
-		Paytable:   payTable,   // 賠率表
-		Rows:       rows,       // 列數
-		Cols:       cols,       // 行數
-		minLen:     3,          // 最小連線長度
-		Mode:       mode,       // 算分模式
-	}
+ // 1. 創建 Config instance & 賦值
+ cfg := &Config{
+  ReelStrips: reelStrips, // 輪帶表
+  Symbols:    symbols,    // 符號清單
+  Lines:      lines,      // 線路清單
+  Paytable:   payTable,   // 賠率表
+  Rows:       rows,       // 列數
+  Cols:       cols,       // 行數
+  minLen:     3,          // 最小連線長度
+  Mode:       mode,       // 算分模式
+ }
 
-	// 2. 執行初始化
-	if err := cfg.Init(); err != nil {
-		return nil, err
-	}
-	// 3. 返回值, 錯誤訊息
-	return cfg, nil
+ // 2. 執行初始化
+ if err := cfg.Init(); err != nil {
+  return nil, err
+ }
+ // 3. 返回值, 錯誤訊息
+ return cfg, nil
 
 }
 
 // 初始化方法
 func (c *Config) Init() error {
-	// 1. 先檢查 initFlag
-	if c.initFlag {
-		return nil
-	}
+ // 1. 先檢查 initFlag
+ if c.initFlag {
+  return nil
+ }
 
-	// 2. 執行設定檔驗證
-	if err := c.validate(); err != nil {
-		return err
-	}
+ // 2. 執行設定檔驗證
+ if err := c.validate(); err != nil {
+  return err
+ }
 
-	// 3. 計算盤面大小、輪帶長度清單
-	c.ScreenSize = c.Rows * c.Cols   // 盤面大小
-	c.ReelLens = make([]int, c.Cols) // 輪帶長度清單
-	for col := 0; col < c.Cols; col++ {
-		c.ReelLens[col] = len(c.ReelStrips[col])
-	}
+ // 3. 計算盤面大小、輪帶長度清單
+ c.ScreenSize = c.Rows * c.Cols   // 盤面大小
+ c.ReelLens = make([]int, c.Cols) // 輪帶長度清單
+ for col := 0; col < c.Cols; col++ {
+  c.ReelLens[col] = len(c.ReelStrips[col])
+ }
 
-	// 4. 找到特殊符號索引
-	var i uint8 = 0
-	for i < uint8(len(c.Symbols)) {
-		if c.Symbols[i] == "C1" {
-			c.C1Id = i
-		}
+ // 4. 找到特殊符號索引
+ var i uint8 = 0
+ for i < uint8(len(c.Symbols)) {
+  if c.Symbols[i] == "C1" {
+   c.C1Id = i
+  }
 
-		if c.Symbols[i] == "W1" {
-			c.W1Id = i
-		}
+  if c.Symbols[i] == "W1" {
+   c.W1Id = i
+  }
 
-		i++
-	}
+  i++
+ }
 
-	// 5. 平坦化線路清單
-	c.FlatLines = make([]int, len(c.Lines)*c.Cols)
-	for i, line := range c.Lines {
-		for j, pos := range line {
-			c.FlatLines[i*c.Cols+j] = j*c.Rows + pos
-		}
-	}
+ // 5. 平坦化線路清單
+ c.FlatLines = make([]int, len(c.Lines)*c.Cols)
+ for i, line := range c.Lines {
+  for j, pos := range line {
+   c.FlatLines[i*c.Cols+j] = j*c.Rows + pos
+  }
+ }
 
-	// 6. 更新初始化狀態
-	c.initFlag = true
-	return nil
+ // 6. 更新初始化狀態
+ c.initFlag = true
+ return nil
 }
 
 func (c *Config) Reset() error {
 
-	// 檢查 initFlag 狀態
-	if !c.initFlag {
-		return errors.New("not yet init")
-	}
+ // 檢查 initFlag 狀態
+ if !c.initFlag {
+  return errors.New("not yet init")
+ }
 
-	// 重新初始化
-	c.initFlag = false
-	c.Init()
+ // 重新初始化
+ c.initFlag = false
+ c.Init()
 
-	return nil
+ return nil
 }
 
 func (c *Config) validate() error {
 
-	// 1. Rows/Cols
-	if c.Rows <= 0 {
-		return errors.New("rows must > 0")
-	}
+ // 1. Rows/Cols
+ if c.Rows <= 0 {
+  return errors.New("rows must > 0")
+ }
 
-	if c.Cols <= 0 {
-		return errors.New("cols must > 0")
-	}
-	// 2. 輪帶
-	if len(c.ReelStrips) != c.Cols {
-		return errors.New("reelStrips length  must equal Cols")
-	}
+ if c.Cols <= 0 {
+  return errors.New("cols must > 0")
+ }
+ // 2. 輪帶
+ if len(c.ReelStrips) != c.Cols {
+  return errors.New("reelStrips length  must equal Cols")
+ }
 
-	// 3. 符號清單，這邊怪怪的感覺有很多例外
-	symLen := len(c.Symbols)
-	if symLen == 0 {
-		return errors.New("symbols must not be empty")
-	}
+ // 3. 符號清單，這邊怪怪的感覺有很多例外
+ symLen := len(c.Symbols)
+ if symLen == 0 {
+  return errors.New("symbols must not be empty")
+ }
 
-	// 4. Line Mode
-	if c.Mode == ModeLines {
-		if len(c.Lines) == 0 {
-			return errors.New("line must not be emypt")
-		}
-	}
+ // 4. Line Mode
+ if c.Mode == ModeLines {
+  if len(c.Lines) == 0 {
+   return errors.New("line must not be emypt")
+  }
+ }
 
-	if c.Mode == ModeWays {
-		return errors.New("未實作")
-	}
+ if c.Mode == ModeWays {
+  return errors.New("未實作")
+ }
 
-	// 5. PayTable： 每個符號 5 欄（1~5 連）
-	if len(c.Paytable) != symLen {
-		return errors.New("paytable size not correct")
-	}
+ // 5. PayTable： 每個符號 5 欄（1~5 連）
+ if len(c.Paytable) != symLen {
+  return errors.New("paytable size not correct")
+ }
 
-	// 6. 模式檢查
-	// 這邊應該改成不存在於 GameMode enum 清單中，或是 =0
-	if c.Mode != ModeLines && c.Mode != ModeWays {
-		return errors.New("invalid mode")
-	}
+ // 6. 模式檢查
+ // 這邊應該改成不存在於 GameMode enum 清單中，或是 =0
+ if c.Mode != ModeLines && c.Mode != ModeWays {
+  return errors.New("invalid mode")
+ }
 
-	return nil
+ return nil
 }
 
 
@@ -1837,103 +1834,105 @@ func (c *Config) validate() error {
 package main
 
 import (
-	"fmt"
-	"math/rand"
-	"time"
+ "fmt"
+ "math/rand"
+ "time"
 )
 
 func runner() error {
 
-	// 1. 創建 Config 實例
-	cfg, err := NewConfig(REELSTRIPS, SYMBOLS, LINES, PAYTABLE, ROWS, COLS, ModeLines)
+ // 1. 創建 Config 實例
+ cfg, err := NewConfig(REELSTRIPS, SYMBOLS, LINES, PAYTABLE, ROWS, COLS, ModeLines)
 
-	// 錯誤檢查
-	if err != nil {
-		return err
-	}
+ // 錯誤檢查
+ if err != nil {
+  return err
+ }
 
-	// 2. 建立亂數生成
-	randSeed := rand.NewSource(123456789) // 固定 randSeed
-	// randSeed := rand.NewSource(time.Now().UnixNano())
-	rng := rand.New(randSeed) // 返回 pointer
+ // 2. 建立亂數生成
+ randSeed := rand.NewSource(123456789) // 固定 randSeed
+ // randSeed := rand.NewSource(time.Now().UnixNano())
+ rng := rand.New(randSeed) // 返回 pointer
 
-	// 3. 建立 生成盤面、算分實例
-	sg := NewScreenGenerator(cfg, rng)
-	sc := NewSpinCalculator(cfg)
+ // 3. 建立 生成盤面、算分實例
+ sg := NewScreenGenerator(cfg, rng)
+ sc := NewSpinCalculator(cfg)
 
-	// 4. 初始化模擬參數
-	rounds := 1_000_000_0 // 模擬次數
-	bet := 1000           // Bet: 一次 spin 下注分數
-	totalBet := 0
-	totalWin := 0
-	start := time.Now() // 起始時間
+ // 4. 初始化模擬參數
+ rounds := 1_000_000_0 // 模擬次數
+ bet := 1000           // Bet: 一次 spin 下注分數
+ totalBet := 0
+ totalWin := 0
+ start := time.Now() // 起始時間
 
-	// 5. 執行模擬
-	for i := 0; i < rounds; i++ {
-		// 執行模擬
-		screen := sg.GenScreen()
-		result := sc.calcFn(sc, screen, bet)
+ // 5. 執行模擬
+ for i := 0; i < rounds; i++ {
+  // 執行模擬
+  screen := sg.GenScreen()
+  result := sc.calcFn(sc, screen, bet)
 
-		// 更新狀態
-		totalBet += bet        // 總下注
-		totalWin += result.Win // 總贏分
+  // 更新狀態
+  totalBet += bet        // 總下注
+  totalWin += result.Win // 總贏分
 
-		// // 顯示進度
-		// if (i+1)%100000 == 0 {
-		// 	fmt.Printf("Completed %d spins...\n", i+1)
-		// }
-	}
+  // // 顯示進度
+  // if (i+1)%100000 == 0 {
+  //  fmt.Printf("Completed %d spins...\n", i+1)
+  // }
+ }
 
-	if totalBet == 0 {
-		return nil
-	}
+ if totalBet == 0 {
+  return nil
+ }
 
-	elapsed := time.Since(start)
+ elapsed := time.Since(start)
 
-	fmt.Printf("Elapsed time: %.6f seconds\n", elapsed.Seconds())
+ fmt.Printf("Elapsed time: %.6f seconds\n", elapsed.Seconds())
 
-	// 6. 計算統計值
-	rtp := float64(totalWin) / float64(totalBet)
-	fmt.Printf("TotalBet=%d TotalWin=%d RTP=%.6f\n", totalBet, totalWin, rtp)
-	return nil
+ // 6. 計算統計值
+ rtp := float64(totalWin) / float64(totalBet)
+ fmt.Printf("TotalBet=%d TotalWin=%d RTP=%.6f\n", totalBet, totalWin, rtp)
+ return nil
 
 }
 ```
+
 ### screenGenerator.go
+
 ```go=
 package main
 
 import "math/rand"
 
 type ScreenGenerator struct {
-	*Config              // 匿名嵌入 Config
-	ScreenBuf []uint8    // 盤面緩存
-	rng       *rand.Rand // RNG
+ *Config              // 匿名嵌入 Config
+ ScreenBuf []uint8    // 盤面緩存
+ rng       *rand.Rand // RNG
 }
 
 // 建構函數: 創建 ScreenGenerator instance 時調用
 func NewScreenGenerator(cfg *Config, rng *rand.Rand) *ScreenGenerator {
 
-	// 創建 ScreenGenerator instance & 賦值
-	return &ScreenGenerator{
-		Config:    cfg,                           // 嵌入 Config
-		ScreenBuf: make([]uint8, cfg.ScreenSize), // 盤面緩存
-		rng:       rng,                           // RNG
-	}
+ // 創建 ScreenGenerator instance & 賦值
+ return &ScreenGenerator{
+  Config:    cfg,                           // 嵌入 Config
+  ScreenBuf: make([]uint8, cfg.ScreenSize), // 盤面緩存
+  rng:       rng,                           // RNG
+ }
 }
 
 // 盤面生成
 func (g *ScreenGenerator) GenScreen() []uint8 {
 
-	// 對每一軸操作
-	for i := 0; i < g.Cols; i++ {
-		idx := g.rng.Intn(g.ReelLens[i])
-		for j := 0; j < g.Rows; j++ {
-			g.ScreenBuf[i*g.Rows+j] = g.ReelStrips[i][(idx+j)%g.ReelLens[i]]
-		}
-	}
+ // 對每一軸操作
+ for i := 0; i < g.Cols; i++ {
+  idx := g.rng.Intn(g.ReelLens[i])
+  for j := 0; j < g.Rows; j++ {
+   g.ScreenBuf[i*g.Rows+j] = g.ReelStrips[i][(idx+j)%g.ReelLens[i]]
+  }
+ }
 
-	return g.ScreenBuf
+ return g.ScreenBuf
 }
 
 ```
@@ -1944,104 +1943,104 @@ func (g *ScreenGenerator) GenScreen() []uint8 {
 package main
 
 import (
-	"log"
+ "log"
 )
 
 // 細項
 type WinDetail struct {
-	win    int    // 得分
-	symbol uint8  // 得分圖標
-	hitmap []bool // 中獎圖
+ win    int    // 得分
+ symbol uint8  // 得分圖標
+ hitmap []bool // 中獎圖
 
-	lineId int // 得分線 (Line)
-	length int // 長度 (Line Way)
-	comb   int // 組合數 (Way)
-	cnt    int // 數量(Cluster Count)
+ lineId int // 得分線 (Line)
+ length int // 長度 (Line Way)
+ comb   int // 組合數 (Way)
+ cnt    int // 數量(Cluster Count)
 }
 
 // 一次 spin 的結果
 type ScreenResult struct {
-	C1Win      int         // 盤面中 C1 (scatter) 出現次數
-	Win        int         // 累積賠分
-	Mode       GameMode    // 算分模式
-	WinDetails []WinDetail // 細項
+ C1Win      int         // 盤面中 C1 (scatter) 出現次數
+ Win        int         // 累積賠分
+ Mode       GameMode    // 算分模式
+ WinDetails []WinDetail // 細項
 }
 
 // input SpinCalculator、screen 與 1 次 spin 下注分數
 type CalcFunc func(*SpinCalculator, []uint8, int) *ScreenResult // 接收 *SpinCalculator
 
 type SpinCalculator struct {
-	cfg    *Config       // 匿名嵌入
-	sr     *ScreenResult // 結果緩存
-	calcFn CalcFunc      // 算分函數
+ cfg    *Config       // 匿名嵌入
+ sr     *ScreenResult // 結果緩存
+ calcFn CalcFunc      // 算分函數
 
-	// 輔助參數
-	filter uint64 // 特殊符號
+ // 輔助參數
+ filter uint64 // 特殊符號
 }
 
 // 不計分符號清單
 func deriveFilter(pay [][]int, wildID uint8) uint64 {
-	out := uint64(0) // 0x00000000000000
-	for sid, row := range pay {
-		allZero := true
-		for _, p := range row {
-			if p != 0 {
-				allZero = false
-				break
-			}
-		}
-		if allZero && uint8(sid) != wildID {
-			out |= 1 << uint64(sid)
-		}
-	}
-	return out
+ out := uint64(0) // 0x00000000000000
+ for sid, row := range pay {
+  allZero := true
+  for _, p := range row {
+   if p != 0 {
+    allZero = false
+    break
+   }
+  }
+  if allZero && uint8(sid) != wildID {
+   out |= 1 << uint64(sid)
+  }
+ }
+ return out
 }
 
 // 建構函數: 創建 NewSpinCalculator instance 時調用
 func NewSpinCalculator(cfg *Config) *SpinCalculator {
-	sc := &SpinCalculator{
-		cfg: cfg,
-		sr:  &ScreenResult{},
-	}
-	sc.initCalcFn()
+ sc := &SpinCalculator{
+  cfg: cfg,
+  sr:  &ScreenResult{},
+ }
+ sc.initCalcFn()
 
-	// 預先建立走線表空間
-	sc.sr.WinDetails = make([]WinDetail, 0, len(cfg.Lines))
+ // 預先建立走線表空間
+ sc.sr.WinDetails = make([]WinDetail, 0, len(cfg.Lines))
 
-	// 使用bitmask判斷是否得分符號
-	sc.filter = deriveFilter(cfg.Paytable, cfg.W1Id)
-	return sc
+ // 使用bitmask判斷是否得分符號
+ sc.filter = deriveFilter(cfg.Paytable, cfg.W1Id)
+ return sc
 }
 
 // 選擇算分方式
 func (s *SpinCalculator) initCalcFn() {
 
-	// 選擇算分策略
-	if fn, ok := calcFnMap[s.cfg.Mode]; ok {
-		s.calcFn = fn // 選擇算分方式存到 s.calcFn
+ // 選擇算分策略
+ if fn, ok := calcFnMap[s.cfg.Mode]; ok {
+  s.calcFn = fn // 選擇算分方式存到 s.calcFn
 
-		return // 必要，不然會往外跳執行 log.Fatal("未知 mode")
-	}
-	log.Fatal("未知 mode")
-	// panic 表示還有救，但這個沒救了(設定檔錯誤)，類似 try ... catch ...
+  return // 必要，不然會往外跳執行 log.Fatal("未知 mode")
+ }
+ log.Fatal("未知 mode")
+ // panic 表示還有救，但這個沒救了(設定檔錯誤)，類似 try ... catch ...
 
 }
 
 // 計算盤面中特定符號出現次數
 func countSymbol(screen []uint8, id uint8) int {
-	n := 0
-	for _, v := range screen {
-		if v == id {
-			n++
-		}
-	}
-	return n
+ n := 0
+ for _, v := range screen {
+  if v == id {
+   n++
+  }
+ }
+ return n
 }
 
 // 維護一個map註冊表
 var calcFnMap = map[GameMode]CalcFunc{
-	ModeLines: CalcLinesGame, // lines 算法
-	ModeWays:  CalcWaysGame,  // ways 算法
+ ModeLines: CalcLinesGame, // lines 算法
+ ModeWays:  CalcWaysGame,  // ways 算法
 
 }
 
@@ -2050,117 +2049,117 @@ var calcFnMap = map[GameMode]CalcFunc{
 // lines 算分模式
 func CalcLinesGame(s *SpinCalculator, screen []uint8, bet int) *ScreenResult {
 
-	// 初始化結果
-	r := s.sr
+ // 初始化結果
+ r := s.sr
 
-	r.C1Win, r.Win = 0, 0
-	linesLen := len(s.cfg.Lines)    // 線路數量
-	r.WinDetails = r.WinDetails[:0] // 清空邏輯長度，保留原指針與空間
+ r.C1Win, r.Win = 0, 0
+ linesLen := len(s.cfg.Lines)    // 線路數量
+ r.WinDetails = r.WinDetails[:0] // 清空邏輯長度，保留原指針與空間
 
-	totalLinePay := 0 // 累積線路賠分
+ totalLinePay := 0 // 累積線路賠分
 
-	// 計算 C1 出現次數
-	r.C1Win = countSymbol(screen, s.cfg.C1Id)
+ // 計算 C1 出現次數
+ r.C1Win = countSymbol(screen, s.cfg.C1Id)
 
-	// 逐條線計分
-	for i := 0; i < linesLen; i++ {
-		// 單條線的狀態
-		wildCount := 0
-		wildContinue := true
+ // 逐條線計分
+ for i := 0; i < linesLen; i++ {
+  // 單條線的狀態
+  wildCount := 0
+  wildContinue := true
 
-		var symId uint8     // 得分符號ID
-		symStarted := false // 是否已確定得分符號
-		symCount := 0       // 符號連線數量
+  var symId uint8     // 得分符號ID
+  symStarted := false // 是否已確定得分符號
+  symCount := 0       // 符號連線數量
 
-		// 從左到右掃這條線
-		for j := 0; j < s.cfg.Cols; j++ {
+  // 從左到右掃這條線
+  for j := 0; j < s.cfg.Cols; j++ {
 
-			// 1. 獲取該位置符號
-			sid := screen[s.cfg.FlatLines[i*s.cfg.Cols+j]] // 平坦化線路清單
+   // 1. 獲取該位置符號
+   sid := screen[s.cfg.FlatLines[i*s.cfg.Cols+j]] // 平坦化線路清單
 
-			// 2. 開頭連續 Wild 數
-			if wildContinue && sid == s.cfg.W1Id {
-				wildCount++
-			} else {
-				wildContinue = false
-			}
+   // 2. 開頭連續 Wild 數
+   if wildContinue && sid == s.cfg.W1Id {
+    wildCount++
+   } else {
+    wildContinue = false
+   }
 
-			// 3. 計算得分符號連線
+   // 3. 計算得分符號連線
 
-			// 3.1. 尚未決定得分符號
-			if !symStarted {
-				if sid == s.cfg.W1Id {
-					continue
-				}
-				// 第一個非 Wild：若是不計分符號（Z1/C1 等），此線只能靠純 Wild
-				if s.filter&(1<<uint64(sid)) != 0 {
-					break
-				}
-				// 合法得分符號確立
-				symId = sid
-				symStarted = true
-				symCount = wildCount + 1 // 包含前面的 Wild
-				continue
-			}
+   // 3.1. 尚未決定得分符號
+   if !symStarted {
+    if sid == s.cfg.W1Id {
+     continue
+    }
+    // 第一個非 Wild：若是不計分符號（Z1/C1 等），此線只能靠純 Wild
+    if s.filter&(1<<uint64(sid)) != 0 {
+     break
+    }
+    // 合法得分符號確立
+    symId = sid
+    symStarted = true
+    symCount = wildCount + 1 // 包含前面的 Wild
+    continue
+   }
 
-			// 3.2. 已決定得分符號，延伸連線：同符號或 Wild 都可
-			if sid == symId || sid == s.cfg.W1Id {
-				symCount++
-			} else {
-				break // 如果開頭直接是 C1 直接結束
-			}
-		}
+   // 3.2. 已決定得分符號，延伸連線：同符號或 Wild 都可
+   if sid == symId || sid == s.cfg.W1Id {
+    symCount++
+   } else {
+    break // 如果開頭直接是 C1 直接結束
+   }
+  }
 
-		// 4. 未達最小連線長度 → 0 分 該條線沒中
-		if symCount < s.cfg.minLen && wildCount < s.cfg.minLen {
-			continue
-		}
+  // 4. 未達最小連線長度 → 0 分 該條線沒中
+  if symCount < s.cfg.minLen && wildCount < s.cfg.minLen {
+   continue
+  }
 
-		// 5. 計算兩種賠率
+  // 5. 計算兩種賠率
 
-		// 5.1. 得分符號賠率
-		symPay := 0
-		if symStarted && symCount >= s.cfg.minLen { // 只做「是否該算」的必要判斷
-			symPay = s.cfg.Paytable[int(symId)][symCount-1]
-		}
+  // 5.1. 得分符號賠率
+  symPay := 0
+  if symStarted && symCount >= s.cfg.minLen { // 只做「是否該算」的必要判斷
+   symPay = s.cfg.Paytable[int(symId)][symCount-1]
+  }
 
-		// 5.2.Wild 賠率
+  // 5.2.Wild 賠率
 
-		wildPay := 0 // W1 賠率
-		if wildCount >= s.cfg.minLen {
-			wildPay = s.cfg.Paytable[int(s.cfg.W1Id)][wildCount-1]
-		}
+  wildPay := 0 // W1 賠率
+  if wildCount >= s.cfg.minLen {
+   wildPay = s.cfg.Paytable[int(s.cfg.W1Id)][wildCount-1]
+  }
 
-		// 6. 取較大者
-		winSym := symId
-		winCnt := symCount
-		winPay := symPay
+  // 6. 取較大者
+  winSym := symId
+  winCnt := symCount
+  winPay := symPay
 
-		if wildPay > symPay {
-			winSym = s.cfg.W1Id
-			winCnt = wildCount
-			winPay = wildPay
-		}
+  if wildPay > symPay {
+   winSym = s.cfg.W1Id
+   winCnt = wildCount
+   winPay = wildPay
+  }
 
-		// 7. 更新結果
-		totalLinePay += winPay
-		r.WinDetails = append(r.WinDetails, WinDetail{
-			symbol: winSym, // 得分符號
-			cnt:    winCnt, // 連線數量
-			win:    winPay, // 賠分
-			lineId: i,      // 線路 ID
-		}) // 更新結果
-	}
+  // 7. 更新結果
+  totalLinePay += winPay
+  r.WinDetails = append(r.WinDetails, WinDetail{
+   symbol: winSym, // 得分符號
+   cnt:    winCnt, // 連線數量
+   win:    winPay, // 賠分
+   lineId: i,      // 線路 ID
+  }) // 更新結果
+ }
 
-	// 一次 spin 盤面得結果
-	r.Win = totalLinePay * bet / linesLen // 總賠分
-	return r
+ // 一次 spin 盤面得結果
+ r.Win = totalLinePay * bet / linesLen // 總賠分
+ return r
 }
 
 // ways 算分模式
 func CalcWaysGame(s *SpinCalculator, screen []uint8, bet int) *ScreenResult {
-	// 未實做
-	return s.sr
+ // 未實做
+ return s.sr
 }
 ```
 
@@ -2172,19 +2171,16 @@ func CalcWaysGame(s *SpinCalculator, screen []uint8, bet int) *ScreenResult {
     唯一不會有底層陣列的情況 `linesLen == 0`
     這時 make([]T, 0, 0) 會產生一個長度 0、容量 0 的切片，底層指標為 nil （但切片本身不是 nil）所以利用以下作法==清空邏輯長度，保留原指針與空間==
     > r.LineResult[:0]
-    
+
     當 slice 長度超過 cap 時，會觸發擴容
     r.LineResult = make([]LineResult, 0, 0) 會等於 r.LineResult = r.LineResult[:0] 嗎? 不等於。
 ![image](https://hackmd.io/_uploads/SJcwi8Kx-l.png)
 
-    
 2. `走線表轉換 slice of slice 2D -> 1D 　screen[s.FlatLines[i*s.Cols+j]]，並預先建立走線表空間` 將 2 維走線索引表儲存成 1 維索引表。
 
 ![image](https://hackmd.io/_uploads/rkTg7wFxWx.png)
 
-
-
-``` 
+```
 Line: [1 1 1 1 1]
 i: 0
 FlatLines[0]=1
@@ -2208,9 +2204,10 @@ FlatLines[9]=12
 ```
 sid := screen[s.cfg.FlatLines[i*s.cfg.Cols+j]] // 平坦化線路清單
 ```
+
 第 i 條路線，第 j 軸的索引。s.cfg.Cols 是 5 的情況下，就會每 5 格一組。如同上面
 
-3. 變數遮蔽
+1. 變數遮蔽
 
 ```go=
 type Config struct{ Rows int }
@@ -2244,47 +2241,11 @@ func g(s *S) {
 }
 
 ```
-4. ==不計分符號使用 bitmask== 
-
+1. ==不計分符號使用 bitmask==
 
 ## 參考連結
+
 * [生成盤面](https://hackmd.io/@chiSean/r1koA2y1bx)
 * [github repo](https://github.com/cgit6/go_slot)
 * [實作筆記](https://hackmd.io/@chiSean/Hy1Z5MQeWl)
 * [PARsheet](https://docs.google.com/spreadsheets/d/1WncTL93uOFgXVq_zC1yJQky_ZsAkpolA5LZoVFo4OuE/edit?usp=sharing)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

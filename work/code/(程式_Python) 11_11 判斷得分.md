@@ -9,9 +9,6 @@
 - 行數（Cols）：5
 - 盤面用 **一維陣列** 表示：長度 `Rows * Cols = 15`，裡面存放「符號 ID」（整數）
 
-
-
-
 ### 1.2 靜態表格
 
 - `REELSTRIPS`：輪帶表  
@@ -81,9 +78,7 @@
 目前的程式碼已經完成了遊戲初始化以及生成盤面的操作，詳情見 [[程式/Python] 10/30 生成盤面](/Ymdww3_8TnuYu5Dcl8kCEQ)
  -->
 
-
 ### **任務1:** 初始化與資料驗證（SlotInit / SlotConfig）
-
 
 創建一個遊戲參數的物件 `SlotConfig`，裡面包含輪帶表、符號表、線獎組合與賠率表；
 `SlotInit` 則拿 `SlotConfig` 來建立共用屬性，並在 `_valid()` 中做合法性檢查。
@@ -101,6 +96,7 @@
 <!-- 接下來要嘗試檢查參數的資料型態(逐一列舉出來) -->
 
 ### **任務2:**
+
 `SpinCalculator` 在「給定一個盤面（screen）」的前提下，完成整個得分計算流程。
 
 <!-- ==每一個子任務在 SpinCalculator 物件中獨立建立一個 Function==。 -->
@@ -110,6 +106,7 @@
 首先，會需要對應每個線獎提取出在這個盤面中每個線獎組合對應的數值(符號)，先轉換成一個二維陣列清單。
 
 任務 2.1: 根據當前盤面（一維 np array）與線獎組合，取得每條線上的實際數值。
+
 ``` python
 
 ```
@@ -123,12 +120,9 @@
 * 那 transPayLine 函數的結果要怎麼確保正確? 
 -->
 
-
-
 接下來，判斷每個清單中是否中獎:
 
 #### **方法1:**
-
 
 任務2.2: 得分符號: 判斷是否中獎，中獎的組合是哪一個(什麼符號，連現數多少) 的流程
 
@@ -149,12 +143,7 @@
     
 ```
 
-
 <!-- **賠率 \* 下注金額** 這件事要在哪裡做? -->
-
-
-
-
 
 任務2.3: C1 符號: 檢查目前盤面上的 C1 符號數量
 
@@ -165,8 +154,6 @@
 ```
 
 任務2.4: 再來去看目前所有線獎結果的賠率是多少
-
-
 
 <!-- #### **方法2:**
 在 `SpinCalculator` 物件建立中獎清單，枚舉所有中獎組合，實現快速查詢。
@@ -186,12 +173,10 @@
 
 任務4.3: 計算期望值 -->
 
-
 ## 可能會遇到什麼問題
 
 資料結構的選擇，上面這些參數中那些東西的資料結構可以更好讓效能更佳? ==(未實做)==
 <!-- * 更高級的亂數生成方式 -->
-
 
 ## 要怎麼驗證每一步的數值是正確的
 
@@ -201,13 +186,11 @@
 
 [github 連結](https://github.com/cgit6/slot/blob/master/ScreenGenerator.py)
 
-
 ## 反饋
 
 1. 正確性OK
 2. `calculator` 對外應該只暴露一個 `calcScreen(screen)` 不需要對外暴露太多自組的內容:`countC1` `transPayLine` `hitCheck` ...
 3. 少設計了一個盤面結果的 class : `calcScreen(screen) -> ScreenResult` 讓計算盤面的結果是一個物件(所有對結果的處理和取值、輸出應該對`ScreenResult`實作)
-
 
 4. 原則: 外部做完檢查後，內部不用再做檢查: 現在很多地方接收 `screen` 之後又轉一次`asarray() -> np.ndarray` 不需要的(2.3.有做到的話:不要把其他內部API暴露對外)
 5. 計算上的建議
@@ -218,28 +201,26 @@
         3. symbol in winSymbols : symId = symbol else: break
     - 就可以一次收集完所有 wildcnt 和 symId symcnt -> 接回取得各自得分
 
-
-
 ### Spin 流程
 
- #### 創建機台
-    
+#### 創建機台
+
      1. 開哪台
      2. [v]吃哪個config
      3. [v]實例化哪個遊戲邏輯
      4. 暴露Spin(SpinRequest) -> SpinResult
- 
- #### 一個 Spin
- 
+
+#### 一個 Spin
+
      1. 發起Spin請求(SpinRequest)(帶上 bet int)
      2. 對應機台收到Spin請求 (對SpinRequest 作 valid)
      3. [ing]機台內部流程(gen calc...)
      4. Spin結果(SpinResult) (有total_win int)
      
- #### 序列化＆ svr -> 可以對外部提供服務 (不處理)
- 
- #### Simulator (也是 class)
- 
+#### 序列化＆ svr -> 可以對外部提供服務 (不處理)
+
+#### Simulator (也是 class)
+
      1. rounds=100萬, totalwin=0, total_bet=0 —>
      2. for i in range(rounds) : 
          result = game.Spin(SpinRequest)
@@ -247,11 +228,10 @@
      3. rtp = st.rtp , cv = st.cv std=st.std
      
 ### Stat (統計 class)
+
 ... 會需要一個 stat 物件用來評估模擬結果的統計值。期望值、波動率、標準差...
 
-
 ## 需要思考到的點
-
 
 <div style="text-align:center">
   <img src="https://hackmd.io/_uploads/Bk5uoIlebx.png" style="width:80%;">
@@ -273,6 +253,5 @@
 ```
 
 因此 `SpinCalculator` 需要針對兼容不同遊戲規則做處理。
-
 
  -->

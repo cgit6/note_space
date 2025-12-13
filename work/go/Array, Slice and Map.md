@@ -1,8 +1,8 @@
 
-
 ## 定義 Array
 
-需要知道 
+需要知道
+
 ```go=
 var arr [4]int = [4]int{0,0,0,0} // 宣告元素為 int 長度為 4 的 array
 ```
@@ -21,16 +21,15 @@ arr[1:]  // slice 從索引 1 到 最後
 
 建立 slice 的時候不會進行 copy array 的操作，所以非常節省記憶體位置，效果有點像 pointer。
 
-slice 需要注意的是他的長度有兩個一個是 len(slice 本身的長度) 另一個是 cap(他指向的 array 的長度，但也不是 array 長度，應該說是 從 slice 這個起始點開始到 這個array 結束的長度) 
+slice 需要注意的是他的長度有兩個一個是 len(slice 本身的長度) 另一個是 cap(他指向的 array 的長度，但也不是 array 長度，應該說是 從 slice 這個起始點開始到 這個array 結束的長度)
 
 再來就是 slice 可以索引到超過他自身長度的值，slice 起始位置到 array 最後的值都可以索引。
-
 
 ## Append to dynamic slice
 
 在 go 中 array 是一個固定長度的陣列，然而 slice 可以做一個動態的陣列，但隨之而來的就是會有擴容的問題。
 
-如果對一個 slice 添加 item 時，如果添加的索引值超過 slice 本身則會出現錯誤。這時候可以使用 `append(slice,item)` 來處理。 
+如果對一個 slice 添加 item 時，如果添加的索引值超過 slice 本身則會出現錯誤。這時候可以使用 `append(slice,item)` 來處理。
 
 那如果要對 slice 中的元素進行移除
 
@@ -73,7 +72,7 @@ word := map[string]string{
 } 
 ```
 
-添加/刪除 key/value pair 
+添加/刪除 key/value pair
 
 ```go=
 word := map[string]string{
@@ -103,8 +102,7 @@ func (u floatMap) Output () {
 }
 ```
 
-
-## looping array,slice map 
+## looping array,slice map
 
 利用 for loop 加上 range 語法，
 
@@ -119,65 +117,3 @@ for key, value := range map {
     fmt.Println(value)
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

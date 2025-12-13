@@ -48,7 +48,6 @@ class ScreenGenerator:
         self._row_offsets = np.arange(rows, dtype=np.int64)                       # 第一列、第二列、第三列
 ```
 
-
 ## 生成盤面
 
 在物件中 ScreenGenerator 中定義 gen_screen 函數。 用來生成盤面然後緩存在 self.ScreenBuf
@@ -79,7 +78,6 @@ if __name__ == "__main__":
     print(mat)
     print(gen.as_symbol_names())
 ```
-
 
 ## 全部程式碼
 
@@ -156,8 +154,8 @@ if __name__ == "__main__":
 
 ```
 
-
 ## 修改後
+
 ```python
 from typing import Optional, List
 import numpy as np
@@ -251,13 +249,16 @@ if __name__ == "__main__" :
     gen_screen_printer()
 
 ```
+
 ### 回顧
+
 Nex 提供的建議以下幾點
+
 1. 第一個 `if __name__ == "__main__" :` 這裡的內容需要用一個 `runner()` 函數去包，然後只需要調用 `runner()` 就可以比較乾淨。
 2. 目前缺少資料合法性的檢查 `def _valid(self) :` 這裡可以再做一些驗證
 3. 或許 `REELSTRIPS`  跟 `SYMBOLS` 可以改成放進一個物件裡面
 4. 每個物件內要說明清楚，用 `"""..."""` 這個來做，然後一個功能寫一個 function
-5. 如果每個輪帶的長度不一樣，用 `tuple(nparray1,nparray2,...,nparray5)` 去包 
+5. 如果每個輪帶的長度不一樣，用 `tuple(nparray1,nparray2,...,nparray5)` 去包
 6. Python 用駝峰命名法
 
 ==所以下次我在 coding 前我應該怎麼思考？==
@@ -265,6 +266,3 @@ Nex 提供的建議以下幾點
 需要先釐清這個物件具體的工作內容是什麼先規劃出來，還有就是說一些程式實作的規範比如說實際執行的內容要包再一個 main 或是 run function 裡面，然後一定要做一個對輸入數值合法性的數值驗證(比如說判斷是不是正數之類的)，初始設定也可以另外建立一個獨立的物件。註解要說明清楚。
 
 驗證的部分就是先驗證數值傳入 input 的資料型態，這個物件中會有一個 vaild 函數去檢查數值是否正確或是合理。
-
-
-
