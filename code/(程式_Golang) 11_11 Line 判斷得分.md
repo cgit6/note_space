@@ -2,7 +2,7 @@
 
 ### 結構
 
-``` go=
+```go=
 Config struct            // 遊戲靜態設定 (輪帶 / 符號 / 線表 / 賠率 / 模式…) 與合法性檢查
 ScreenGenerator struct   // 生成隨機盤面 (spin)
 SpinCalculator struct    // 計算一個盤面的得分 (支援 Line / Ways 模式)
@@ -18,30 +18,30 @@ Stat struct              // 統計模擬結果 (RTP / Std / CV…)
 1. ScreenResult、LineResult 作為接收結果的資料結構
 2. 將 SlotGame、Simulator、Stat 獨立出來
 
-* Simulator：不需要關心是 Line 還是 Ways，永遠只呼叫 game.Spin()。
-* SlotGame：內部用 ScreenGenerator + SpinCalculator，對外提供 Spin()。
+- Simulator：不需要關心是 Line 還是 Ways，永遠只呼叫 game.Spin()。
+- SlotGame：內部用 ScreenGenerator + SpinCalculator，對外提供 Spin()。
 
 1. ==如果 `SpinCalculator` 需要兼容計算 way game 在不改變函數調用的狀態下==
 
-* `Config` struct 定義模式。
-* `SpinCalculator` struct 依據模式不同算分方法不同。
+- `Config` struct 定義模式。
+- `SpinCalculator` struct 依據模式不同算分方法不同。
 
 `Config` struct 負責處理遊戲不會變動的靜態設定。
 
-``` go=
+```go=
 type GameMode int
 
 const (
     ModeLine GameMode = iota  // Line
-    ModeWays                  // Ways 
+    ModeWays                  // Ways
 )
 
 type Config struct {
     ReelStrips [][]uint8    // 輪帶表 [Cols][reelLen]
     Symbols []string        // 符號清單
-    Lines [][]int           // 線獎組合     
+    Lines [][]int           // 線獎組合
     PayTable [][]int        // 賠率表 [symbolId][0..4] = 1~5 連賠率
-    
+
     Rows int                // 盤面列數
     Cols int                // 盤面軸數
     Mode GameMode           // 算分模式 Lines / Ways (enum)
@@ -50,7 +50,7 @@ type Config struct {
 
 `Init` struct 提供共用的基本屬性與合法性檢查
 
-``` go=
+```go=
 // Init 承載所有「靜態且可驗證」的機台資訊（由 Config 建立展開）
 // - 只做資料承載與合法性檢查，不含隨機或動態狀態
 type Init struct {
@@ -108,7 +108,7 @@ func (i *Init) Valid() error {
 
 `ScreenGenerator` struct 負責生成隨機盤面(spin)
 
-``` go=
+```go=
 type ScreenGenerator struct {
     Init      *Init      // 共用靜態資訊
     ScreenBuf []uint8    // 盤面緩衝區 (一維：長度 Rows*Cols)
@@ -143,7 +143,7 @@ func (g *ScreenGenerator) AsSymbolNames() [][]string {
 
 `LineResult` 單條線的得分結果。
 
-``` go=
+```go=
 type LineResult struct {
     LineIndex int // 線號 (0-based)
     SymbolID  int // 中獎符號 ID；-1 表示沒中
@@ -154,7 +154,7 @@ type LineResult struct {
 
 `ScreenResult` 一次盤面計算的結果。
 
-``` go=
+```go=
 type ScreenResult struct {
     Screen       []uint8      // 原始盤面 (一維 symbolID)
     C1Count      int          // 盤面中 C1 (scatter) 出現次數
@@ -166,7 +166,7 @@ type ScreenResult struct {
 
 `SpinCalculator` struct 在「給定一個盤面（screen）」的前提下，計算連線賠率 / C1，在這裡添加利用，回傳 `ScreenResult` struct ，另外這裡會受 `Config` struct 的影響採取不同的算賠率與算分方式 (前面注意事項第三點提到)
 
-``` go=
+```go=
 // calcFn 型別：給定盤面與 Bet
 type CalcFunc func(screen []uint8, Bet int) ScreenResult
 
@@ -174,7 +174,7 @@ type CalcFunc func(screen []uint8, Bet int) ScreenResult
 type SpinCalculator struct {
     Init *Init                 // 指向 Init
 
-    
+
     TotalWins float64          // 累積總贏分
     TotalBets float64          // 累積總下注
 
@@ -223,14 +223,14 @@ func (c *SpinCalculator) calcLineGame(screen []uint8, Bet int) ScreenResult {
 func (c *SpinCalculator) calcWaysGame(screen []uint8, Bet int) ScreenResult {
     // 之後再實作 Ways Game 算法
     // ...
-    // 計算 TotalWin = Bet * 
+    // 計算 TotalWin = Bet *
     return ScreenResult{}
 }
 ```
 
 `SlotGame` 這是對外的「遊戲」物件，之後 Free Game、Bonus Game、累積次數 功能就從這裡操作
 
-``` go=
+```go=
 // SlotGame 負責把「共用靜態資料 + 盤面生成 + 算分」包成一個對外介面。
 // 對外只需要呼叫：
 //     result := game.Spin()
@@ -373,7 +373,7 @@ func (s *Stat) RTP() float64 {
 
 ### Config、Init合併
 
-``` go
+```go
 type Config struct {
     // ... // table value
     // ... // my value
@@ -406,13 +406,13 @@ func (c *Config) Reset() {
 }
 
 func (c *Config) valid() error {
-    
+
 }
 ```
 
 ### ScreenGenerator
 
-``` go
+```go
 type ScreenGenerator struct {
     // Init      *Init      // 共用靜態資訊
     Config *Config
@@ -451,7 +451,7 @@ func (g *ScreenGenerator) ViewBySymbol() [][]string {
 
 ### ScreenCalculator
 
-``` go=
+```go=
 // calcFn 型別：給定盤面與 Bet
 type CalcFunc func(screen []uint8, Bet int) *ScreenResult // <- 回傳指標
 
@@ -517,7 +517,7 @@ func (c *SpinCalculator) CalcWaysGame(screen []uint8, Bet int) *ScreenResult {
 
 ### 結構
 
-``` go=
+```go=
 Config struct            // 遊戲靜態設定 (輪帶 / 符號 / 線表 / 賠率 / 模式…) 與合法性檢查
 ScreenGenerator struct   // 生成隨機盤面 (spin)
 LineResult struct        // 每條線的結果
@@ -531,37 +531,38 @@ runner func                // 執行模擬
 1. ScreenResult、LineResult 作為接收結果的資料結構
 2. ==如果 `SpinCalculator` 需要兼容計算 way game 在不改變函數調用的狀態下==
 
-* `Config` struct 定義模式。
-* `SpinCalculator` struct 依據模式不同算分方法不同。
+- `Config` struct 定義模式。
+- `SpinCalculator` struct 依據模式不同算分方法不同。
 
 `Config` struct 負責處理遊戲不會變動的靜態設定與資料驗證，`initFlag` 用於處理初始化狀態。
 
 這裡做了兩個函數(Init、Reset) 這個 Config struct 基本上只允許初始化一次，對設定檔做 read only 的操作。
-<!-- 
+
+<!--
 為什麼 type GameMode int 不能直接是 int? -->
 
-``` go
+```go
 type GameMode int
 
 const (
     ModeLine GameMode = iota  // Line
-    ModeWays                  // Ways 
+    ModeWays                  // Ways
 )
 
 type Config struct {
     // table value
     ReelStrips [][]uint8    // 輪帶表 [Cols][reelLen]
     Symbols []string        // 符號清單
-    Lines [][]int           // 線獎組合 
+    Lines [][]int           // 線獎組合
     PayTable [][]int        // 賠率表 [symbolId][0..4] = 1~5 連賠率
     Rows int                // 盤面列數
     Cols int                // 盤面軸數
     Mode GameMode           // 算分模式 Lines / Ways (enum)
-    
+
     // my value
     ScreenSize int          // Rows * Cols
     ReelLens   []int        // 每條輪帶長度（由 ReelStrips 衍生）
-    
+
     // 初始化狀態
     initFlag bool // 初始化旗標
 }
@@ -592,7 +593,7 @@ func (c *Config) Reset() {
 }
 
 func (c *Config) valid() error {
-    
+
 }
 ```
 
@@ -650,7 +651,7 @@ func (i *Init) Valid() error {
 
 `ScreenGenerator` struct 負責生成隨機盤面(spin)，這裡 `rng` 由外部傳入，然後 view 跟 viewBySymbol 屬性用來儲存 `view` 和 `viewBySymbol` 方法處理後的值。(省配置、降 GC、零拷貝 reshape)`view` 和 `viewBySymbol` 方法需要 `return` 用於讓外部環境接收
 
-``` go
+```go
 type ScreenGenerator struct {
     // Init      *Init      // 共用靜態資訊
     Config *Config
@@ -689,7 +690,7 @@ func (g *ScreenGenerator) ViewBySymbol() [][]string {
 
 `LineResult` 單條線的得分結果。
 
-``` go=
+```go=
 type LineResult struct {
     LineIndex int // 線號 (0-based)
     SymbolID  int // 中獎符號 ID；-1 表示沒中
@@ -700,7 +701,7 @@ type LineResult struct {
 
 `ScreenResult` 一次盤面計算的結果。==有些參數放哪裡可能要想一下==
 
-``` go=
+```go=
 type ScreenResult struct {
     Screen       []uint8      // 原始盤面 (一維 symbolID)
     C1Count      int          // 盤面中 C1 (scatter) 出現次數
@@ -713,23 +714,23 @@ type ScreenResult struct {
 
 `SpinCalculator` struct 在「給定一個盤面（screen）」的前提下，計算連線賠率 / C1，在這裡添加利用，回傳 `ScreenResult` struct ，另外這裡會受 `Config` struct 的影響採取不同的算賠率與算分方式 (前面注意事項第三點提到)
 
-* CalcFunc 的返回指向 `ScreenResult` struct 對同一個 struct 做改值操作。
-* 維護一個map註冊表，用來控制算分策略
-* 如果有一天同時要使用兩種算分策略要怎麼搞? 那就把 `SpinCalculator` struct 利用 pointer 傳遞進 `CalcScreen` 函數中然後呼叫 `SpinCalculator` struct 的 `CalcLineGame` 函數跟 `CalcWaysGame` 函數。
+- CalcFunc 的返回指向 `ScreenResult` struct 對同一個 struct 做改值操作。
+- 維護一個map註冊表，用來控制算分策略
+- 如果有一天同時要使用兩種算分策略要怎麼搞? 那就把 `SpinCalculator` struct 利用 pointer 傳遞進 `CalcScreen` 函數中然後呼叫 `SpinCalculator` struct 的 `CalcLineGame` 函數跟 `CalcWaysGame` 函數。
 
 ==有些參數放哪裡可能要想一下==
 
-``` go=
+```go=
 // calcFn 型別：給定盤面與 Bet(一次 spin 下注金額)
 type CalcFunc func(screen []uint8, Bet int) *ScreenResult // <- 回傳指標
 
 type SpinCalculator struct {
     Config *Config                      // 指向 Config
-    ScreenResult *ScreenResult          // buf 
-    
+    ScreenResult *ScreenResult          // buf
+
     // ... inside values ...
     calcFn CalcFunc                     // 真正執行算分的函數(依 Config.Mode 決定)
-    initflag                            // protect init behavior   
+    initflag                            // protect init behavior
 }
 
 func NewSpinCalculator(init *Init) *SpinCalculator {
@@ -795,11 +796,12 @@ func (c *SpinCalculator) CalcWaysGame(screen []uint8, Bet int) *ScreenResult {
 //      RTP = 總贏分 / 總下注
 // 7. 印出統計結果。
  -->
-``` go=
+
+```go=
 func runner() {
     // 1. 建立 Config（靜態資料）
 
-    // 2. 建立亂數 
+    // 2. 建立亂數
     // 3. 建立核心物件：
     //    gen  := NewScreenGenerator(cfg, rng)
     //    calc := NewSpinCalculator(cfg)
@@ -1421,7 +1423,7 @@ func CalcLinesGame(...) {
 }
 ```
 
-1. 走線表轉換slice of slice  2D -> 1D 　`screen[s.FlatLines[i*s.Cols+j]]`，並預先建立走線表空間
+1. 走線表轉換slice of slice 2D -> 1D 　`screen[s.FlatLines[i*s.Cols+j]]`，並預先建立走線表空間
 
 ```go=
 
@@ -1454,7 +1456,7 @@ func NewSpinCalculator(cfg *Config) *SpinCalculator {
   ScreenResult: &ScreenResult{},
  }
  sc.initCalcFn()
-    
+
     // 預先建立走線表空間
     sc.ScreenResult.LineResult = make([]LineResult, 0, len(cfg.Lines))
     return sc
@@ -1463,12 +1465,12 @@ func NewSpinCalculator(cfg *Config) *SpinCalculator {
 
 
 func CalcLinesGame(...) {
-    // ... 
+    // ...
     for i := 0; i < linesLen; i++ {
         // ...
         for j := 0; j < s.Cols; j++ {
             // 1. 獲取該位置符號
-            sid := screen[s.FlatLines[i*s.Cols+j]]    
+            sid := screen[s.FlatLines[i*s.Cols+j]]
             // ...
         }
     }
@@ -1526,10 +1528,10 @@ func NewSpinCalculator(cfg *Config) *SpinCalculator {
   sr: &ScreenResult{},
  }
  sc.initCalcFn()
-    
+
     // 預先建立走線表空間
     sc.ScreenResult.LineResult = make([]LineResult, 0, len(cfg.Lines))
- 
+
     // 使用bitmask判斷是否得分符號
     sc.filter = deriveFilter(cfg.Paytable, cfg.W1Id)
     return sc
@@ -1537,12 +1539,12 @@ func NewSpinCalculator(cfg *Config) *SpinCalculator {
 
 
 func CalcLinesGame(...) {
-    // ... 
+    // ...
     for i := 0; i < linesLen; i++ {
         // ...
         for j := 0; j < s.Cols; j++ {
             // 1. 獲取該位置符號
-            sid := screen[s.FlatLines[i*s.Cols+j]]    
+            sid := screen[s.FlatLines[i*s.Cols+j]]
             // 2. 開頭連續 Wild 數
             // 3.1. 尚未決定得分符號
             if !symStarted {
@@ -1593,7 +1595,7 @@ type WinDetail {
     win    int     // 得分
     symbol uint8   // 得分圖標
     hitmap []bool  // 中獎圖
-    
+
     lineId int     // 得分線 (Line)
     length int     // 長度 (Line Way)
     comb   int     // 組合數 (Way)
@@ -2165,16 +2167,16 @@ func CalcWaysGame(s *SpinCalculator, screen []uint8, bet int) *ScreenResult {
 
 ## 筆記
 
-1. "熱點運算" 要注意如果是靜態值比如說固定值的變數就不要在熱點運算的路徑上處理因為會出現重複計算相同值的情況。所以 如果在 `CalcLinesGame` func 中使用  `make([]LineResult, 0, linesLen)` 並且 `linesLen>0` 就會==建立一個新的底層陣列==。
-    > `make([]T, 0, C)` : 建立一個長度 0、容量 C 的新切片
+1. "熱點運算" 要注意如果是靜態值比如說固定值的變數就不要在熱點運算的路徑上處理因為會出現重複計算相同值的情況。所以 如果在 `CalcLinesGame` func 中使用 `make([]LineResult, 0, linesLen)` 並且 `linesLen>0` 就會==建立一個新的底層陣列==。> `make([]T, 0, C)` : 建立一個長度 0、容量 C 的新切片
 
-    唯一不會有底層陣列的情況 `linesLen == 0`
-    這時 make([]T, 0, 0) 會產生一個長度 0、容量 0 的切片，底層指標為 nil （但切片本身不是 nil）所以利用以下作法==清空邏輯長度，保留原指針與空間==
-    > r.LineResult[:0]
+        唯一不會有底層陣列的情況 `linesLen == 0`
+        這時 make([]T, 0, 0) 會產生一個長度 0、容量 0 的切片，底層指標為 nil （但切片本身不是 nil）所以利用以下作法==清空邏輯長度，保留原指針與空間==
+        > r.LineResult[:0]
 
-    當 slice 長度超過 cap 時，會觸發擴容
-    r.LineResult = make([]LineResult, 0, 0) 會等於 r.LineResult = r.LineResult[:0] 嗎? 不等於。
-![image](https://hackmd.io/_uploads/SJcwi8Kx-l.png)
+        當 slice 長度超過 cap 時，會觸發擴容
+        r.LineResult = make([]LineResult, 0, 0) 會等於 r.LineResult = r.LineResult[:0] 嗎? 不等於。
+
+    ![image](https://hackmd.io/_uploads/SJcwi8Kx-l.png)
 
 2. `走線表轉換 slice of slice 2D -> 1D 　screen[s.FlatLines[i*s.Cols+j]]，並預先建立走線表空間` 將 2 維走線索引表儲存成 1 維索引表。
 
@@ -2246,7 +2248,7 @@ func g(s *S) {
 
 ## 參考連結
 
-* [生成盤面](https://hackmd.io/@chiSean/r1koA2y1bx)
-* [github repo](https://github.com/cgit6/go_slot)
-* [實作筆記](https://hackmd.io/@chiSean/Hy1Z5MQeWl)
-* [PARsheet](https://docs.google.com/spreadsheets/d/1WncTL93uOFgXVq_zC1yJQky_ZsAkpolA5LZoVFo4OuE/edit?usp=sharing)
+- [生成盤面](https://hackmd.io/@chiSean/r1koA2y1bx)
+- [github repo](https://github.com/cgit6/go_slot)
+- [實作筆記](https://hackmd.io/@chiSean/Hy1Z5MQeWl)
+- [PARsheet](https://docs.google.com/spreadsheets/d/1WncTL93uOFgXVq_zC1yJQky_ZsAkpolA5LZoVFo4OuE/edit?usp=sharing)

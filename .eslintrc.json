@@ -1,0 +1,9 @@
+{
+  "overrides": [
+    {
+      "files": ["**/*.md"],
+      "processor": "markdown/markdown"
+    }
+  ],
+  "extends": ["eslint:recommended", "plugin:markdown/recommended", "prettier"]
+}

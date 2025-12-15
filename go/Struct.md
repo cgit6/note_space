@@ -1,4 +1,3 @@
-
 對資料進行分組的操作，將不同的資料屬性共同形成一個 value。
 
 ## 1. 定義 Struct
@@ -7,7 +6,7 @@
 
 ```go=
 type User struct {
-    attr1 int 
+    attr1 int
     name  string
     ... // 其他 attr
 }
@@ -23,8 +22,8 @@ func main (){
         attr1 int
         ... // 其他 attr
     }
-    
-    // 調用     
+
+    // 調用
     fmt.Println(u.attr1)
 }
 ```
@@ -36,7 +35,7 @@ func main (){
 ```go=
 func name (u *User){
     fmt.Println(u.Name) // 不需要 de-referance
-} 
+}
 ```
 
 ## 3. 定義 Struct method
@@ -125,9 +124,9 @@ return &admin{
 
 ## 7. 結論
 
- struct 對資料進行分組，可以寫一個建構函數用來專門處理創建 instance 的任務。並且在建構函數中添加驗證邏輯。
+struct 對資料進行分組，可以寫一個建構函數用來專門處理創建 instance 的任務。並且在建構函數中添加驗證邏輯。
 
- struct 定義在不同的 package 中互相調用，大小寫就很重要了。關乎於能不能在外部調用。
+struct 定義在不同的 package 中互相調用，大小寫就很重要了。關乎於能不能在外部調用。
 
 一般來說，定義 method 需要注意的是 receiver 需要指向 struct 的 pointer 不然他會在執行這個函數的時候複製一份 struct(不會動到一開始創建的那個 instance) 但這份 copy value 也只會存在於這個 function 中。
 
@@ -137,9 +136,9 @@ return &admin{
 
 type keyword 的功能，
 
-``` go=
+```go=
 type str string // 自定義資料型態
 // 對 str 添加自定義 method
 
-type 
+type
 ```

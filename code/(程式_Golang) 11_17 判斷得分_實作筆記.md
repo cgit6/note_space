@@ -1,5 +1,5 @@
 1. 「建構器／工廠函式」 是什麼?
-Go 沒有真正的 class constructor，所以大家用 `NewXxx` 這種慣例命名來「建立並初始化一個可用的實例」。
+   Go 沒有真正的 class constructor，所以大家用 `NewXxx` 這種慣例命名來「建立並初始化一個可用的實例」。
 
 2. `make()` 是什麼?
 
@@ -19,7 +19,7 @@ Go 沒有真正的 class constructor，所以大家用 `NewXxx` 這種慣例命�
 ```
 
 1. `return errors.New("reelStrips length (%d) must == Cols (%d)", len(c.ReelStrips), c.Cols)` 這樣寫不對嗎?
-這樣寫不對。`errors.New` 只接受一個純字串參數，不支援 `%d` 這種格式化
+   這樣寫不對。`errors.New` 只接受一個純字串參數，不支援 `%d` 這種格式化
 
 2. for loop 在跑「slice of slice」的典型用法。
 
@@ -110,6 +110,7 @@ cfg, err := NewConfig(reels, symbols, 3, 5, WithLines(lines), WithPayTable(pay),
 
 D. 防止呼叫端亂建：
 將必要欄位改成未匯出，或把型別做成未匯出、只暴露 NewConfig。這樣大家只能透過 constructor 走正確流程。
+
 > 在 Go 裡，「未匯出（unexported）」就是指名稱是小寫開頭的識別字。未匯出的東西只在同一個 package 內可見；跨 package 就看不到 / 不能用。相對地，大寫開頭的是「已匯出（exported）」，其他 package 可以用。適用範圍：型別、函式、方法、變數、常數、struct 欄位都一樣遵守這個規則。
 
 <!-- 7. 錯誤處理 -->
@@ -126,7 +127,7 @@ D. 防止呼叫端亂建：
 
 ```
 兩個 struct A, B
-1. 傳入 A instance 的 pointer -> B 建構函數 
+1. 傳入 A instance 的 pointer -> B 建構函數
 2. 在 B 建構函數創建 B instance 的時候將 A pointer 添加其中當然， B struct 在宣告的時候也需要宣告 *A (至少是匿名函數)
 ```
 
@@ -157,14 +158,14 @@ func (p Point) Move(dx, dy int) {
 
 結構：
 
-* `func`：宣告函式 / 方法
-* `(p Point)`：👉 **receiver**
+- `func`：宣告函式 / 方法
+- `(p Point)`：👉 **receiver**
+  - `p`：這個方法裡，用來指代那個物件的「變數名稱」
+  - `Point`：這個方法「掛在」哪一個型別上（也就是 receiver type）
 
-  * `p`：這個方法裡，用來指代那個物件的「變數名稱」
-  * `Point`：這個方法「掛在」哪一個型別上（也就是 receiver type）
-* `Move`：方法名字
-* `(dx, dy int)`：一般參數
-* `{ ... }`：方法本體
+- `Move`：方法名字
+- `(dx, dy int)`：一般參數
+- `{ ... }`：方法本體
 
 所以可以說：
 
@@ -201,8 +202,8 @@ func (p *Point) Move(dx, dy int) {
 
 這兩種：
 
-* `func (p Point) ...`：**值 receiver**（複製一份）
-* `func (p *Point) ...`：**指標 receiver**（可以改到原本那個）
+- `func (p Point) ...`：**值 receiver**（複製一份）
+- `func (p *Point) ...`：**指標 receiver**（可以改到原本那個）
 
 概念上就跟 C 的：
 
@@ -260,7 +261,7 @@ p.Move(3, 4)  // 編譯器幫你轉成 Move(&p, 3, 4)
 只是在 Go 語法裡它被放在 `( ... )` 和方法名中間，而不是像 C 一樣放在參數列表裡。
 
 1. spinCalculator 的算分策略選擇看不太懂
-現在看起來是
+   現在看起來是
 
-10.如果像是 S2 這種特殊符號會影響到得分符號呢?
-之後會拆分成 slotGame struct 裡面先生成盤面 -> 計算得分結果 ->
+   10.如果像是 S2 這種特殊符號會影響到得分符號呢?
+   之後會拆分成 slotGame struct 裡面先生成盤面 -> 計算得分結果 ->

@@ -1,4 +1,3 @@
-
 ## 建立遊戲邏輯
 
 需要滿足以下條件
@@ -45,16 +44,16 @@ configs/game_2_demoline.yaml
 
 # 遊戲設定
 GameSetting:
-    
+
     # 遊戲名稱 : 2 | DemoLine | 基本遊戲範例
     GameName: DemoLine
-    
+
     # 押注基本單位
     BetUnit : [20]
-    
+
     # 最大贏分(對應BetUnit)
     MaxWinLimit : 4000000
-    
+
     # 遊戲模式設定列表，一個遊戲模式相當於一個狀態，遊戲將在各狀態間轉換
     GameModeSettingList:
         - # GameModeSetting : BaseGame 設定
@@ -66,11 +65,11 @@ GameSetting:
           # 生成盤面設定
           GenScreenSetting:
               GenReelType: GenReelByReelIdx
-              ReelStripsGroup:  
+              ReelStripsGroup:
                   - # ReelStrip[0]
                     weight : 1
                     reels :
-                        - # Reel[0] 
+                        - # Reel[0]
                           symbols : [6, 10, 7, 5, 9, 7, 6, 10, 9, 4, 8, 10, 1, 9, 10, 2, 8, 7, 4, 8, 3, 9, 6, 9, 6, 10, 3, 9, 5, 10]
                           weights : [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
                         - # Reel[1]
@@ -88,7 +87,7 @@ GameSetting:
           # 圖標設定
           SymbolSetting:
               symbolUsed : [Z1,C1,W1,H1,H2,H3,H4,L1,L2,L3,L4]
-              payTable : 
+              payTable :
                   - [0, 0, 0, 0, 0]
                   - [0, 0, 0, 0, 0]
                   - [0, 0, 150, 800, 7000]
@@ -103,7 +102,7 @@ GameSetting:
           # 中獎設定
           HitSetting:
               betType: BetTypeLineLTR # 由左至右連線
-              lineTable: 
+              lineTable:
                   - [1, 1, 1, 1, 1]
                   - [0, 0, 0, 0, 0]
                   - [2, 2, 2, 2, 2]
@@ -138,7 +137,7 @@ GameSetting:
                 ReelStripsGroup:
                     - # ReelStrip[0]
                       weight : 1
-                      reels : 
+                      reels :
                             - # Reel[0]
                               symbols : [6, 10, 7, 5, 9, 2, 2, 10, 9, 4, 8, 10, 1, 9, 3, 7, 8, 7, 4, 8, 1, 9, 6, 8, 6, 10, 1, 9, 5, 6]
                               weights : [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
@@ -157,7 +156,7 @@ GameSetting:
             # 圖標設定
             SymbolSetting:
                 symbolUsed : [Z1,C1,W1,H1,H2,H3,H4,L1,L2,L3,L4]
-                payTable : 
+                payTable :
                   - [0, 0, 0, 0, 0]
                   - [0, 0, 0, 0, 0]
                   - [0, 0, 150, 800, 7000]
@@ -172,7 +171,7 @@ GameSetting:
             # 中獎設定
             HitSetting:
                 betType: BetTypeLineLTR # 由左至右連線
-                lineTable: 
+                lineTable:
                   - [1, 1, 1, 1, 1] # 連線1
                   - [0, 0, 0, 0, 0] # 連線2
                   - [2, 2, 2, 2, 2]
@@ -193,14 +192,14 @@ GameSetting:
                   - [0, 0, 2, 0, 0]
                   - [2, 2, 0, 2, 2]
                   - [0, 2, 2, 2, 0] # 連線20
-            
+
     # 額外設定
-    Fixed: 
+    Fixed:
       FreeGameRounds: 10
       RetriggerRounds: 5
       Multipilers: [3]
       C1Pay: [0, 0, 5, 28, 110]
-        
+
 ```
 
 internal/engine/game/game_2_demoline.go
@@ -521,7 +520,7 @@ func GameNameStr(gn GameName) (string, bool) {
 
 ### 效能
 
- 火焰圖
+火焰圖
 ![image](https://hackmd.io/_uploads/SJYAa3cWZx.png)
 
 ### 反饋
@@ -530,11 +529,11 @@ func GameNameStr(gn GameName) (string, bool) {
 - [x] 2. 累積 C1 獎金的地方放在 `game0002` 多維護一個 `C1Win` 屬性不要放在 `gmr.RecordDetail()` 因為這兩種算分方式是不同的
 - [x] 3. `win := betMult * g.fixed.C1Pay[idx-1] * betUnit` 不需要 `betUnit`，直接在 yaml 檔的參數中處理好就好了，因為是靜態的
 - [x] 4. `trigger()` 跟 `findC1()` 函數功能有重疊的部分
-    4.1. 函數名稱調整成 `findC1()` -> `CountC1()` 功能是計算當前盤面 C1 符號的數量
-    4.2. `trigger()` 獲取 `CountC1()` 計算後的 `g.C1Count` 判斷是否觸發 FG
+     4.1. 函數名稱調整成 `findC1()` -> `CountC1()` 功能是計算當前盤面 C1 符號的數量
+     4.2. `trigger()` 獲取 `CountC1()` 計算後的 `g.C1Count` 判斷是否觸發 FG
 - [x] 5. 判斷 "是否是某個符號" 的做法?
-    5.1. 方法1: 適用場景只需要判斷一種 Scatter 或 Wild 時使用，具體做法是用 SymbolSetting.SymbolTypes 判斷類型
-    5.2. 方法2: 適用場景 Scatter 有兩種(`C1`, `C2`) 需要分別去統計，不同符號分別觸發不同的遊戲邏輯。
+     5.1. 方法1: 適用場景只需要判斷一種 Scatter 或 Wild 時使用，具體做法是用 SymbolSetting.SymbolTypes 判斷類型
+     5.2. 方法2: 適用場景 Scatter 有兩種(`C1`, `C2`) 需要分別去統計，不同符號分別觸發不同的遊戲邏輯。
 - [x] 6. Multipilers 只需是 `int` 不需要 `[]int`
 
 ### 調整
@@ -566,12 +565,12 @@ func GameNameStr(gn GameName) (string, bool) {
 
 ```yaml=
 # 額外設定
-Fixed: 
+Fixed:
   FreeGameRounds: 10
   RetriggerRounds: 5
   Multipilers: 3 # [3] -> 3 只有一個元素，所以改變型別
   C1Pay: [0, 0, 100, 560, 2200] # 直接乘 BetUnit，所以這個元素的意義是獲取的獎金(BetUnit * pay)
-        
+
 ```
 
 1. 遊戲邏輯部分
@@ -607,7 +606,7 @@ type game0002 struct {
  fixed *fixed0002
  hits  []int16
  types []enum.SymbolType
-    
+
         // 維護 C1 相關統計參數
  C1Wins  int // C1 累積獎金，緩存可重複調用
  C1Count int // 盤面 C1 數量，緩存可重複調用
@@ -1151,7 +1150,7 @@ func (g *game0002) applyW1Multiplier(screen []int16, gmr *res.GameModeResult, de
 
 ### 反饋
 
-- [x]  1. bug: 每一局 Free spin 需要創建一個新的 extend0002 實例，原因是共用 extend0002 會導致覆蓋問題，結果只會在 api 看到最後一次 FG spin 的 ext 結果
+- [x] 1.  bug: 每一局 Free spin 需要創建一個新的 extend0002 實例，原因是共用 extend0002 會導致覆蓋問題，結果只會在 api 看到最後一次 FG spin 的 ext 結果
 
 ```json=
 // 修改前 FG 錯誤數據，
@@ -1472,3 +1471,4 @@ func (g *game0002) applyW1Multiplier(screen []int16, gmr *res.GameModeResult, de
 }
 
 ```
+

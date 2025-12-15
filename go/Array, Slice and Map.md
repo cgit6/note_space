@@ -1,4 +1,3 @@
-
 ## 定義 Array
 
 需要知道
@@ -14,7 +13,7 @@ var arr [4]int = [4]int{0,1,2,3} // arr
 
 arr[:3]  // slice 從開頭到索引位置 3 前
 arr[1:3] // slice 從索引 1 到 索引 3
-arr[1:]  // slice 從索引 1 到 最後 
+arr[1:]  // slice 從索引 1 到 最後
 ```
 
 同時也可以對 slice 建立新的 slice。
@@ -69,7 +68,7 @@ map 由 key value 組成， key 可以是 任意資料型態， value 也可以�
 word := map[string]string{
     "a": "apple",
     "b": "banana"
-} 
+}
 ```
 
 添加/刪除 key/value pair
@@ -78,7 +77,7 @@ word := map[string]string{
 word := map[string]string{
     "a": "apple",
     "b": "banana"
-} 
+}
 
 word["c"] = "cat" // 添加 pair
 delete(word,"c") // 刪除 pair

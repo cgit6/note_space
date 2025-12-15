@@ -1,16 +1,16 @@
 ## 概述
 
-* `buildGame1801` 函數負責創建 `game1801` struct 以及延伸的子結構 `fixed1801` struct 、`exts` struct。
-* `getResult` 函數負責執行一次 spin 的遊戲主要邏輯，子函數 `getBaseResult` 、`getFreeResult` 負責遊戲內部邏輯。
-* 重點說明 yaml 設定與遊戲邏輯
-* 補充討論
+- `buildGame1801` 函數負責創建 `game1801` struct 以及延伸的子結構 `fixed1801` struct 、`exts` struct。
+- `getResult` 函數負責執行一次 spin 的遊戲主要邏輯，子函數 `getBaseResult` 、`getFreeResult` 負責遊戲內部邏輯。
+- 重點說明 yaml 設定與遊戲邏輯
+- 補充討論
 
 ## 設定檔
 
 重點內容 `GameModeSettingList`、`Fixed` 兩個。
 
-* `GameModeSettingList` 子結構有兩個 `GameModeSetting` 分別用於 BaseGame 設定、FreeGame 設定。`GameModeSetting` 裡面有 `ReelStripsGroup` 可定義多組輪帶。
-* `Fixed` 定義該遊戲特殊設定 `BetMode` 0/1 對應不同買入設定，分別是 "普通" 與 "直接買 FG"
+- `GameModeSettingList` 子結構有兩個 `GameModeSetting` 分別用於 BaseGame 設定、FreeGame 設定。`GameModeSetting` 裡面有 `ReelStripsGroup` 可定義多組輪帶。
+- `Fixed` 定義該遊戲特殊設定 `BetMode` 0/1 對應不同買入設定，分別是 "普通" 與 "直接買 FG"
 
 ```yaml=
 # [文件網址] None
@@ -37,11 +37,11 @@ GameModeSettingList:
       # 生成盤面設定
       GenScreenSetting:
           GenReelType: GenReelByReelIdx
-          ReelStripsGroup:  
+          ReelStripsGroup:
               - # ReelStrip[0]
                 weight : 1
                 reels :
-                  - # Reel[0] 
+                  - # Reel[0]
                     symbols : [4,4,9,9,9]
                     weights : [1,1,1,1,1]
                   - # Reel[1]
@@ -53,15 +53,15 @@ GameModeSettingList:
                   - # Reel[3]
                     symbols : [6,6,7,7,7]
                     weights : [1,1,1,1,1]
-                  - # Reel[4] 
+                  - # Reel[4]
                     symbols : [6,6,6,6,2]
                     weights : [1,1,1,1,1]
-                  - # Reel[5] 
+                  - # Reel[5]
                     symbols : [6,6,6,6,2]
                     weights : [1,1,1,1,1]
-              - # ReelStrip[1] 
+              - # ReelStrip[1]
                 weight : 0
-                reels : 
+                reels :
                   - # Reel[0]
                       symbols : [7,6,7,6,7]
                       weights : [1,0,0,0,0]
@@ -82,93 +82,93 @@ GameModeSettingList:
                       weights : [1,0,0,0,0]
               - # ReelStrip[2]
                 weight : 0
-                reels : 
+                reels :
                   - # Reel[0]
                       symbols : [6,7,6,7,7,2,7,6,7]
-                      weights : [0,1,1,1,1,1,0,0,0]                 
+                      weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[1]
                       symbols : [6,7,6,7,7,2,7,6,7]
-                      weights : [0,1,1,1,1,1,0,0,0]                    
+                      weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[2]
                       symbols : [6,7,6,7,7,2,7,6,7]
-                      weights : [0,1,1,1,1,1,0,0,0]                
+                      weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[3]
                       symbols : [6,7,6,7,7,2,7,6,7]
-                      weights : [0,1,1,1,1,1,0,0,0]            
+                      weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[4]
                       symbols : [6,7,6,7,7,6,7,6,7]
-                      weights : [1,1,1,1,1,1,1,1,1]   
+                      weights : [1,1,1,1,1,1,1,1,1]
                   - # Reel[5]
                       symbols : [6,7,6,7,7,6,7,6,7]
-                      weights : [1,1,1,1,1,1,1,1,1]  
+                      weights : [1,1,1,1,1,1,1,1,1]
               - # ReelStrip[3]
                 weight : 0
-                reels : 
+                reels :
                   - # Reel[0]
                       symbols : [6,7,6,7,7,6,7,6,7]
-                      weights : [1,1,1,1,1,1,1,1,1]                 
+                      weights : [1,1,1,1,1,1,1,1,1]
                   - # Reel[1]
                       symbols : [6,7,6,7,7,2,7,6,7]
-                      weights : [0,1,1,1,1,1,0,0,0]                    
+                      weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[2]
                       symbols : [6,7,6,7,7,2,7,6,7]
-                      weights : [0,1,1,1,1,1,0,0,0]                
+                      weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[3]
                       symbols : [6,7,6,7,7,2,7,6,7]
-                      weights : [0,1,1,1,1,1,0,0,0]            
+                      weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[4]
                     symbols : [6,7,6,7,7,6,7,6,7]
-                    weights : [1,1,1,1,1,1,1,1,1]   
+                    weights : [1,1,1,1,1,1,1,1,1]
                   - # Reel[5]
                     symbols : [6,7,6,7,7,2,7,6,7]
-                    weights : [0,1,1,1,1,1,0,0,0] 
+                    weights : [0,1,1,1,1,1,0,0,0]
               - # ReelStrip[4]
                 weight : 0
-                reels : 
+                reels :
                   - # Reel[0]
                     symbols : [6,7,6,7,7,2,7,6,7]
-                    weights : [0,1,1,1,1,1,0,0,0]                 
+                    weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[1]
                     symbols : [6,7,6,7,7,6,7,6,7]
-                    weights : [1,1,1,1,1,1,1,1,1]                    
+                    weights : [1,1,1,1,1,1,1,1,1]
                   - # Reel[2]
                     symbols : [6,7,6,7,7,2,7,6,7]
-                    weights : [0,1,1,1,1,1,0,0,0]                
+                    weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[3]
                     symbols : [6,7,6,7,7,2,7,6,7]
-                    weights : [0,1,1,1,1,1,0,0,0]            
+                    weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[4]
                     symbols : [6,7,6,7,7,2,7,6,7]
-                    weights : [0,1,1,1,1,1,0,0,0]  
+                    weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[5]
                     symbols : [6,7,6,7,7,6,7,6,7]
                     weights : [1,1,1,1,1,1,1,1,1]
 
               - # ReelStrip[5]
                 weight : 0
-                reels : 
+                reels :
                   - # Reel[0]
                     symbols : [6,7,6,7,7,2,7,6,7]
-                    weights : [0,1,1,1,1,1,0,0,0]                 
+                    weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[1]
                     symbols : [6,7,6,7,7,6,7,6,7]
-                    weights : [1,1,1,1,1,1,1,1,1]                    
+                    weights : [1,1,1,1,1,1,1,1,1]
                   - # Reel[2]
                     symbols : [6,7,6,7,7,2,7,6,7]
-                    weights : [0,1,1,1,1,1,0,0,0]                
+                    weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[3]
                     symbols : [6,7,6,7,7,2,7,6,7]
-                    weights : [0,1,1,1,1,1,0,0,0]            
+                    weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[4]
                     symbols : [6,7,6,7,7,2,7,6,7]
-                    weights : [0,1,1,1,1,1,0,0,0]  
+                    weights : [0,1,1,1,1,1,0,0,0]
                   - # Reel[5]
                     symbols : [6,7,6,7,7,6,7,6,7]
                     weights : [1,1,1,1,1,1,1,1,1]
       # 圖標設定
       SymbolSetting:
           symbolUsed : [Z1,S1,C1,H1,H2,H3,H4,L1,L2,L3,L4,L5]
-          payTable : 
+          payTable :
               - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
               - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
               - [0, 0, 0, 60, 100, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000]
@@ -181,11 +181,11 @@ GameModeSettingList:
               - [0, 0, 0, 0, 0, 0, 0, 10, 10, 20, 20, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
               - [0, 0, 0, 0, 0, 0, 0, 8, 8, 18, 18, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80]
               - [0, 0, 0, 0, 0, 0, 0, 5, 5, 15, 15, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40]
-              
+
       # 中獎設定
       HitSetting:
           betType: BetTypeCollect
-          lineTable: 
+          lineTable:
 
 
     - # GameModeSetting[1]: FreeGame 設定
@@ -197,11 +197,11 @@ GameModeSettingList:
       # 生成盤面設定
       GenScreenSetting:
           GenReelType: GenReelByReelIdx
-          ReelStripsGroup:  
+          ReelStripsGroup:
               - # ReelStrip[0]
                 weight : 1
                 reels :
-                  - # Reel[0] 
+                  - # Reel[0]
                     symbols : [4,4,9,9,9]
                     weights : [1,1,1,1,1]
                   - # Reel[1]
@@ -213,15 +213,15 @@ GameModeSettingList:
                   - # Reel[3]
                     symbols : [6,6,7,7,7]
                     weights : [1,1,1,1,1]
-                  - # Reel[4] 
+                  - # Reel[4]
                     symbols : [6,6,6,6,2]
                     weights : [1,1,1,1,1]
-                  - # Reel[5] 
+                  - # Reel[5]
                     symbols : [6,6,6,6,2]
                     weights : [1,1,1,1,1]
-              - # ReelStrip[1] 
+              - # ReelStrip[1]
                 weight : 0
-                reels : 
+                reels :
                   - # Reel[0]
                       symbols : [7,6,7,6,7]
                       weights : [1,0,0,0,0]
@@ -243,7 +243,7 @@ GameModeSettingList:
       # 圖標設定
       SymbolSetting:
           symbolUsed : [Z1,S1,C1,H1,H2,H3,H4,L1,L2,L3,L4,L5]
-          payTable : 
+          payTable :
               - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
               - [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
               - [0, 0, 0, 60, 100, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000, 2000]
@@ -256,12 +256,12 @@ GameModeSettingList:
               - [0, 0, 0, 0, 0, 0, 0, 10, 10, 20, 20, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
               - [0, 0, 0, 0, 0, 0, 0, 8, 8, 18, 18, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80]
               - [0, 0, 0, 0, 0, 0, 0, 5, 5, 15, 15, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40, 40]
-              
+
       # 中獎設定
       HitSetting:
           betType: BetTypeCollect
-          lineTable: 
-        
+          lineTable:
+
 # 額外設定
 Fixed:
   FreeGameRounds: 15
@@ -313,7 +313,7 @@ type game1801 struct {
 3. 建立 `game1801` 實例，特別注意 `extendId` 和 `exts` 建立 exts pool 初始長度 200。
 4. 創建 `ext` 實例存入 `game1801` 實例。
 
-``` go=
+```go=
 func buildGame1801(g *GameHandler) gameLogic {
 
  gs := g.gameSetting // 指向 GameHandler 設定
@@ -414,7 +414,7 @@ func (g *game1801) next() *extend1801 {
 
 這部分分成 `fixed1801` struct、子結構 `BetMode1801` / `betModes1801` 、 隨機選取元素的函數
 
- `Fixed` struct 負責儲存 yaml 設定檔的 Fixed、包含乘倍圖標資訊的盤面、補盤相關參數、符號類型
+`Fixed` struct 負責儲存 yaml 設定檔的 Fixed、包含乘倍圖標資訊的盤面、補盤相關參數、符號類型
 
 ```go=
 type fixed1801 struct {
@@ -572,12 +572,12 @@ func (g *game1801) getResult(betMode int, betMult int, gh *GameHandler) *result.
 
 ### getBaseResult
 
-* 掉落消除流程
-* 更新累積 `g.accWin` 贏分判斷 "累積贏分" 是否大於 "最高贏分上限值"
-* 選擇輪帶表 "生成盤面" 與 "補盤用輪帶表" 保持一致
-* 調用 FinishAct / FinishStep / FinishStep / FinishRound 時機
+- 掉落消除流程
+- 更新累積 `g.accWin` 贏分判斷 "累積贏分" 是否大於 "最高贏分上限值"
+- 選擇輪帶表 "生成盤面" 與 "補盤用輪帶表" 保持一致
+- 調用 FinishAct / FinishStep / FinishStep / FinishRound 時機
 
-``` go=
+```go=
 func (g *game1801) getBaseResult(betMode int, betMult int, gh *GameHandler) *result.GameModeResult {
  fixed := g.fixed
         // 獲取 BaseGame 設定、盤面生成、算分、儲存 spin 結果、ext
@@ -586,7 +586,7 @@ func (g *game1801) getBaseResult(betMode int, betMult int, gh *GameHandler) *res
  sc := mode.ScreenCalculator
  gmr := mode.GameModeResult
  ext := g.exts[g.extendId]
-    
+
         // 重置補盤相關索引
  g.resetIdx()
 
@@ -669,7 +669,7 @@ func (g *game1801) getBaseResult(betMode int, betMult int, gh *GameHandler) *res
   gmr.FinishStep()
   ext = g.next()
 
-  // 10. 補滿盤面 
+  // 10. 補滿盤面
   // screen 是計分用的原始盤面；fixed.screen 另外帶有乘倍標記
   // fillScreen 用補盤輪帶把 screen 補滿後，再把補好的新符號同步回 fixed.screen 里那些先前被消除成 0 的位置。
   screen = g.fillScreen(screen, fillReelStrips, g.fixed.fillScreenIdx, g.fixed.nowfillReelStripsIdx, sg.Cols)
@@ -690,8 +690,8 @@ func (g *game1801) getBaseResult(betMode int, betMult int, gh *GameHandler) *res
 
 講 BG 沒有的重點機制
 
-* 狀態值: `nowTotalMult` 累積乘數 / `nowLimitRounds` FG spin 次數
-* 第 5 步 多了判斷 `nowTotalMult` 是否大於 "累加總倍數上限值"
+- 狀態值: `nowTotalMult` 累積乘數 / `nowLimitRounds` FG spin 次數
+- 第 5 步 多了判斷 `nowTotalMult` 是否大於 "累加總倍數上限值"
 
 ```go=
 func (g *game1801) getFreeResult(betMode int, betMult int, gh *GameHandler) *result.GameModeResult {
@@ -818,162 +818,175 @@ func (g *game1801) getFreeResult(betMode int, betMult int, gh *GameHandler) *res
 ## 反饋
 
 根據早上討論做了以下一系列調整
+
 <!-- * 加強理解輔助函數 `gravity`、`fillScreen`、`getBaseMulti`、`getFreeMulti`
 * `screen` 與 `fixed.screen` 的差異 -->
-* [x] 遊戲邏輯 `getBaseResult` 、`getFreeResult` "判斷是否要提升乘倍等級" 邏輯優化，以下是目前邏輯:
 
-    ```go=
-        // 7. 判斷是否要提升乘倍等級
+- [x] 遊戲邏輯 `getBaseResult` 、`getFreeResult` "判斷是否要提升乘倍等級" 邏輯優化，以下是目前邏輯:
 
-        // 遍歷目前盤面乘數符號的位置
-        for idx, pos := range ext.MultiSymPos {
-            // 
-            mu := ext.MultiSymMults[idx] // 目前乘倍
-            for i := 0; i < len(fixed.Multipilers); i++ {
-                if (i < (len(fixed.Multipilers) - 1)) && mu == fixed.Multipilers[i] {
-                    up, nextIdx := fixed.betmodes[betMode].freeMultLvUp(gh.core, i)
+  ```go=
+      // 7. 判斷是否要提升乘倍等級
 
-                    if up {
-                        fixed.screen[pos] = int16(100 + fixed.Multipilers[nextIdx]) // 把乘倍標記放到盤面上
-                    }
-                    break
-                }
-            }
-        }
-    ```
+      // 遍歷目前盤面乘數符號的位置
+      for idx, pos := range ext.MultiSymPos {
+          //
+          mu := ext.MultiSymMults[idx] // 目前乘倍
+          for i := 0; i < len(fixed.Multipilers); i++ {
+              if (i < (len(fixed.Multipilers) - 1)) && mu == fixed.Multipilers[i] {
+                  up, nextIdx := fixed.betmodes[betMode].freeMultLvUp(gh.core, i)
 
-    [方案] 在 `fixed` 維護一個 `multipilersIndex []int` 用於查找 `ext.MultiSymMults[idx]` 執行以下步驟
-    1. 維護一個 `[]int` 長度為 501 的位置索引值，[-1,-1,0,1,2,...,16]
+                  if up {
+                      fixed.screen[pos] = int16(100 + fixed.Multipilers[nextIdx]) // 把乘倍標記放到盤面上
+                  }
+                  break
+              }
+          }
+      }
+  ```
 
-    ```go=
+  [方案] 在 `fixed` 維護一個 `multipilersIndex []int` 用於查找 `ext.MultiSymMults[idx]` 執行以下步驟
+  1. 維護一個 `[]int` 長度為 501 的位置索引值，[-1,-1,0,1,2,...,16]
 
- // 初始化乘數索引清單
- for idx := range f.multipilersIndex {
-  f.multipilersIndex[idx] = -1
- }
+```go=
 
- // 添加索引值
- for idx, mu := range f.Multipilers {
-  f.multipilersIndex[mu] = idx
- }
-    ```
 
-    結果
 
-    ```
+// 初始化乘數索引清單
+for idx := range f.multipilersIndex {
+f.multipilersIndex[idx] = -1
+}
+
+// 添加索引值
+for idx, mu := range f.Multipilers {
+f.multipilersIndex[mu] = idx
+}
+
+```
+
+結果
+```
     [-1 -1 0 1 2 3 4 -1 5 -1 6 -1 7 -1 -1 8 -1 -1 -1 -1 9 -1 -1 -1 -1 10 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 11 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 12 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 14 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 15 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 16]
-    ```
+```
 
-    1. 在 `fixed` 建立 `MultipilersIndexLookUp` 方法 查找函數 -> 給 乘數值 返回 索引位置
+1. 在 `fixed` 建立 `MultipilersIndexLookUp` 方法 查找函數 -> 給 乘數值 返回 索引位置
 
-    ``` go=
+``` go=
     // 傳入乘數值，返回該乘數值在乘數清單的索引位置
     func (f *fixed1801) MultipilersIndexLookUp (m int) int {
         return f.MultipilersIndex[m]
     }
-    ```
+```
 
-    1. 在 `getBaseResult`、`getFreeResult` 的 "判斷是否要提升乘倍等級" 部分調用
+1. 在 `getBaseResult`、`getFreeResult` 的 "判斷是否要提升乘倍等級" 部分調用
 
-    ```go=
-  for idx, pos := range ext.MultiSymPos {
-   fmt.Println("idx", idx)
-   mu := ext.MultiSymMults[idx] // 目前乘倍
+```go=
 
-   fmt.Println("mu: ", mu)
-   idx := fixed.MultipilersIndexLookUp(mu)
-   if (idx < (len(fixed.Multipilers) - 1)) && mu == fixed.Multipilers[idx] {
-    // 用機率決定要不要升到下一級，回傳 nextIdx
-    up, nextIdx := fixed.betmodes[betMode].baseMultLvUp(gh.core, idx)
-    if up {
-     fixed.screen[pos] = int16(100 + fixed.Multipilers[nextIdx]) // 把乘倍標記放到盤面上
-    }
-    break
-   }
+for idx, pos := range ext.MultiSymPos {
+fmt.Println("idx", idx)
+mu := ext.MultiSymMults[idx] // 目前乘倍
+
+fmt.Println("mu: ", mu)
+idx := fixed.MultipilersIndexLookUp(mu)
+if (idx < (len(fixed.Multipilers) - 1)) && mu == fixed.Multipilers[idx] {
+// 用機率決定要不要升到下一級，回傳 nextIdx
+up, nextIdx := fixed.betmodes[betMode].baseMultLvUp(gh.core, idx)
+if up {
+fixed.screen[pos] = int16(100 + fixed.Multipilers[nextIdx]) // 把乘倍標記放到盤面上
+}
+break
+}
+}
+```
+
+- [ ] [疑問待確認] `getBaseMulti` 與 `getFreeMulti` 函數返回的是 "乘數值" 還是 "Lut 索引值"?
+      以下 `getBaseMulti` 為例，原始函數如下:
+
+  ```go=
+      func (g *game1801) getBaseMulti(screen []int16, betMode int, core *core.Core, ext *extend1801) int {
+      multiGetter := g.fixed.betmodes[betMode]
+      for pos, sym := range screen {
+          g.fixed.screen[pos] = sym
+          if sym == 1 {
+              mult := multiGetter.getBaseMult(core)
+              g.fixed.screen[pos] = int16(100 + mult) // 把乘倍標記放到盤面上
+
+              ext.MultiSymPos = append(ext.MultiSymPos, pos)
+              ext.MultiSymMults = append(ext.MultiSymMults, mult)
+              ext.NowMulti += mult
+          }
+          if sym > 100 {
+              mult := int(sym) - 100
+              ext.MultiSymPos = append(ext.MultiSymPos, pos)
+              ext.MultiSymMults = append(ext.MultiSymMults, mult)
+              ext.NowMulti += mult
+          }
+      }
+      return ext.NowMulti
   }
-    ```
+  ```
 
-* [ ] [疑問待確認] `getBaseMulti` 與 `getFreeMulti` 函數返回的是 "乘數值" 還是 "Lut 索引值"?
-    以下 `getBaseMulti` 為例，原始函數如下:
+  我判斷是 Lut 所以我做了以下更新，因為有動到遊戲邏輯以外的函數，為了謹慎跟你確認一下。
 
-    ```go=
-        func (g *game1801) getBaseMulti(screen []int16, betMode int, core *core.Core, ext *extend1801) int {
-        multiGetter := g.fixed.betmodes[betMode]
-        for pos, sym := range screen {
-            g.fixed.screen[pos] = sym
-            if sym == 1 {
-                mult := multiGetter.getBaseMult(core)
-                g.fixed.screen[pos] = int16(100 + mult) // 把乘倍標記放到盤面上
+  ```go=
+  func (g *game1801) getBaseMulti(screen []int16, betMode int, core *core.Core, ext *extend1801) int {
+      // 取出對應下注模式
+      multiGetter := g.fixed.betmodes[betMode]
+      for pos, sym := range screen {
+          g.fixed.screen[pos] = sym
+          if sym == 1 {
+              // 隨機選擇乘數符號索引值
+              multIdx := multiGetter.baseMultiProbLut.Pick(core)
+              // 多加一行獲取乘數值
+              mult := g.fixed.Multipilers[multIdx]
+              g.fixed.screen[pos] = int16(100 + mult) // 把乘倍標記放到盤面上
 
-                ext.MultiSymPos = append(ext.MultiSymPos, pos)
-                ext.MultiSymMults = append(ext.MultiSymMults, mult)
-                ext.NowMulti += mult
-            }
-            if sym > 100 {
-                mult := int(sym) - 100
-                ext.MultiSymPos = append(ext.MultiSymPos, pos)
-                ext.MultiSymMults = append(ext.MultiSymMults, mult)
-                ext.NowMulti += mult
-            }
-        }
-        return ext.NowMulti
-    }
-    ```
+              ext.MultiSymPos = append(ext.MultiSymPos, pos)
+              ext.MultiSymMults = append(ext.MultiSymMults, mult)
+              ext.NowMulti += mult
+          }
+          if sym > 100 {
+              mult := int(sym) - 100
+              ext.MultiSymPos = append(ext.MultiSymPos, pos)
+              ext.MultiSymMults = append(ext.MultiSymMults, mult)
+              ext.NowMulti += mult
+          }
+      }
+      return ext.NowMulti
+  }
 
-    我判斷是 Lut 所以我做了以下更新，因為有動到遊戲邏輯以外的函數，為了謹慎跟你確認一下。
+  ```
 
-    ```go=
-    func (g *game1801) getBaseMulti(screen []int16, betMode int, core *core.Core, ext *extend1801) int {
-        // 取出對應下注模式
-        multiGetter := g.fixed.betmodes[betMode]
-        for pos, sym := range screen {
-            g.fixed.screen[pos] = sym
-            if sym == 1 {
-                // 隨機選擇乘數符號索引值
-                multIdx := multiGetter.baseMultiProbLut.Pick(core)
-                // 多加一行獲取乘數值
-                mult := g.fixed.Multipilers[multIdx]
-                g.fixed.screen[pos] = int16(100 + mult) // 把乘倍標記放到盤面上
+- [x] `betModes1801` 屬性名稱命名問題， `baseMultiLvUpLut`、`freeMultiLvUpLut` 更新為 `baseMultiLvUp`、`freeMultiLvUp`。
+- [x] `getBaseMult`、`getFreeMult` 可以拿掉獲取方式可以改成 `b.baseMultiProbLut.Pick(core)` 這邊選擇直接在 `getBaseMulti`、`getFreeMulti` 函數中調用。
+- [x] 設定檔命名問題 目前 `BaseReelStartChooseWeight`、`FreeReelStartChooseWeight` 皆提供給盤面生成與 掉落消除，命名更新為 `BaseReelChooseWeight`、`FreeReelChooseWeight`。
+- [x] 不需要作兩次 `gravity()` 這種"重"計算。
+      只要把 `screen` 用 `fix.screen` 反填回去就好 (對於>100的符號統一改成乘倍圖標）
 
-                ext.MultiSymPos = append(ext.MultiSymPos, pos)
-                ext.MultiSymMults = append(ext.MultiSymMults, mult)
-                ext.NowMulti += mult
-            }
-            if sym > 100 {
-                mult := int(sym) - 100
-                ext.MultiSymPos = append(ext.MultiSymPos, pos)
-                ext.MultiSymMults = append(ext.MultiSymMults, mult)
-                ext.NowMulti += mult
-            }
-        }
-        return ext.NowMulti
-    }
-    
-    ```
-
-* [x] `betModes1801` 屬性名稱命名問題， `baseMultiLvUpLut`、`freeMultiLvUpLut` 更新為 `baseMultiLvUp`、`freeMultiLvUp`。
-* [x] `getBaseMult`、`getFreeMult` 可以拿掉獲取方式可以改成 `b.baseMultiProbLut.Pick(core)` 這邊選擇直接在 `getBaseMulti`、`getFreeMulti` 函數中調用。
-* [x] 設定檔命名問題 目前 `BaseReelStartChooseWeight`、`FreeReelStartChooseWeight` 皆提供給盤面生成與 掉落消除，命名更新為 `BaseReelChooseWeight`、`FreeReelChooseWeight`。
-* [x] 不需要作兩次 `gravity()` 這種"重"計算。
-    只要把 `screen` 用 `fix.screen` 反填回去就好(對於>100的符號統一改成乘倍圖標）
-
-    ```go=
+```go=
   fixed.screen = g.gravity(fixed.screen, hm, sg.Cols, sg.Rows, g.fixed.fillScreenIdx)
   // screen = g.gravity(screen, hm, sg.Cols, sg.Rows, g.fixed.fillScreenIdx)
   for i, s := range fixed.screen {
-   if s > 100 {
-    screen[i] = 1
-   } else {
-    screen[i] = s
-   }
+  if s > 100 {
+  screen[i] = 1
+  } else {
+  screen[i] = s
+  }
   }
   gmr.FinishAct("Gravity", screen, nil) // 消除掉落盤面
-    ```
+```
 
 ## 數值驗證
 
-* [ ] `getBaseMulti` 中 `multIdx` 對應的 `mult` 值正確
+- [ ] `getBaseMulti` 中 `multIdx` 對應的 `mult` 值正確
 
 fixed.screen 顯示某個位置是乘數值 但 screen 顯示它不是
 
-* [ ] 先確認第一次 step 中步驟 8 消除掉落後
+- [ ] 先確認第一次 step 中步驟 8 消除掉落後
+
+## C1 算分 [方法2]
+
+如果 payTable 的 C1 部分有值  `hm := gmr.HitMapTmp()` 會把他算進去 所以將 payTable 的 C1 部分移到 Fixed 獨立設定
+
+把 `Trigger()` 函數統計的當前 C1 數量當作索引值去獲取 C1 的 賠率。
+
+

@@ -150,28 +150,28 @@ The training process for our reinforcement learning model is as follows. At each
 Table 1.: Predefined Gendreau et al. (2006) instances
 
 | Instance | Destinations | Vehicles | Packages |
-| :--- | :--- | :--- | :--- |
-| E016-03m | 15 | 5 | 32 |
-| E016-05m | 15 | 5 | 26 |
+| :------- | :----------- | :------- | :------- |
+| E016-03m | 15           | 5        | 32       |
+| E016-05m | 15           | 5        | 26       |
 
 on our hardware (ca. 60 seconds per epoch on the ETH Zürich Euler cluster with 8 cores). We generate the random instances by uniformly sampling from the parameters listed in Table 2. These ranges are chosen to resemble the ranges used by Gendreau et al. (2006) for the design and validation of their own tabu-search method. We speed up training by using training instances with fewer size increments due to a smaller container size than those used in the benchmarks (e.g., width dimension reduction from 25 to 5 ). This reduces the compute time for feasibility checks in the containers significantly as the search space shrinks by a factor of 125 from $30 * 25 * 60=45.000$ to $6 * 5 * 12=360$.
 
 Table 2.: Parameter space for training instances
 
-| Parameter | Value(s) |
-| :--- | :--- |
-| $n$ | 15 |
-| Probability of package being fragile | 25\% |
-| $x_{i}$ | [0, 100] |
-| $y_{i}$ | [0, 100] |
-| $h_{\text {veh }}$ | 6 |
-| $w_{\text {veh }}$ | 5 |
-| $l_{\text {veh }}$ | 12 |
-| $h_{i k}$ | $\left[0.2 \times h_{\text {veh }}, 0.6 \times h_{\text {veh }}\right]$ |
-| $w_{i k}$ | $\left[0.2 \times w_{\text {veh }}, 0.6 \times w_{\text {veh }}\right]$ |
-| $l_{i k}$ | $\left[0.2 \times l_{\text {veh }}, 0.6 \times l_{\text {veh }}\right]$ |
-| $m_{i}$ | [1,2,3] |
-| $d_{i}$ | [1, 2, ..., 30] |
+| Parameter                            | Value(s)                                                                |
+| :----------------------------------- | :---------------------------------------------------------------------- |
+| $n$                                  | 15                                                                      |
+| Probability of package being fragile | 25\%                                                                    |
+| $x_{i}$                              | [0, 100]                                                                |
+| $y_{i}$                              | [0, 100]                                                                |
+| $h_{\text {veh }}$                   | 6                                                                       |
+| $w_{\text {veh }}$                   | 5                                                                       |
+| $l_{\text {veh }}$                   | 12                                                                      |
+| $h_{i k}$                            | $\left[0.2 \times h_{\text {veh }}, 0.6 \times h_{\text {veh }}\right]$ |
+| $w_{i k}$                            | $\left[0.2 \times w_{\text {veh }}, 0.6 \times w_{\text {veh }}\right]$ |
+| $l_{i k}$                            | $\left[0.2 \times l_{\text {veh }}, 0.6 \times l_{\text {veh }}\right]$ |
+| $m_{i}$                              | [1,2,3]                                                                 |
+| $d_{i}$                              | [1, 2, ..., 30]                                                         |
 
 Based on the total volume and weight of all packages, we assign a number of vehicles to each instance that equals twice the needed capacity. This ensures that all packages can be packed without the computationally intensive step of testing for the minimum number of trucks based on feasible loading combinations. This upper truck limit prevents infinite looping of extra requested trucks during training.
 
@@ -195,32 +195,32 @@ In order to test the robustness of our results, we perform test-time augmentatio
 
 Table 3.: Routing distance comparison of models
 
-|  | E016-03m | E016-05m | Avg. distance |
-| :--- | :--- | :--- | :--- |
-| Gendreau et al. (2006) | 316.32 | 350.58 | 333.45 |
-| Zhang et al. (2015) | 302.02 | 334.96 | 318.49 |
-| Mahvash et al. (2017) | 315.16 | 345.28 | 330.22 |
-| RL (our best model from run 2) | 337.85 | 347.86 | 342.86 |
-| RL (average of 4 runs) | 358.26 | 356.80 | 357.53 |
-| Gap to Gendreau et al. (2006) | 6.81\% | -0.78\% | 2.82\% |
-| Gap to Zhang et al. (2015) | 11.86\% | 3.85\% | 7.65\% |
-| Gap to Mahvash et al. (2017) | 7.20\% | 0.75\% | 3.83\% |
+|                                | E016-03m | E016-05m | Avg. distance |
+| :----------------------------- | :------- | :------- | :------------ |
+| Gendreau et al. (2006)         | 316.32   | 350.58   | 333.45        |
+| Zhang et al. (2015)            | 302.02   | 334.96   | 318.49        |
+| Mahvash et al. (2017)          | 315.16   | 345.28   | 330.22        |
+| RL (our best model from run 2) | 337.85   | 347.86   | 342.86        |
+| RL (average of 4 runs)         | 358.26   | 356.80   | 357.53        |
+| Gap to Gendreau et al. (2006)  | 6.81\%   | -0.78\%  | 2.82\%        |
+| Gap to Zhang et al. (2015)     | 11.86\%  | 3.85\%   | 7.65\%        |
+| Gap to Mahvash et al. (2017)   | 7.20\%   | 0.75\%   | 3.83\%        |
 
 the two best-performing runs on the validation data do not produce consistent results during test-time augmentation. Run 4, which has been trained with a batch size of 128 achieves consistent results when all nodes are shifted along the x and y -axis. The model of run 2 with a smaller batch size of 100 is not consistent for a larger movement of +20 . Both models produce different results when an axis is flipped. Thus, steps need to be taken to improve the robustness of our models (e.g., train-time augmentation, increased batch sizes for model updates with less variance) to produce robust results.
 
 Table 4.: Test-time augmentation
 
-|  | E016-03m |  | E016-05m |  |
-| :--- | :--- | :--- | :--- | :--- |
-|  | Run 4 | Run 2 | Run 4 | Run 2 |
-| Original | 334.99 | 337.85 | 361.86 | 347.86 |
-| x and $\mathrm{y}+10$ | 334.99 | 337.85 | 361.86 | 334.95 |
-| x and $\mathrm{y}+20$ | 334.99 | 303.51* | 355.04 | 358.80 |
-| x-axis flipped | 362.81 | 329.85* | 347.06 | 364.19 |
-| y-axis flipped | 330.54* | 345.78 | 365.84 | 348.38 |
-| x and y -axis flipped | 380.53 | 359.81 | 328.38 | 355.25* |
+|                       | E016-03m |          | E016-05m |          |
+| :-------------------- | :------- | :------- | :------- | :------- |
+|                       | Run 4    | Run 2    | Run 4    | Run 2    |
+| Original              | 334.99   | 337.85   | 361.86   | 347.86   |
+| x and $\mathrm{y}+10$ | 334.99   | 337.85   | 361.86   | 334.95   |
+| x and $\mathrm{y}+20$ | 334.99   | 303.51\* | 355.04   | 358.80   |
+| x-axis flipped        | 362.81   | 329.85\* | 347.06   | 364.19   |
+| y-axis flipped        | 330.54\* | 345.78   | 365.84   | 348.38   |
+| x and y -axis flipped | 380.53   | 359.81   | 328.38   | 355.25\* |
 
-* not all packages packed
+- not all packages packed
 
 As mentioned in Section 4.1.3, our model was trained on a different container size ([6,5,12]) than the benchmarks ([30,25,60]). Achieving results within a few percent of the state-of-the-art solution shows that our model is container size agnostic and can handle package sizes it has never encountered before. The current $3.83 \%$ gap in routing distance compared to Mahvash et al. (2017), therefore, seems achievable by improving the model architecture (e.g., improving the placement heuristic), training on the container size used for benchmarking itself and increasing the batch size for more robust results.
 ![](https://cdn.mathpix.com/cropped/2025_07_31_4ded066fdc202d6cd57cg-13.jpg?height=749&width=1335&top_left_y=328&top_left_x=349)
@@ -334,28 +334,28 @@ Algorithm 1 Package loading feasibility check for selected container
     return no feasible location found
 ```
 
-| Parameter | Parameter range |
-| :--- | :--- |
-| Batch size (training and validation) | 64, 100, 128 |
-| Learning rate | $1 \mathrm{e}-3,1 \mathrm{e}-4$ |
-| Learning rate decay | 0.9 per 10000 steps |
-| Epochs | max. 10000 or 120 hours |
-| Gradient norm clipping | 0.1, 0.5, 1.0 |
-| Embedding dimensions $d_{h}$ | 128 |
-| Multi-head attention encoder layers $a$ | 3 |
-| Neurons per multi-head attention layer | 512 |
-| Multi-head attention heads $l$ | 8 |
-| 2D resizing target ( $w_{c n n}, l_{c n n}$ ) | $(30,60)$ |
-| 2D convolutional layer kernel size | $(5,5)$ |
-| Single-head attention tanh clipping | 10 |
-| Greedy baseline update frequency | 100 epochs |
-| PPO "minibatches" | 3, 5 |
-| PPO clipping $\epsilon$ | 0.2 |
-| Entropy factor $\alpha$ | 0.0001 |
-| Penalty factor $p_{\text {vrp }}$ | 1, 2, 10 |
+| Parameter                                     | Parameter range                 |
+| :-------------------------------------------- | :------------------------------ |
+| Batch size (training and validation)          | 64, 100, 128                    |
+| Learning rate                                 | $1 \mathrm{e}-3,1 \mathrm{e}-4$ |
+| Learning rate decay                           | 0.9 per 10000 steps             |
+| Epochs                                        | max. 10000 or 120 hours         |
+| Gradient norm clipping                        | 0.1, 0.5, 1.0                   |
+| Embedding dimensions $d_{h}$                  | 128                             |
+| Multi-head attention encoder layers $a$       | 3                               |
+| Neurons per multi-head attention layer        | 512                             |
+| Multi-head attention heads $l$                | 8                               |
+| 2D resizing target ( $w_{c n n}, l_{c n n}$ ) | $(30,60)$                       |
+| 2D convolutional layer kernel size            | $(5,5)$                         |
+| Single-head attention tanh clipping           | 10                              |
+| Greedy baseline update frequency              | 100 epochs                      |
+| PPO "minibatches"                             | 3, 5                            |
+| PPO clipping $\epsilon$                       | 0.2                             |
+| Entropy factor $\alpha$                       | 0.0001                          |
+| Penalty factor $p_{\text {vrp }}$             | 1, 2, 10                        |
 
 Notes: The selected parameters are highlighted in bold.
 
 Table 1.: Training parameters
 
-[^0]:    Schoepf S. Email: <ss2823@cam.ac.uk>
+[^0]: Schoepf S. Email: <ss2823@cam.ac.uk>

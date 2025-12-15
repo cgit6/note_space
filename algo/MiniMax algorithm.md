@@ -106,17 +106,17 @@ max layer 會根據下一層節點的適應值選最大的當自己的適應值
 
 ### 計算方式
 
-現在的目標是要判斷要不要修剪某個分支，現在在每個節點中添加兩個參數( $\alpha$ 跟 $\beta$ )，$\alpha$ 參數用來儲存在 maximize layer 最高適應值，$\beta$ 用來儲存  miniimize 最小值。
+現在的目標是要判斷要不要修剪某個分支，現在在每個節點中添加兩個參數( $\alpha$ 跟 $\beta$ )，$\alpha$ 參數用來儲存在 maximize layer 最高適應值，$\beta$ 用來儲存 miniimize 最小值。
 
-* **$\alpha$ 的意義:** 對「Max 那一方」來說，目前沿著這條路徑，已經找到的「最好（最高）的分數」。
-* Max layer 至少可以保證拿到這麼高的分數。
-* **$\alpha$ 初始值:** 一開始設為 負無限大。
-* **$\beta$ 的意義:** 對「Min 那一方」來說，目前沿著這條路徑，已經找到的「最好（最低）的分數」。
-* **$\beta$ 初始值:** 一開始設為 正無限大。
+- **$\alpha$ 的意義:** 對「Max 那一方」來說，目前沿著這條路徑，已經找到的「最好（最高）的分數」。
+- Max layer 至少可以保證拿到這麼高的分數。
+- **$\alpha$ 初始值:** 一開始設為 負無限大。
+- **$\beta$ 的意義:** 對「Min 那一方」來說，目前沿著這條路徑，已經找到的「最好（最低）的分數」。
+- **$\beta$ 初始值:** 一開始設為 正無限大。
 
 如果 $\alpha \ge \beta$ 就表示後面的分支再看也不可能改變雙方已知的最好結果，所以可以「剪掉」那部分，不用繼續算，這就是 α–β 剪枝的核心。
 
 ## 參考文獻
 
-* [AI - Ch4 極大極小搜尋法與剪枝 Minimax Algorithm and Alpha-beta Pruning](https://www.mropengate.com/2015/04/ai-ch4-minimax-alpha-beta-pruning.html)
-* [Alpha-Beta Pruning](https://ithelp.ithome.com.tw/m/articles/10355817)
+- [AI - Ch4 極大極小搜尋法與剪枝 Minimax Algorithm and Alpha-beta Pruning](https://www.mropengate.com/2015/04/ai-ch4-minimax-alpha-beta-pruning.html)
+- [Alpha-Beta Pruning](https://ithelp.ithome.com.tw/m/articles/10355817)

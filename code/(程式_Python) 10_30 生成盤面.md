@@ -1,9 +1,9 @@
 ## 任務
 
-* 產生 3×5 盤面（rows=3, cols=5），盤面元素以整數代碼（0～11）表示 None、H1-H4、L1-L5、Wild、Scatter。
-* 每條 reel 由程式內的變數定義，生成時依各 reel 的起始點取連續 rows 個符號。(固定輪帶作法)
-<!-- * 大量、高效生成盤面，結果依序寫入預先配置的大型陣列。 -->
-<!-- * 亂數來源需同時滿足：可重現（同種子與參數 > 同結果）、安全（CSPRNG，不可預測）、效率。 -->
+- 產生 3×5 盤面（rows=3, cols=5），盤面元素以整數代碼（0～11）表示 None、H1-H4、L1-L5、Wild、Scatter。
+- 每條 reel 由程式內的變數定義，生成時依各 reel 的起始點取連續 rows 個符號。(固定輪帶作法)
+  <!-- * 大量、高效生成盤面，結果依序寫入預先配置的大型陣列。 -->
+  <!-- * 亂數來源需同時滿足：可重現（同種子與參數 > 同結果）、安全（CSPRNG，不可預測）、效率。 -->
 
 ## 定義輪帶與符號
 
@@ -205,20 +205,20 @@ class ScreenGenerator:
         return self.ScreenBuf
 
     # 檢查合法性
-    def _valid(self) : 
+    def _valid(self) :
         # 判斷 rows > 0
         # 判斷 cols > 0
         # REELSTRIPS[i].__len__() > rows
         # REELSTRIPS.__len__() == cols
         # REELSTRIPS[i][j] > 0 && REELSTRIPS[i][j] < len(symbols)
         return
-    
+
     def view_rows_cols(self) -> np.ndarray:
         """
         返回: 形狀 (Rows, Cols) 的視圖（一般視覺化較直觀）。
         """
         return self.ScreenBuf.reshape(self.Cols, self.Rows).T
-    
+
     def as_symbol_names(self) -> np.ndarray:
         """
         返回: 以符號名稱矩陣（Rows x Cols）回傳，方便除錯或輸出。
@@ -256,7 +256,7 @@ Nex 提供的建議以下幾點
 
 1. 第一個 `if __name__ == "__main__" :` 這裡的內容需要用一個 `runner()` 函數去包，然後只需要調用 `runner()` 就可以比較乾淨。
 2. 目前缺少資料合法性的檢查 `def _valid(self) :` 這裡可以再做一些驗證
-3. 或許 `REELSTRIPS`  跟 `SYMBOLS` 可以改成放進一個物件裡面
+3. 或許 `REELSTRIPS` 跟 `SYMBOLS` 可以改成放進一個物件裡面
 4. 每個物件內要說明清楚，用 `"""..."""` 這個來做，然後一個功能寫一個 function
 5. 如果每個輪帶的長度不一樣，用 `tuple(nparray1,nparray2,...,nparray5)` 去包
 6. Python 用駝峰命名法

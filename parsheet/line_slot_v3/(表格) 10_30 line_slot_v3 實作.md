@@ -15,6 +15,7 @@
 </div>
 
 這個 Slice table 又有什麼用?
+
 <div style="text-align:center">
   <img src="https://hackmd.io/_uploads/BkJypgGk-e.png" style="width:50%;">
     <p>Slice 分割結果</p>
@@ -22,7 +23,7 @@
 
 建立 slice 公式，
 
-``` excel
+```excel
 =IF($Q5>INDEX($D$3:$H$3,1,R$3),
    0,
    INDEX($D$5:$H$104,
@@ -51,7 +52,8 @@
 #### **實作:**
 
 計算 `C1` 觸發 Free Game 的次數，根據遊戲規則:
->Base Game 中 {3, 4, 5} 顆 C1 觸發 {7, 10, 15} 局 Free Game（FG）
+
+> Base Game 中 {3, 4, 5} 顆 C1 觸發 {7, 10, 15} 局 Free Game（FG）
 
 ##### 統計 C1 出現在盤面上的次數
 
@@ -64,24 +66,24 @@
 
 ##### 統計 {3,4,5} C1 組合數
 
- 盤面出現 {3, 4, 5} 顆 C1 的所有組合，利用公式去建立組合
+盤面出現 {3, 4, 5} 顆 C1 的所有組合，利用公式去建立組合
 
- ``` excel
- =ARRAYFORMULA(
-  QUERY(
-    {
-      IF(MID(DEC2BIN(SEQUENCE(32,1,31,-1),5), SEQUENCE(1,5), 1)="1","C1","-"),
-      LEN(SUBSTITUTE(DEC2BIN(SEQUENCE(32,1,31,-1),5),"0",""))
-    },
-    "select Col1,Col2,Col3,Col4,Col5,Col6 where Col6>=3",
-    0
-  )
+```excel
+=ARRAYFORMULA(
+ QUERY(
+   {
+     IF(MID(DEC2BIN(SEQUENCE(32,1,31,-1),5), SEQUENCE(1,5), 1)="1","C1","-"),
+     LEN(SUBSTITUTE(DEC2BIN(SEQUENCE(32,1,31,-1),5),"0",""))
+   },
+   "select Col1,Col2,Col3,Col4,Col5,Col6 where Col6>=3",
+   0
+ )
 )
 ```
 
 進一步簡化， `FILTER()` 本身就有陣列運算了
 
-``` excel
+```excel
 =FILTER(
   {
     IF(MID(DEC2BIN(SEQUENCE(32,1,31,-1),5), SEQUENCE(1,5), 1)="1","C1","-"),
@@ -93,15 +95,15 @@
 
 最後對重複運算進行優化，在公式中 `LEN(SUBSTITUTE(DEC2BIN(SEQUENCE(32,1,31,-1),5),"0",""))` 進行了兩次的重複計算，利用 LET() 函數保存變數值後只需要算一次就行了。
 
-``` excel
+```excel
 =LET(
   n, 5, //                                            // 參數
   nums, SEQUENCE(2^n,1,2^n-1,-1),
-  bins, ARRAYFORMULA(DEC2BIN(nums, n)),                
-  bits, ARRAYFORMULA(MID(bins, SEQUENCE(1,n), 1)),     
-  combo, MAP(bits, LAMBDA(x, IF(x="1","C1","-"))),                         
-  cnt, ARRAYFORMULA(LEN(SUBSTITUTE(bins,"0",""))),     
-  FILTER({combo, cnt}, cnt>=3)                          
+  bins, ARRAYFORMULA(DEC2BIN(nums, n)),
+  bits, ARRAYFORMULA(MID(bins, SEQUENCE(1,n), 1)),
+  combo, MAP(bits, LAMBDA(x, IF(x="1","C1","-"))),
+  cnt, ARRAYFORMULA(LEN(SUBSTITUTE(bins,"0",""))),
+  FILTER({combo, cnt}, cnt>=3)
 )
 ```
 
@@ -124,21 +126,21 @@
 
 原始符號出現的數量直接統計就好
 
-``` excel
+```excel
 =COUNTIF(R$4:R$103,$BI5)
 ```
 
 接下來先計算加上 SS 的期望值再處理加上 Wild，這樣就完成了
 
-``` excel
+```excel
 =LET(
-  sym, $BI6,                                                                 // 當前符號                                            
-  base_cnt, COUNTIF(R$4:R$103, sym),                                         // 當前符號在該輪的數量                         
-  ss_cnt, COUNTIF(R$4:R$103, "SS"),                                          // SS 符號數量                                           
-  reel_no, BJ$2,                                                             // 第幾軸                                           
+  sym, $BI6,                                                                 // 當前符號
+  base_cnt, COUNTIF(R$4:R$103, sym),                                         // 當前符號在該輪的數量
+  ss_cnt, COUNTIF(R$4:R$103, "SS"),                                          // SS 符號數量
+  reel_no, BJ$2,                                                             // 第幾軸
   p, IFERROR(INDEX($BB$4:$BF$11, MATCH(sym, $BA$4:$BA$11,0), reel_no), 0),   // 利用當前符號查找轉換機率表的轉換機率
-                                                            
-  base_cnt + ss_cnt * p    // 當前符號的數量 + SS 轉換的期望值                                  
+
+  base_cnt + ss_cnt * p    // 當前符號的數量 + SS 轉換的期望值
 )
 
 ```
@@ -155,7 +157,7 @@ current_symbol_count、target_symbol_count、super_stack_count 應該要變成�
   current_symbol_count, BJ5,   // 當前符號的數量
   target_symbol_count, BJ$9,   // SS 要被替換成的符號數量
   super_stack_count, BJ$6,     // SS 的數量
-  
+
   // 如果當前符號是 "SS" 或是 "要被替換成的符號" 那在判斷他是 "SS" 還是 "要被替換成的符號" 如果是 SS 直接等於 0 如果是 "要被替換成的符號" 那就 SS 數量加上他原本的數量，如果不是 "SS" 或是 "要被替換成的符號" 那就等於他原本自己
   IF(
     OR(current_symbol=SS, current_symbol=target_symbol),
@@ -206,7 +208,7 @@ win_rtp,win_prob*win_pay,
 
 這東西就相當於 `Mystery Symbol`，計算方法就是先建立轉換機率矩陣(SS->H1、SS->H2、...、SS->L4)後分別計算當 SS 變成 {H1,H2,...,L4} 的期望值，最後加總。所以在實作上會需要定義一個機率矩陣，然後在計算 SS 轉換成某個符號後的符號數量(e.g. SS 全部變成 H1 後 H1 就等於原本的 H1 數量 + SS 數量) 最後利用這個符號數量去計算組合數、機率，期望值。
 
-<!-- 
+<!--
 ``` excel
 =LET(
   syms, $BI$9:$BI$16,        /* 這裡放 H1~H4,L1~L4，一欄 8 格 */

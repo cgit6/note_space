@@ -1,4 +1,3 @@
-
 ```go=
 
 var REELSTRIPS = [][]int{
@@ -20,7 +19,7 @@ type ScreenGenerator struct {
  rng        *rand.Rand
 }
 
-// 
+//
 func NewScreenGenerator() *ScreenGenerator {
  c := &ScreenGenerator{}
  c.Rows = 3
@@ -42,7 +41,7 @@ func NewScreenGenerator() *ScreenGenerator {
 
 // GenScreen 產生盤面結果
 func (c *ScreenGenerator) GenScreen() []uint8 {
-    // 
+    //
  for i := 0; i < len(c.ReelLens); i++ {
   idx := c.rng.Intn(c.ReelLens[i])
   for j := 0; j < c.Rows; j++ {
@@ -52,7 +51,7 @@ func (c *ScreenGenerator) GenScreen() []uint8 {
  return c.ScreenBuf
 }
 
-// 呼叫方式 
+// 呼叫方式
 // sg := NewScreenGenerator() // 創建 NewScreenGenerator instance
 // screen := sg.GenScreen() // 調用方法
 
