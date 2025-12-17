@@ -532,8 +532,8 @@ func GameNameStr(gn GameName) (string, bool) {
      4.1. 函數名稱調整成 `findC1()` -> `CountC1()` 功能是計算當前盤面 C1 符號的數量
      4.2. `trigger()` 獲取 `CountC1()` 計算後的 `g.C1Count` 判斷是否觸發 FG
 - [x] 5. 判斷 "是否是某個符號" 的做法?
-     5.1. 方法1: 適用場景只需要判斷一種 Scatter 或 Wild 時使用，具體做法是用 SymbolSetting.SymbolTypes 判斷類型
-     5.2. 方法2: 適用場景 Scatter 有兩種(`C1`, `C2`) 需要分別去統計，不同符號分別觸發不同的遊戲邏輯。
+     5.1. 方法 1: 適用場景只需要判斷一種 Scatter 或 Wild 時使用，具體做法是用 SymbolSetting.SymbolTypes 判斷類型
+     5.2. 方法 2: 適用場景 Scatter 有兩種(`C1`, `C2`) 需要分別去統計，不同符號分別觸發不同的遊戲邏輯。
 - [x] 6. Multipilers 只需是 `int` 不需要 `[]int`
 
 ### 調整
@@ -1471,4 +1471,3 @@ func (g *game0002) applyW1Multiplier(screen []int16, gmr *res.GameModeResult, de
 }
 
 ```
-

@@ -1,0 +1,132 @@
+{
+  "game": "StormOfSeth",
+  "gameid": 1801,
+  "win": 2752,
+  "betunits": [20, 2000],
+  "betmode": 0,
+  "betmult": 1,
+  "gamemodes": [
+    {
+      "win": 2752,
+      "modeid": 0,
+      "isend": true,
+      "trigger": 0,
+      "acts": [
+        {
+          "acttype": "GenAndCalcScreen",
+          "id": 0,
+          "round": 0,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 400,
+          "roundaccwin": 400,
+          "stepaccwin": 400,
+          "actwin": 400,
+          "screen": [
+            4, 7, 1, 9, 4, 9, 8, 6, 4, 7, 9, 7, 3, 8, 4, 4, 4, 4, 7, 8, 3, 9, 8,
+            5, 4, 9, 8, 7, 8, 9
+          ],
+          "details": [
+            {
+              "win": 50,
+              "symbol": 4,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [0, 4, 8, 14, 15, 16, 17, 24]
+            }
+          ],
+          "ext": {
+            "nowmulti": 8,
+            "multisympos": [2],
+            "multisymmults": [8],
+            "ScatterPay": null
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 1,
+          "round": 0,
+          "step": 0,
+          "act": 1,
+          "is_step_end": true,
+          "nowtotalwin": 400,
+          "roundaccwin": 400,
+          "stepaccwin": 400,
+          "actwin": 0,
+          "screen": [
+            0, 7, 0, 0, 0, 0, 0, 6, 0, 9, 0, 9, 8, 8, 1, 7, 9, 7, 3, 8, 3, 9, 8,
+            5, 7, 9, 8, 7, 8, 9
+          ]
+        },
+        {
+          "acttype": "GenAndCalcScreen",
+          "id": 2,
+          "round": 0,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 2752,
+          "roundaccwin": 2752,
+          "stepaccwin": 2352,
+          "actwin": 2352,
+          "screen": [
+            8, 7, 8, 1, 8, 1, 1, 6, 1, 9, 1, 9, 8, 8, 1, 7, 9, 7, 3, 8, 3, 9, 8,
+            5, 7, 9, 8, 7, 8, 9
+          ],
+          "details": [
+            {
+              "win": 16,
+              "symbol": 8,
+              "line": 0,
+              "count": 9,
+              "comb": 0,
+              "direction": 0,
+              "hits": [0, 2, 4, 12, 13, 19, 22, 26, 28]
+            }
+          ],
+          "ext": {
+            "nowmulti": 147,
+            "multisympos": [2, 3, 5, 6, 8, 10, 14],
+            "multisymmults": [8, 6, 100, 8, 15, 2, 8],
+            "ScatterPay": null
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 3,
+          "round": 0,
+          "step": 1,
+          "act": 1,
+          "is_step_end": true,
+          "nowtotalwin": 2752,
+          "roundaccwin": 2752,
+          "stepaccwin": 2352,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 1, 0, 1, 0, 0, 0, 9, 0, 9, 1, 7, 1, 7, 0, 7, 3, 6, 1, 9, 1,
+            5, 7, 9, 3, 7, 9, 9
+          ]
+        },
+        {
+          "acttype": "GenAndCalcScreen",
+          "id": 4,
+          "round": 0,
+          "step": 2,
+          "act": 0,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 2752,
+          "roundaccwin": 2752,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 8, 8, 1, 9, 1, 6, 1, 6, 9, 8, 9, 1, 7, 1, 7, 6, 7, 3, 6, 1, 9, 1,
+            5, 7, 9, 3, 7, 9, 9
+          ]
+        }
+      ]
+    }
+  ],
+  "isend": true
+}
