@@ -1,0 +1,135 @@
+{
+  "game": "StormOfSeth",
+  "gameid": 1801,
+  "win": 160,
+  "betunits": [20, 2000],
+  "betmode": 0,
+  "betmult": 1,
+  "gamemodes": [
+    {
+      "win": 160,
+      "modeid": 0,
+      "isend": true,
+      "trigger": 0,
+      "acts": [
+        {
+          "acttype": "InitGenScreen",
+          "id": 0,
+          "round": 0,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 0,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            9, 3, 5, 6, 8, 5, 8, 7, 8, 8, 7, 8, 7, 7, 9, 8, 7, 7, 3, 8, 5, 7, 1,
+            5, 9, 9, 6, 9, 8, 4
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 1,
+          "round": 0,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 0,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            9, 3, 5, 6, 8, 5, 8, 7, 8, 8, 7, 8, 7, 7, 9, 8, 7, 7, 3, 8, 5, 7, 1,
+            5, 9, 9, 6, 9, 8, 4
+          ],
+          "details": [
+            {
+              "win": 16,
+              "symbol": 8,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [4, 6, 8, 9, 11, 15, 19, 28]
+            }
+          ],
+          "ext": {
+            "nowmulti": 10,
+            "multisympos": [22],
+            "multisymmults": [10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 2,
+          "round": 0,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 0,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 0, 0, 9, 3, 5, 0, 0, 5, 7, 7, 9, 6, 7, 7, 3, 7, 5, 7, 7,
+            5, 9, 9, 6, 9, 1, 4
+          ],
+          "ext": {
+            "nowmulti": 10,
+            "multisympos": [22],
+            "multisymmults": [10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 3,
+          "round": 0,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 0,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            1, 1, 1, 8, 8, 1, 9, 3, 5, 1, 1, 5, 7, 7, 9, 6, 7, 7, 3, 7, 5, 7, 7,
+            5, 9, 9, 6, 9, 1, 4
+          ]
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 4,
+          "round": 0,
+          "step": 1,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 160,
+          "roundaccwin": 160,
+          "stepaccwin": 160,
+          "actwin": 160,
+          "screen": [
+            1, 1, 1, 8, 8, 1, 9, 3, 5, 1, 1, 5, 7, 7, 9, 6, 7, 7, 3, 7, 5, 7, 7,
+            5, 9, 9, 6, 9, 1, 4
+          ],
+          "ext": {
+            "nowmulti": 10,
+            "multisympos": [22],
+            "multisymmults": [10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        }
+      ]
+    }
+  ],
+  "isend": true
+}

@@ -1,0 +1,2456 @@
+{
+  "game": "StormOfSeth",
+  "gameid": 1801,
+  "win": 405296,
+  "betunits": [20, 2000],
+  "betmode": 0,
+  "betmult": 1,
+  "gamemodes": [
+    {
+      "win": 0,
+      "modeid": 0,
+      "isend": true,
+      "trigger": 0,
+      "acts": [
+        {
+          "acttype": "InitBaseGenScreen",
+          "id": 0,
+          "round": 0,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 0,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            7, 5, 6, 9, 9, 5, 9, 6, 7, 8, 7, 6, 5, 5, 8, 9, 4, 5, 9, 9, 6, 1, 4,
+            8, 7, 5, 3, 4, 8, 7
+          ]
+        },
+        {
+          "acttype": "NoWinBaseScreen",
+          "id": 1,
+          "round": 0,
+          "step": 0,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 0,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            7, 5, 6, 9, 9, 5, 9, 6, 7, 8, 7, 6, 5, 5, 8, 9, 4, 5, 9, 9, 6, 1, 4,
+            8, 7, 5, 3, 4, 8, 7
+          ]
+        }
+      ]
+    },
+    {
+      "win": 405296,
+      "modeid": 0,
+      "isend": true,
+      "trigger": 0,
+      "acts": [
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 0,
+          "round": 0,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 0,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            9, 3, 5, 6, 8, 5, 8, 7, 8, 8, 7, 8, 7, 7, 9, 8, 7, 7, 3, 8, 5, 7, 1,
+            5, 9, 9, 6, 9, 8, 4
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 1,
+          "round": 0,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 0,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            9, 3, 5, 6, 8, 5, 8, 7, 8, 8, 7, 8, 7, 7, 9, 8, 7, 7, 3, 8, 5, 7, 1,
+            5, 9, 9, 6, 9, 8, 4
+          ],
+          "details": [
+            {
+              "win": 16,
+              "symbol": 8,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [4, 6, 8, 9, 11, 15, 19, 28]
+            }
+          ],
+          "ext": {
+            "nowmulti": 10,
+            "multisympos": [22],
+            "multisymmults": [10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 2,
+          "round": 0,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 0,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 0, 0, 9, 3, 5, 0, 0, 5, 7, 7, 9, 6, 7, 7, 3, 7, 5, 7, 7,
+            5, 9, 9, 6, 9, 1, 4
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 3,
+          "round": 0,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 0,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            1, 1, 1, 8, 8, 1, 9, 3, 5, 1, 1, 5, 7, 7, 9, 6, 7, 7, 3, 7, 5, 7, 7,
+            5, 9, 9, 6, 9, 1, 4
+          ],
+          "ext": {
+            "nowmulti": 10,
+            "multisympos": [22],
+            "multisymmults": [10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 4,
+          "round": 0,
+          "step": 1,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 320,
+          "roundaccwin": 320,
+          "stepaccwin": 320,
+          "actwin": 320,
+          "screen": [
+            1, 1, 1, 8, 8, 1, 9, 3, 5, 1, 1, 5, 7, 7, 9, 6, 7, 7, 3, 7, 5, 7, 7,
+            5, 9, 9, 6, 9, 1, 4
+          ],
+          "ext": {
+            "nowmulti": 10,
+            "multisympos": [22],
+            "multisymmults": [10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 5,
+          "round": 1,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 320,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            3, 5, 9, 4, 4, 8, 7, 8, 8, 9, 9, 2, 4, 9, 7, 9, 4, 5, 9, 7, 3, 5, 7,
+            9, 4, 3, 9, 8, 6, 5
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 6,
+          "round": 1,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 320,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            3, 5, 9, 4, 4, 8, 7, 8, 8, 9, 9, 2, 4, 9, 7, 9, 4, 5, 9, 7, 3, 5, 7,
+            9, 4, 3, 9, 8, 6, 5
+          ],
+          "details": [
+            {
+              "win": 10,
+              "symbol": 9,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [2, 9, 10, 13, 15, 18, 23, 26]
+            }
+          ],
+          "ext": {
+            "nowmulti": 0,
+            "multisympos": null,
+            "multisymmults": null,
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 7,
+          "round": 1,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 320,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 0, 0, 3, 5, 0, 0, 4, 8, 7, 8, 8, 4, 4, 2, 4, 7, 7, 5, 7,
+            5, 4, 3, 3, 8, 6, 5
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 8,
+          "round": 1,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 320,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            1, 1, 8, 8, 1, 1, 3, 5, 1, 1, 4, 8, 7, 8, 8, 4, 4, 2, 4, 7, 7, 5, 7,
+            5, 4, 3, 3, 8, 6, 5
+          ],
+          "ext": {
+            "nowmulti": 0,
+            "multisympos": null,
+            "multisymmults": null,
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 9,
+          "round": 1,
+          "step": 1,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 420,
+          "roundaccwin": 100,
+          "stepaccwin": 100,
+          "actwin": 100,
+          "screen": [
+            1, 1, 8, 8, 1, 1, 3, 5, 1, 1, 4, 8, 7, 8, 8, 4, 4, 2, 4, 7, 7, 5, 7,
+            5, 4, 3, 3, 8, 6, 5
+          ],
+          "ext": {
+            "nowmulti": 0,
+            "multisympos": null,
+            "multisymmults": null,
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 10,
+          "round": 2,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            5, 1, 9, 7, 7, 5, 9, 4, 5, 1, 4, 7, 5, 4, 9, 8, 4, 7, 8, 3, 8, 2, 8,
+            8, 9, 8, 7, 5, 5, 3
+          ]
+        },
+        {
+          "acttype": "NoWinFreeScreen",
+          "id": 11,
+          "round": 2,
+          "step": 0,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            5, 1, 9, 7, 7, 5, 9, 4, 5, 1, 4, 7, 5, 4, 9, 8, 4, 7, 8, 3, 8, 2, 8,
+            8, 9, 8, 7, 5, 5, 3
+          ]
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 12,
+          "round": 3,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 8, 9, 6, 5, 4, 4, 8, 5, 9, 8, 9, 5, 9, 9, 9, 9, 4, 7, 5, 8, 8, 5,
+            8, 7, 9, 7, 6, 6, 8
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 13,
+          "round": 3,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 8, 9, 6, 5, 4, 4, 8, 5, 9, 8, 9, 5, 9, 9, 9, 9, 4, 7, 5, 8, 8, 5,
+            8, 7, 9, 7, 6, 6, 8
+          ],
+          "details": [
+            {
+              "win": 10,
+              "symbol": 9,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [2, 9, 11, 13, 14, 15, 16, 25]
+            }
+          ],
+          "ext": {
+            "nowmulti": 0,
+            "multisympos": null,
+            "multisymmults": null,
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 14,
+          "round": 3,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 0, 0, 0, 0, 0, 4, 0, 0, 0, 5, 4, 5, 8, 5, 6, 8, 4, 7, 8, 8, 8, 5,
+            8, 7, 5, 7, 6, 6, 8
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 15,
+          "round": 3,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 8, 8, 8, 1, 1, 4, 1, 1, 1, 5, 4, 5, 8, 5, 6, 8, 4, 7, 8, 8, 8, 5,
+            8, 7, 5, 7, 6, 6, 8
+          ],
+          "ext": {
+            "nowmulti": 0,
+            "multisympos": null,
+            "multisymmults": null,
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "StepWin",
+          "id": 16,
+          "round": 3,
+          "step": 1,
+          "act": 1,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 8, 8, 8, 1, 1, 4, 1, 1, 1, 5, 4, 5, 8, 5, 6, 8, 4, 7, 8, 8, 8, 5,
+            8, 7, 5, 7, 6, 6, 8
+          ],
+          "details": [
+            {
+              "win": 24,
+              "symbol": 8,
+              "line": 0,
+              "count": 10,
+              "comb": 0,
+              "direction": 0,
+              "hits": [1, 2, 3, 13, 16, 19, 20, 21, 23, 29]
+            }
+          ],
+          "ext": {
+            "nowmulti": 368,
+            "multisympos": [4, 5, 7, 8, 9],
+            "multisymmults": [100, 2, 250, 6, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 17,
+          "round": 3,
+          "step": 1,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 0, 0, 0, 0, 0, 4, 0, 0, 0, 1, 0, 5, 0, 1, 1, 5, 1, 7, 1, 5, 6, 5,
+            4, 7, 5, 7, 6, 6, 4
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 18,
+          "round": 3,
+          "step": 2,
+          "act": 0,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 9, 8, 8, 8, 6, 4, 8, 6, 6, 1, 8, 5, 6, 1, 1, 5, 1, 7, 1, 5, 6, 5,
+            4, 7, 5, 7, 6, 6, 4
+          ],
+          "ext": {
+            "nowmulti": 368,
+            "multisympos": [4, 5, 7, 8, 9],
+            "multisymmults": [100, 2, 250, 6, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "StepWin",
+          "id": 19,
+          "round": 3,
+          "step": 2,
+          "act": 1,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 9, 8, 8, 8, 6, 4, 8, 6, 6, 1, 8, 5, 6, 1, 1, 5, 1, 7, 1, 5, 6, 5,
+            4, 7, 5, 7, 6, 6, 4
+          ],
+          "details": [
+            {
+              "win": 30,
+              "symbol": 6,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [0, 5, 8, 9, 13, 21, 27, 28]
+            }
+          ],
+          "ext": {
+            "nowmulti": 736,
+            "multisympos": [4, 5, 7, 8, 9],
+            "multisymmults": [100, 2, 250, 6, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 20,
+          "round": 3,
+          "step": 2,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 0, 0, 4, 9, 8, 0, 8, 8, 5, 8, 1, 0, 1, 1, 7, 1, 5, 8, 5,
+            4, 7, 5, 7, 1, 5, 4
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 21,
+          "round": 3,
+          "step": 3,
+          "act": 0,
+          "nowtotalwin": 420,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            1, 9, 9, 6, 6, 8, 4, 9, 8, 9, 8, 8, 5, 8, 1, 9, 1, 1, 7, 1, 5, 8, 5,
+            4, 7, 5, 7, 1, 5, 4
+          ],
+          "ext": {
+            "nowmulti": 736,
+            "multisympos": [4, 5, 7, 8, 9],
+            "multisymmults": [100, 2, 250, 6, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 22,
+          "round": 3,
+          "step": 3,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 94628,
+          "roundaccwin": 94208,
+          "stepaccwin": 94208,
+          "actwin": 94208,
+          "screen": [
+            1, 9, 9, 6, 6, 8, 4, 9, 8, 9, 8, 8, 5, 8, 1, 9, 1, 1, 7, 1, 5, 8, 5,
+            4, 7, 5, 7, 1, 5, 4
+          ],
+          "ext": {
+            "nowmulti": 736,
+            "multisympos": [4, 5, 7, 8, 9],
+            "multisymmults": [100, 2, 250, 6, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 23,
+          "round": 4,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 94628,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 4, 9, 7, 8, 9, 8, 6, 8, 1, 8, 8, 9, 8, 7, 4, 9, 6, 5, 8, 3, 4, 5,
+            8, 9, 7, 9, 3, 9, 1
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 24,
+          "round": 4,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 94628,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 4, 9, 7, 8, 9, 8, 6, 8, 1, 8, 8, 9, 8, 7, 4, 9, 6, 5, 8, 3, 4, 5,
+            8, 9, 7, 9, 3, 9, 1
+          ],
+          "details": [
+            {
+              "win": 16,
+              "symbol": 8,
+              "line": 0,
+              "count": 9,
+              "comb": 0,
+              "direction": 0,
+              "hits": [0, 4, 6, 8, 10, 11, 13, 19, 23]
+            }
+          ],
+          "ext": {
+            "nowmulti": 105,
+            "multisympos": [9, 29],
+            "multisymmults": [100, 5],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 25,
+          "round": 4,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 94628,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 7, 0, 0, 0, 0, 9, 1, 0, 0, 9, 4, 7, 4, 9, 9, 5, 6, 3, 4, 5,
+            6, 9, 7, 9, 3, 9, 1
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 26,
+          "round": 4,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 94628,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 8, 1, 7, 8, 8, 1, 1, 9, 1, 1, 1, 9, 4, 7, 4, 9, 9, 5, 6, 3, 4, 5,
+            6, 9, 7, 9, 3, 9, 1
+          ],
+          "ext": {
+            "nowmulti": 105,
+            "multisympos": [9, 29],
+            "multisymmults": [100, 5],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 27,
+          "round": 4,
+          "step": 1,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 97988,
+          "roundaccwin": 3360,
+          "stepaccwin": 3360,
+          "actwin": 3360,
+          "screen": [
+            8, 8, 1, 7, 8, 8, 1, 1, 9, 1, 1, 1, 9, 4, 7, 4, 9, 9, 5, 6, 3, 4, 5,
+            6, 9, 7, 9, 3, 9, 1
+          ],
+          "ext": {
+            "nowmulti": 105,
+            "multisympos": [9, 29],
+            "multisymmults": [100, 5],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 28,
+          "round": 5,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 97988,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            9, 9, 9, 7, 9, 7, 3, 8, 8, 1, 7, 7, 9, 7, 5, 8, 3, 8, 7, 1, 4, 2, 7,
+            3, 9, 4, 9, 5, 9, 5
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 29,
+          "round": 5,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 97988,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            9, 9, 9, 7, 9, 7, 3, 8, 8, 1, 7, 7, 9, 7, 5, 8, 3, 8, 7, 1, 4, 2, 7,
+            3, 9, 4, 9, 5, 9, 5
+          ],
+          "details": [
+            {
+              "win": 10,
+              "symbol": 9,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [0, 1, 2, 4, 12, 24, 26, 28]
+            }
+          ],
+          "ext": {
+            "nowmulti": 45,
+            "multisympos": [9, 19],
+            "multisymmults": [25, 20],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 30,
+          "round": 5,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 97988,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 7, 0, 7, 0, 8, 0, 1, 0, 7, 0, 7, 8, 8, 7, 8, 3, 1, 5, 2, 3,
+            3, 7, 4, 4, 5, 7, 5
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 31,
+          "round": 5,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 97988,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 1, 8, 7, 8, 7, 8, 8, 1, 1, 1, 7, 1, 7, 8, 8, 7, 8, 3, 1, 5, 2, 3,
+            3, 7, 4, 4, 5, 7, 5
+          ],
+          "ext": {
+            "nowmulti": 45,
+            "multisympos": [9, 19],
+            "multisymmults": [25, 20],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 32,
+          "round": 5,
+          "step": 1,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 98888,
+          "roundaccwin": 900,
+          "stepaccwin": 900,
+          "actwin": 900,
+          "screen": [
+            6, 1, 8, 7, 8, 7, 8, 8, 1, 1, 1, 7, 1, 7, 8, 8, 7, 8, 3, 1, 5, 2, 3,
+            3, 7, 4, 4, 5, 7, 5
+          ],
+          "ext": {
+            "nowmulti": 45,
+            "multisympos": [9, 19],
+            "multisymmults": [25, 20],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 33,
+          "round": 6,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 98888,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 4, 8, 4, 9, 4, 8, 8, 7, 5, 7, 6, 1, 8, 9, 9, 4, 8, 8, 3, 6, 8, 9,
+            8, 7, 8, 9, 5, 7, 7
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 34,
+          "round": 6,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 98888,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 4, 8, 4, 9, 4, 8, 8, 7, 5, 7, 6, 1, 8, 9, 9, 4, 8, 8, 3, 6, 8, 9,
+            8, 7, 8, 9, 5, 7, 7
+          ],
+          "details": [
+            {
+              "win": 16,
+              "symbol": 8,
+              "line": 0,
+              "count": 9,
+              "comb": 0,
+              "direction": 0,
+              "hits": [2, 6, 7, 13, 17, 18, 21, 23, 25]
+            }
+          ],
+          "ext": {
+            "nowmulti": 12,
+            "multisympos": [12],
+            "multisymmults": [12],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 35,
+          "round": 6,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 98888,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 9, 0, 0, 0, 7, 4, 7, 0, 6, 0, 9, 5, 4, 4, 1, 4, 6, 9, 9,
+            6, 7, 3, 9, 5, 7, 7
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 36,
+          "round": 6,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 98888,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 6, 1, 1, 9, 8, 1, 8, 7, 4, 7, 1, 6, 1, 9, 5, 4, 4, 1, 4, 6, 9, 9,
+            6, 7, 3, 9, 5, 7, 7
+          ],
+          "ext": {
+            "nowmulti": 12,
+            "multisympos": [12],
+            "multisymmults": [12],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 37,
+          "round": 6,
+          "step": 1,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 99272,
+          "roundaccwin": 384,
+          "stepaccwin": 384,
+          "actwin": 384,
+          "screen": [
+            8, 6, 1, 1, 9, 8, 1, 8, 7, 4, 7, 1, 6, 1, 9, 5, 4, 4, 1, 4, 6, 9, 9,
+            6, 7, 3, 9, 5, 7, 7
+          ],
+          "ext": {
+            "nowmulti": 12,
+            "multisympos": [12],
+            "multisymmults": [12],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 38,
+          "round": 7,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            7, 9, 8, 6, 8, 4, 9, 6, 2, 4, 8, 8, 5, 4, 5, 5, 9, 3, 9, 5, 9, 3, 5,
+            7, 8, 3, 5, 6, 9, 4
+          ]
+        },
+        {
+          "acttype": "NoWinFreeScreen",
+          "id": 39,
+          "round": 7,
+          "step": 0,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            7, 9, 8, 6, 8, 4, 9, 6, 2, 4, 8, 8, 5, 4, 5, 5, 9, 3, 9, 5, 9, 3, 5,
+            7, 8, 3, 5, 6, 9, 4
+          ]
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 40,
+          "round": 8,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            1, 9, 4, 9, 9, 4, 4, 7, 9, 7, 4, 4, 4, 4, 4, 4, 9, 8, 3, 9, 8, 5, 4,
+            5, 8, 7, 8, 9, 7, 6
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 41,
+          "round": 8,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            1, 9, 4, 9, 9, 4, 4, 7, 9, 7, 4, 4, 4, 4, 4, 4, 9, 8, 3, 9, 8, 5, 4,
+            5, 8, 7, 8, 9, 7, 6
+          ],
+          "details": [
+            {
+              "win": 200,
+              "symbol": 4,
+              "line": 0,
+              "count": 10,
+              "comb": 0,
+              "direction": 0,
+              "hits": [2, 5, 6, 10, 11, 12, 13, 14, 15, 22]
+            }
+          ],
+          "ext": {
+            "nowmulti": 25,
+            "multisympos": [0],
+            "multisymmults": [25],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 42,
+          "round": 8,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 0, 0, 0, 9, 0, 9, 0, 0, 1, 7, 9, 7, 9, 8, 3, 9, 8, 5, 9,
+            5, 8, 7, 8, 9, 7, 6
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 43,
+          "round": 8,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 1, 8, 1, 8, 8, 1, 9, 1, 9, 1, 1, 1, 7, 9, 7, 9, 8, 3, 9, 8, 5, 9,
+            5, 8, 7, 8, 9, 7, 6
+          ],
+          "ext": {
+            "nowmulti": 25,
+            "multisympos": [0],
+            "multisymmults": [25],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "StepWin",
+          "id": 44,
+          "round": 8,
+          "step": 1,
+          "act": 1,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 1, 8, 1, 8, 8, 1, 9, 1, 9, 1, 1, 1, 7, 9, 7, 9, 8, 3, 9, 8, 5, 9,
+            5, 8, 7, 8, 9, 7, 6
+          ],
+          "details": [
+            {
+              "win": 16,
+              "symbol": 8,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [0, 2, 4, 5, 17, 20, 24, 26]
+            }
+          ],
+          "ext": {
+            "nowmulti": 266,
+            "multisympos": [0, 1, 3, 6, 8, 10, 11],
+            "multisymmults": [25, 25, 6, 150, 25, 4, 6],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 45,
+          "round": 8,
+          "step": 1,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 1, 0, 1, 0, 0, 0, 9, 0, 9, 1, 0, 1, 7, 0, 7, 9, 1, 1, 9, 1, 5, 9,
+            5, 3, 7, 9, 9, 7, 6
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 46,
+          "round": 8,
+          "step": 2,
+          "act": 0,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 1, 9, 1, 6, 8, 6, 9, 8, 9, 1, 6, 1, 7, 6, 7, 9, 1, 1, 9, 1, 5, 9,
+            5, 3, 7, 9, 9, 7, 6
+          ],
+          "ext": {
+            "nowmulti": 266,
+            "multisympos": [0, 1, 3, 6, 8, 10, 11],
+            "multisymmults": [25, 25, 6, 150, 25, 4, 6],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "StepWin",
+          "id": 47,
+          "round": 8,
+          "step": 2,
+          "act": 1,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 1, 9, 1, 6, 8, 6, 9, 8, 9, 1, 6, 1, 7, 6, 7, 9, 1, 1, 9, 1, 5, 9,
+            5, 3, 7, 9, 9, 7, 6
+          ],
+          "details": [
+            {
+              "win": 10,
+              "symbol": 9,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [2, 7, 9, 16, 19, 22, 26, 27]
+            }
+          ],
+          "ext": {
+            "nowmulti": 509,
+            "multisympos": [0, 1, 3, 6, 8, 10, 11],
+            "multisymmults": [25, 25, 6, 150, 25, 4, 6],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 48,
+          "round": 8,
+          "step": 2,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 0, 0, 0, 0, 8, 6, 0, 0, 0, 0, 1, 1, 1, 8, 1, 6, 1, 1, 7, 6, 7, 1,
+            5, 3, 7, 1, 5, 7, 6
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 49,
+          "round": 8,
+          "step": 3,
+          "act": 0,
+          "nowtotalwin": 99272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 6, 6, 6, 9, 8, 6, 8, 9, 8, 8, 1, 1, 1, 8, 1, 6, 1, 1, 7, 6, 7, 1,
+            5, 3, 7, 1, 5, 7, 6
+          ],
+          "ext": {
+            "nowmulti": 509,
+            "multisympos": [0, 1, 3, 6, 8, 10, 11],
+            "multisymmults": [25, 25, 6, 150, 25, 4, 6],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "MaxWin",
+          "id": 50,
+          "round": 8,
+          "step": 3,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 299272,
+          "roundaccwin": 200000,
+          "stepaccwin": 200000,
+          "actwin": 200000,
+          "screen": [
+            8, 6, 6, 6, 9, 8, 6, 8, 9, 8, 8, 1, 1, 1, 8, 1, 6, 1, 1, 7, 6, 7, 1,
+            5, 3, 7, 1, 5, 7, 6
+          ],
+          "ext": {
+            "nowmulti": 509,
+            "multisympos": [0, 1, 3, 6, 8, 10, 11],
+            "multisymmults": [25, 25, 6, 150, 25, 4, 6],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 51,
+          "round": 9,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            5, 7, 6, 9, 8, 4, 6, 9, 5, 7, 6, 9, 9, 6, 4, 9, 8, 4, 9, 9, 6, 4, 1,
+            8, 8, 9, 8, 9, 8, 8
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 52,
+          "round": 9,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            5, 7, 6, 9, 8, 4, 6, 9, 5, 7, 6, 9, 9, 6, 4, 9, 8, 4, 9, 9, 6, 4, 1,
+            8, 8, 9, 8, 9, 8, 8
+          ],
+          "details": [
+            {
+              "win": 10,
+              "symbol": 9,
+              "line": 0,
+              "count": 9,
+              "comb": 0,
+              "direction": 0,
+              "hits": [3, 7, 11, 12, 15, 18, 19, 25, 27]
+            }
+          ],
+          "ext": {
+            "nowmulti": 15,
+            "multisympos": [22],
+            "multisymmults": [15],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 53,
+          "round": 9,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 6, 0, 8, 0, 0, 0, 5, 0, 6, 4, 5, 0, 4, 0, 8, 4, 6, 7, 6, 7, 1,
+            8, 8, 6, 8, 4, 8, 8
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 54,
+          "round": 9,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 6, 6, 6, 8, 1, 1, 8, 5, 8, 6, 4, 5, 1, 4, 1, 8, 4, 6, 7, 6, 7, 1,
+            8, 8, 6, 8, 4, 8, 8
+          ],
+          "ext": {
+            "nowmulti": 15,
+            "multisympos": [22],
+            "multisymmults": [15],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "StepWin",
+          "id": 55,
+          "round": 9,
+          "step": 1,
+          "act": 1,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 6, 6, 6, 8, 1, 1, 8, 5, 8, 6, 4, 5, 1, 4, 1, 8, 4, 6, 7, 6, 7, 1,
+            8, 8, 6, 8, 4, 8, 8
+          ],
+          "details": [
+            {
+              "win": 24,
+              "symbol": 8,
+              "line": 0,
+              "count": 10,
+              "comb": 0,
+              "direction": 0,
+              "hits": [0, 4, 7, 9, 16, 23, 24, 26, 28, 29]
+            }
+          ],
+          "ext": {
+            "nowmulti": 64,
+            "multisympos": [22, 5, 6, 13, 15],
+            "multisymmults": [15, 12, 8, 10, 4],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 56,
+          "round": 9,
+          "step": 1,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 1, 1, 5, 1, 0, 1, 5, 7, 4, 7, 6,
+            4, 6, 6, 6, 4, 1, 4
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 57,
+          "round": 9,
+          "step": 2,
+          "act": 0,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 8, 1, 8, 6, 6, 6, 6, 6, 6, 8, 8, 1, 1, 5, 1, 1, 1, 5, 7, 4, 7, 6,
+            4, 6, 6, 6, 4, 1, 4
+          ],
+          "ext": {
+            "nowmulti": 64,
+            "multisympos": [22, 5, 6, 13, 15],
+            "multisymmults": [15, 12, 8, 10, 4],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "StepWin",
+          "id": 58,
+          "round": 9,
+          "step": 2,
+          "act": 1,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 8, 1, 8, 6, 6, 6, 6, 6, 6, 8, 8, 1, 1, 5, 1, 1, 1, 5, 7, 4, 7, 6,
+            4, 6, 6, 6, 4, 1, 4
+          ],
+          "details": [
+            {
+              "win": 40,
+              "symbol": 6,
+              "line": 0,
+              "count": 10,
+              "comb": 0,
+              "direction": 0,
+              "hits": [4, 5, 6, 7, 8, 9, 22, 24, 25, 26]
+            }
+          ],
+          "ext": {
+            "nowmulti": 148,
+            "multisympos": [22, 5, 6, 13, 15, 2, 16],
+            "multisymmults": [15, 12, 8, 10, 4, 25, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 59,
+          "round": 9,
+          "step": 2,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 8, 8, 8, 1, 1, 8, 1, 1, 1, 5, 7, 1,
+            4, 5, 7, 4, 4, 1, 4
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 60,
+          "round": 9,
+          "step": 3,
+          "act": 0,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            9, 9, 6, 9, 9, 8, 9, 9, 8, 8, 8, 8, 8, 8, 1, 1, 8, 1, 1, 1, 5, 7, 1,
+            4, 5, 7, 4, 4, 1, 4
+          ],
+          "ext": {
+            "nowmulti": 148,
+            "multisympos": [22, 5, 6, 13, 15, 2, 16],
+            "multisymmults": [15, 12, 8, 10, 4, 25, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "StepWin",
+          "id": 61,
+          "round": 9,
+          "step": 3,
+          "act": 1,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            9, 9, 6, 9, 9, 8, 9, 9, 8, 8, 8, 8, 8, 8, 1, 1, 8, 1, 1, 1, 5, 7, 1,
+            4, 5, 7, 4, 4, 1, 4
+          ],
+          "details": [
+            {
+              "win": 16,
+              "symbol": 8,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [5, 8, 9, 10, 11, 12, 13, 16]
+            }
+          ],
+          "ext": {
+            "nowmulti": 232,
+            "multisympos": [22, 5, 6, 13, 15, 2, 16],
+            "multisymmults": [15, 12, 8, 10, 4, 25, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 62,
+          "round": 9,
+          "step": 3,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 0, 0, 9, 9, 6, 9, 0, 0, 9, 9, 1, 1, 9, 1, 1, 1, 5, 7, 1,
+            4, 5, 7, 4, 4, 1, 4
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 63,
+          "round": 9,
+          "step": 4,
+          "act": 0,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 6, 8, 9, 6, 9, 9, 9, 6, 9, 9, 9, 9, 9, 1, 1, 9, 1, 1, 1, 5, 7, 1,
+            4, 5, 7, 4, 4, 1, 4
+          ],
+          "ext": {
+            "nowmulti": 232,
+            "multisympos": [22, 5, 6, 13, 15, 2, 16],
+            "multisymmults": [15, 12, 8, 10, 4, 25, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "StepWin",
+          "id": 64,
+          "round": 9,
+          "step": 4,
+          "act": 1,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 6, 8, 9, 6, 9, 9, 9, 6, 9, 9, 9, 9, 9, 1, 1, 9, 1, 1, 1, 5, 7, 1,
+            4, 5, 7, 4, 4, 1, 4
+          ],
+          "details": [
+            {
+              "win": 20,
+              "symbol": 9,
+              "line": 0,
+              "count": 10,
+              "comb": 0,
+              "direction": 0,
+              "hits": [3, 5, 6, 7, 9, 10, 11, 12, 13, 16]
+            }
+          ],
+          "ext": {
+            "nowmulti": 316,
+            "multisympos": [22, 5, 6, 13, 15, 2, 16],
+            "multisymmults": [15, 12, 8, 10, 4, 25, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 65,
+          "round": 9,
+          "step": 4,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 8, 0, 0, 0, 0, 0, 6, 0, 0, 0, 6, 6, 1, 1, 6, 1, 1, 1, 5, 7, 1,
+            4, 5, 7, 4, 4, 1, 4
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 66,
+          "round": 9,
+          "step": 5,
+          "act": 0,
+          "nowtotalwin": 299272,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 8, 8, 5, 8, 5, 5, 5, 6, 6, 5, 6, 6, 6, 1, 1, 6, 1, 1, 1, 5, 7, 1,
+            4, 5, 7, 4, 4, 1, 4
+          ],
+          "ext": {
+            "nowmulti": 316,
+            "multisympos": [22, 5, 6, 13, 15, 2, 16],
+            "multisymmults": [15, 12, 8, 10, 4, 25, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 67,
+          "round": 9,
+          "step": 5,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 368792,
+          "roundaccwin": 69520,
+          "stepaccwin": 69520,
+          "actwin": 69520,
+          "screen": [
+            8, 8, 8, 5, 8, 5, 5, 5, 6, 6, 5, 6, 6, 6, 1, 1, 6, 1, 1, 1, 5, 7, 1,
+            4, 5, 7, 4, 4, 1, 4
+          ],
+          "ext": {
+            "nowmulti": 316,
+            "multisympos": [22, 5, 6, 13, 15, 2, 16],
+            "multisymmults": [15, 12, 8, 10, 4, 25, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 68,
+          "round": 10,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 368792,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            7, 9, 9, 9, 7, 8, 3, 6, 5, 9, 9, 8, 8, 4, 6, 8, 7, 9, 4, 5, 3, 6, 9,
+            5, 8, 3, 7, 8, 5, 9
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 69,
+          "round": 10,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 368792,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            7, 9, 9, 9, 7, 8, 3, 6, 5, 9, 9, 8, 8, 4, 6, 8, 7, 9, 4, 5, 3, 6, 9,
+            5, 8, 3, 7, 8, 5, 9
+          ],
+          "details": [
+            {
+              "win": 10,
+              "symbol": 9,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [1, 2, 3, 9, 10, 17, 22, 29]
+            }
+          ],
+          "ext": {
+            "nowmulti": 0,
+            "multisympos": null,
+            "multisymmults": null,
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 70,
+          "round": 10,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 368792,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            7, 0, 0, 0, 0, 0, 3, 6, 5, 0, 0, 0, 8, 4, 6, 8, 7, 8, 4, 5, 3, 6, 7,
+            8, 8, 3, 7, 8, 5, 5
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 71,
+          "round": 10,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 368792,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            7, 1, 1, 8, 8, 8, 3, 6, 5, 1, 1, 1, 8, 4, 6, 8, 7, 8, 4, 5, 3, 6, 7,
+            8, 8, 3, 7, 8, 5, 5
+          ],
+          "ext": {
+            "nowmulti": 0,
+            "multisympos": null,
+            "multisymmults": null,
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "StepWin",
+          "id": 72,
+          "round": 10,
+          "step": 1,
+          "act": 1,
+          "nowtotalwin": 368792,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            7, 1, 1, 8, 8, 8, 3, 6, 5, 1, 1, 1, 8, 4, 6, 8, 7, 8, 4, 5, 3, 6, 7,
+            8, 8, 3, 7, 8, 5, 5
+          ],
+          "details": [
+            {
+              "win": 16,
+              "symbol": 8,
+              "line": 0,
+              "count": 9,
+              "comb": 0,
+              "direction": 0,
+              "hits": [3, 4, 5, 12, 15, 17, 23, 24, 27]
+            }
+          ],
+          "ext": {
+            "nowmulti": 235,
+            "multisympos": [1, 2, 9, 10, 11],
+            "multisymmults": [100, 15, 12, 8, 100],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 73,
+          "round": 10,
+          "step": 1,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 368792,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 1, 1, 0, 0, 0, 0, 6, 5, 0, 1, 0, 7, 4, 6, 0, 7, 0, 3, 5, 3, 1, 7,
+            1, 4, 3, 7, 6, 5, 5
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 74,
+          "round": 10,
+          "step": 2,
+          "act": 0,
+          "nowtotalwin": 368792,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 1, 1, 9, 6, 9, 1, 6, 5, 8, 1, 8, 7, 4, 6, 6, 7, 6, 3, 5, 3, 1, 7,
+            1, 4, 3, 7, 6, 5, 5
+          ],
+          "ext": {
+            "nowmulti": 235,
+            "multisympos": [1, 2, 9, 10, 11],
+            "multisymmults": [100, 15, 12, 8, 100],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 75,
+          "round": 10,
+          "step": 2,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 381012,
+          "roundaccwin": 12220,
+          "stepaccwin": 12220,
+          "actwin": 12220,
+          "screen": [
+            8, 1, 1, 9, 6, 9, 1, 6, 5, 8, 1, 8, 7, 4, 6, 6, 7, 6, 3, 5, 3, 1, 7,
+            1, 4, 3, 7, 6, 5, 5
+          ],
+          "ext": {
+            "nowmulti": 235,
+            "multisympos": [1, 2, 9, 10, 11],
+            "multisymmults": [100, 15, 12, 8, 100],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 76,
+          "round": 11,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 381012,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            4, 4, 4, 9, 7, 8, 3, 9, 9, 8, 9, 7, 8, 9, 9, 5, 7, 1, 7, 8, 8, 4, 4,
+            4, 7, 7, 7, 9, 9, 4
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 77,
+          "round": 11,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 381012,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            4, 4, 4, 9, 7, 8, 3, 9, 9, 8, 9, 7, 8, 9, 9, 5, 7, 1, 7, 8, 8, 4, 4,
+            4, 7, 7, 7, 9, 9, 4
+          ],
+          "details": [
+            {
+              "win": 10,
+              "symbol": 9,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [3, 7, 8, 10, 13, 14, 27, 28]
+            }
+          ],
+          "ext": {
+            "nowmulti": 12,
+            "multisympos": [17],
+            "multisymmults": [12],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 78,
+          "round": 11,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 381012,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            4, 0, 0, 0, 0, 8, 3, 0, 0, 0, 0, 7, 8, 4, 4, 8, 7, 1, 7, 8, 8, 5, 7,
+            4, 7, 7, 7, 4, 4, 4
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 79,
+          "round": 11,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 381012,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            4, 8, 8, 8, 8, 8, 3, 1, 1, 1, 1, 7, 8, 4, 4, 8, 7, 1, 7, 8, 8, 5, 7,
+            4, 7, 7, 7, 4, 4, 4
+          ],
+          "ext": {
+            "nowmulti": 12,
+            "multisympos": [17],
+            "multisymmults": [12],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "StepWin",
+          "id": 80,
+          "round": 11,
+          "step": 1,
+          "act": 1,
+          "nowtotalwin": 381012,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            4, 8, 8, 8, 8, 8, 3, 1, 1, 1, 1, 7, 8, 4, 4, 8, 7, 1, 7, 8, 8, 5, 7,
+            4, 7, 7, 7, 4, 4, 4
+          ],
+          "details": [
+            {
+              "win": 16,
+              "symbol": 8,
+              "line": 0,
+              "count": 9,
+              "comb": 0,
+              "direction": 0,
+              "hits": [1, 2, 3, 4, 5, 12, 15, 19, 20]
+            }
+          ],
+          "ext": {
+            "nowmulti": 74,
+            "multisympos": [17, 7, 8, 9, 10],
+            "multisymmults": [12, 15, 8, 15, 12],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 81,
+          "round": 11,
+          "step": 1,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 381012,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 1, 7, 3, 1, 1, 1, 7, 1, 7, 4, 4, 5, 7,
+            4, 7, 7, 7, 4, 4, 4
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 82,
+          "round": 11,
+          "step": 2,
+          "act": 0,
+          "nowtotalwin": 381012,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            1, 8, 8, 8, 6, 1, 4, 6, 6, 6, 1, 7, 3, 1, 1, 1, 7, 1, 7, 4, 4, 5, 7,
+            4, 7, 7, 7, 4, 4, 4
+          ],
+          "ext": {
+            "nowmulti": 74,
+            "multisympos": [17, 7, 8, 9, 10],
+            "multisymmults": [12, 15, 8, 15, 12],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 83,
+          "round": 11,
+          "step": 2,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 384860,
+          "roundaccwin": 3848,
+          "stepaccwin": 3848,
+          "actwin": 3848,
+          "screen": [
+            1, 8, 8, 8, 6, 1, 4, 6, 6, 6, 1, 7, 3, 1, 1, 1, 7, 1, 7, 4, 4, 5, 7,
+            4, 7, 7, 7, 4, 4, 4
+          ],
+          "ext": {
+            "nowmulti": 74,
+            "multisympos": [17, 7, 8, 9, 10],
+            "multisymmults": [12, 15, 8, 15, 12],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 84,
+          "round": 12,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 384860,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            7, 9, 8, 8, 9, 3, 3, 9, 1, 7, 8, 8, 9, 5, 8, 3, 7, 4, 3, 8, 7, 9, 3,
+            8, 9, 9, 9, 3, 9, 3
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 85,
+          "round": 12,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 384860,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            7, 9, 8, 8, 9, 3, 3, 9, 1, 7, 8, 8, 9, 5, 8, 3, 7, 4, 3, 8, 7, 9, 3,
+            8, 9, 9, 9, 3, 9, 3
+          ],
+          "details": [
+            {
+              "win": 10,
+              "symbol": 9,
+              "line": 0,
+              "count": 9,
+              "comb": 0,
+              "direction": 0,
+              "hits": [1, 4, 7, 12, 21, 24, 25, 26, 28]
+            }
+          ],
+          "ext": {
+            "nowmulti": 25,
+            "multisympos": [8],
+            "multisymmults": [25],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 86,
+          "round": 12,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 384860,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 0, 3, 0, 0, 8, 8, 0, 8, 7, 0, 1, 7, 8, 4, 3, 5, 8, 3, 7,
+            8, 3, 8, 7, 3, 3, 3
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 87,
+          "round": 12,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 384860,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 6, 1, 1, 8, 3, 1, 8, 8, 8, 1, 8, 7, 1, 1, 7, 8, 4, 3, 5, 8, 3, 7,
+            8, 3, 8, 7, 3, 3, 3
+          ],
+          "ext": {
+            "nowmulti": 25,
+            "multisympos": [8],
+            "multisymmults": [25],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "StepWin",
+          "id": 88,
+          "round": 12,
+          "step": 1,
+          "act": 1,
+          "nowtotalwin": 384860,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 6, 1, 1, 8, 3, 1, 8, 8, 8, 1, 8, 7, 1, 1, 7, 8, 4, 3, 5, 8, 3, 7,
+            8, 3, 8, 7, 3, 3, 3
+          ],
+          "details": [
+            {
+              "win": 24,
+              "symbol": 8,
+              "line": 0,
+              "count": 10,
+              "comb": 0,
+              "direction": 0,
+              "hits": [0, 4, 7, 8, 9, 11, 16, 20, 23, 25]
+            }
+          ],
+          "ext": {
+            "nowmulti": 229,
+            "multisympos": [8, 2, 3, 6, 10, 13],
+            "multisymmults": [25, 8, 15, 50, 100, 6],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 89,
+          "round": 12,
+          "step": 1,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 384860,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 7, 6, 1, 7, 1, 3, 3, 1, 1, 3, 7,
+            4, 3, 5, 7, 3, 3, 3
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 90,
+          "round": 12,
+          "step": 2,
+          "act": 0,
+          "nowtotalwin": 384860,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            6, 9, 6, 8, 8, 8, 1, 8, 8, 1, 6, 1, 7, 6, 1, 7, 1, 3, 3, 1, 1, 3, 7,
+            4, 3, 5, 7, 3, 3, 3
+          ],
+          "ext": {
+            "nowmulti": 229,
+            "multisympos": [8, 2, 3, 6, 10, 13],
+            "multisymmults": [25, 8, 15, 50, 100, 6],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 91,
+          "round": 12,
+          "step": 2,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 400432,
+          "roundaccwin": 15572,
+          "stepaccwin": 15572,
+          "actwin": 15572,
+          "screen": [
+            6, 9, 6, 8, 8, 8, 1, 8, 8, 1, 6, 1, 7, 6, 1, 7, 1, 3, 3, 1, 1, 3, 7,
+            4, 3, 5, 7, 3, 3, 3
+          ],
+          "ext": {
+            "nowmulti": 229,
+            "multisympos": [8, 2, 3, 6, 10, 13],
+            "multisymmults": [25, 8, 15, 50, 100, 6],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 92,
+          "round": 13,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 400432,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            9, 3, 3, 8, 4, 7, 8, 8, 9, 8, 6, 9, 6, 4, 7, 3, 8, 1, 8, 9, 9, 8, 8,
+            7, 1, 9, 4, 4, 7, 6
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 93,
+          "round": 13,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 400432,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            9, 3, 3, 8, 4, 7, 8, 8, 9, 8, 6, 9, 6, 4, 7, 3, 8, 1, 8, 9, 9, 8, 8,
+            7, 1, 9, 4, 4, 7, 6
+          ],
+          "details": [
+            {
+              "win": 16,
+              "symbol": 8,
+              "line": 0,
+              "count": 8,
+              "comb": 0,
+              "direction": 0,
+              "hits": [3, 6, 7, 9, 16, 18, 21, 22]
+            }
+          ],
+          "ext": {
+            "nowmulti": 102,
+            "multisympos": [17, 24],
+            "multisymmults": [2, 100],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 94,
+          "round": 13,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 400432,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            0, 0, 3, 0, 0, 7, 0, 3, 9, 0, 0, 9, 9, 4, 7, 0, 4, 1, 6, 9, 9, 3, 6,
+            7, 1, 9, 4, 4, 7, 6
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 95,
+          "round": 13,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 400432,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 1, 3, 6, 8, 7, 1, 3, 9, 8, 1, 9, 9, 4, 7, 1, 4, 1, 6, 9, 9, 3, 6,
+            7, 1, 9, 4, 4, 7, 6
+          ],
+          "ext": {
+            "nowmulti": 102,
+            "multisympos": [17, 24],
+            "multisymmults": [2, 100],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 96,
+          "round": 13,
+          "step": 1,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 403696,
+          "roundaccwin": 3264,
+          "stepaccwin": 3264,
+          "actwin": 3264,
+          "screen": [
+            8, 1, 3, 6, 8, 7, 1, 3, 9, 8, 1, 9, 9, 4, 7, 1, 4, 1, 6, 9, 9, 3, 6,
+            7, 1, 9, 4, 4, 7, 6
+          ],
+          "ext": {
+            "nowmulti": 102,
+            "multisympos": [17, 24],
+            "multisymmults": [2, 100],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "InitFreeGenScreen",
+          "id": 97,
+          "round": 14,
+          "step": 0,
+          "act": 0,
+          "nowtotalwin": 403696,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 8, 5, 7, 9, 9, 7, 9, 9, 9, 6, 8, 1, 9, 5, 1, 9, 7, 4, 7, 8, 7, 9,
+            1, 4, 4, 9, 6, 7, 4
+          ]
+        },
+        {
+          "acttype": "StepWin",
+          "id": 98,
+          "round": 14,
+          "step": 0,
+          "act": 1,
+          "nowtotalwin": 403696,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 8, 5, 7, 9, 9, 7, 9, 9, 9, 6, 8, 1, 9, 5, 1, 9, 7, 4, 7, 8, 7, 9,
+            1, 4, 4, 9, 6, 7, 4
+          ],
+          "details": [
+            {
+              "win": 10,
+              "symbol": 9,
+              "line": 0,
+              "count": 9,
+              "comb": 0,
+              "direction": 0,
+              "hits": [4, 5, 7, 8, 9, 13, 16, 22, 26]
+            }
+          ],
+          "ext": {
+            "nowmulti": 80,
+            "multisympos": [12, 15, 23],
+            "multisymmults": [20, 50, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "Gravity",
+          "id": 99,
+          "round": 14,
+          "step": 0,
+          "act": 2,
+          "is_step_end": true,
+          "nowtotalwin": 403696,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 0, 0, 0, 0, 0, 7, 0, 0, 7, 0, 8, 1, 8, 5, 1, 0, 7, 4, 7, 5, 7, 6,
+            1, 4, 4, 8, 6, 7, 4
+          ]
+        },
+        {
+          "acttype": "FillScreen",
+          "id": 100,
+          "round": 14,
+          "step": 1,
+          "act": 0,
+          "nowtotalwin": 403696,
+          "roundaccwin": 0,
+          "stepaccwin": 0,
+          "actwin": 0,
+          "screen": [
+            8, 8, 8, 1, 6, 1, 7, 1, 1, 7, 8, 8, 1, 8, 5, 1, 1, 7, 4, 7, 5, 7, 6,
+            1, 4, 4, 8, 6, 7, 4
+          ],
+          "ext": {
+            "nowmulti": 80,
+            "multisympos": [12, 15, 23],
+            "multisymmults": [20, 50, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        },
+        {
+          "acttype": "RoundWin",
+          "id": 101,
+          "round": 14,
+          "step": 1,
+          "act": 1,
+          "is_round_end": true,
+          "is_step_end": true,
+          "nowtotalwin": 405296,
+          "roundaccwin": 1600,
+          "stepaccwin": 1600,
+          "actwin": 1600,
+          "screen": [
+            8, 8, 8, 1, 6, 1, 7, 1, 1, 7, 8, 8, 1, 8, 5, 1, 1, 7, 4, 7, 5, 7, 6,
+            1, 4, 4, 8, 6, 7, 4
+          ],
+          "ext": {
+            "nowmulti": 80,
+            "multisympos": [12, 15, 23],
+            "multisymmults": [20, 50, 10],
+            "ScatterPay": null,
+            "SymWin": 0,
+            "AccSymWin": 0,
+            "NowTotalMult": 0
+          }
+        }
+      ]
+    }
+  ],
+  "isend": true
+}
