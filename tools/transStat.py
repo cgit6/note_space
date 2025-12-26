@@ -7,16 +7,16 @@ text = r"""
 | Game Name    | StormOfSeth       |
 | Game ID      | 1801              |
 | Total Rounds | 1,000,000         |
-| Total RTP    | 469.41 %          |
-| RTP 95% CI   | [467.93%,470.90%] |
-| Total Bet    | 2,000,000,000     |
-| Total Win    | 9,388,259,686     |
-| Base Win     | 60,000,000        |
-| Free Win     | 9,328,259,686     |
-| NoWin Rounds | 0                 |
-| Trigger      | 1,000,000         |
-| STD          | 7.570             |
-| CV           | 1.613             |
+| Total RTP    | 736.41 %          |
+| RTP 95% CI   | [700.30%,772.52%] |
+| Total Bet    | 20,000,000        |
+| Total Win    | 147,281,638       |
+| Base Win     | 19,098,112        |
+| Free Win     | 128,183,526       |
+| NoWin Rounds | 299,673           |
+| Trigger      | 77,093            |
+| STD          | 184.228           |
+| CV           | 25.017            |
 +--------------+-------------------+
 """
 
